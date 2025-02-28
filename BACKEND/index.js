@@ -37,7 +37,7 @@ app.use("/api/booking", bookingRoute);
 app.use("/api/halls", hallsRoute);
 app.use("/api/student", studentRoute);
 
-app.listen(3000, () => {
+app.listen(3001, () => {
   connect();
   console.log("Backend Started");
 });
