@@ -8,6 +8,6 @@ This project is constructed under a major project of full stack web development.
 # Logs: - (Enter the changes which you've done below)
   1. Added frontend and backend files along with package-lock.json
   2. Also, some port changes were made in the backend index.js.
-  3. <a src = "https://www.google.com">Google </a>
+  3. (https://www.google.com)
 
 
