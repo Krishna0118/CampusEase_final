@@ -1,0 +1,19 @@
+{
+  "name": "campusease",
+  "version": "1.0.0",
+  "description": "This project enables college resources to be booked online.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KanishkSingh0801/CampusEase.git"
+  },
+  "author": "Kanishk Singh Jatav",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KanishkSingh0801/CampusEase/issues"
+  },
+  "homepage": "https://github.com/KanishkSingh0801/CampusEase#readme"
+}
