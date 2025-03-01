@@ -19,11 +19,11 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   }
 }
-=======
+
   "description": "This project enables college resources to be booked online.",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+ "scripts": {
+    "start": "concurrently \"npm run start --prefix backend\" \"npm run start --prefix frontend\""
   },
   "repository": {
     "type": "git",
