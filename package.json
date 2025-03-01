@@ -1,0 +1,20 @@
+{
+  "name": "campusease",
+  "version": "1.0.0",
+  "description": "This project is constructed under a major project of full stack web development.",
+  "homepage": "https://github.com/Krishna0118/CampusEase#readme",
+  "bugs": {
+    "url": "https://github.com/Krishna0118/CampusEase/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Krishna0118/CampusEase.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
