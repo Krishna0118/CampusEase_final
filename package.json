@@ -1,10 +1,9 @@
 {
   "name": "campusease",
   "version": "1.0.0",
-
   "description": "This project enables college resources to be booked online.",
   "main": "index.js",
- "scripts": {
+  "scripts": {
     "start": "concurrently \"npm run start --prefix backend\" \"npm run start --prefix frontend\""
   },
   "repository": {
@@ -16,8 +15,8 @@
   "bugs": {
     "url": "https://github.com/KanishkSingh0801/CampusEase/issues"
   },
-  "homepage": "https://github.com/KanishkSingh0801/CampusEase#readme"
+  "homepage": "https://github.com/KanishkSingh0801/CampusEase#readme",
+  "dependencies": {
+    "concurrently": "^9.1.2"
+  }
 }
-
-
-
