@@ -13,7 +13,13 @@ dotenv.config();
 
 const connect = async () => {
   try {
-    await mongoose.connect(process.env.MONGO);
+    // await mongoose.connect(process.env.MONGO);
+    await mongoose.connect(process.env.MONGO, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log("MONGO URI:", process.env.MONGO);
+
     console.log("Connection est.");
   } catch (error) {
     console.log("Connection failed");
@@ -37,7 +43,17 @@ app.use("/api/booking", bookingRoute);
 app.use("/api/halls", hallsRoute);
 app.use("/api/student", studentRoute);
 
-app.listen(3001, () => {
+// app.listen(3001, () => {
+//   connect();
+//   console.log("Backend Started");
+// });
+
+
+const PORT = process.env.PORT || 3002; // Use port from .env or fallback to 3002
+
+app.listen(PORT, () => {
   connect();
-  console.log("Backend Started");
+  console.log(`Backend started on port ${PORT}`);
 });
+
+

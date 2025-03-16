@@ -11,37 +11,68 @@ function RegisterCenterContent() {
   const [Password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
   const navigate = useNavigate();
+
   const handleRegister = async (e) => {
     e.preventDefault();
     if (Password === confirmPassword) {
       const data = {
-        Student_ID: parseFloat(Student_ID),
+        // Student_ID: parseFloat(Student_ID),
+        Student_ID: Student_ID.trim() !== "" ? parseInt(Student_ID, 10) : null,
         Student_Name,
         Department,
         Password,
         Email,
       };
 
-      const userData = await fetch(
-        "https://au-hallbooking-backend.onrender.com/api/auth/register",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        }
-      );
 
-      if (userData.status === 201) {
-        const token = await userData.json();
-        localStorage.setItem("authToken", JSON.stringify(token));
-        console.log("token stored...");
-        navigate("../student/dashboard");
+      console.log("Data being sent to backend:", data);
+      // const userData = await fetch(
+      //   "https://au-hallbooking-backend.onrender.com/api/auth/register",
+      //   {
+      //     method: "POST",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //     },  
+      //     body: JSON.stringify(data),
+      //   }
+      // );  
+
+      // if (userData.status === 201) {
+      //   const token = await userData.json();
+      //   localStorage.setItem("authToken", JSON.stringify(token));
+      //   console.log("token stored...");
+      //   navigate("../student/dashboard");
+      // }
+      try {
+        const response = await fetch(
+          "https://au-hallbooking-backend.onrender.com/api/auth/register",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          }
+        );
+  
+        const result = await response.json();
+        console.log("Response:", result);
+  
+        if (response.status === 201) {
+          localStorage.setItem("authToken", JSON.stringify(result));
+          console.log("Token stored...");
+          navigate("../student/dashboard");
+        } else {
+          console.error("Registration failed:", result);
+        }
+      } catch (error) {
+        console.error("Error during registration:", error);
       }
     }
   };
-  return (
+
+
+   return (
     <div>
       <div className="flex flex-col items-center justify-center px-6 my-20">
         <div className="w-full bg-white rounded-lg shadow-xl md:mt-0 sm:max-w-md xl:p-0">
