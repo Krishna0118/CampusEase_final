@@ -49,7 +49,7 @@ app.use("/api/student", studentRoute);
 // });
 
 
-const PORT = process.env.PORT || 3002; // Use port from .env or fallback to 3002
+const PORT = process.env.PORT || 3001; // Use port from .env or fallback to 3002
 
 app.listen(PORT, () => {
   connect();
