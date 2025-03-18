@@ -2,7 +2,7 @@
 This project is constructed under a major project of full-stack web development.
 
 # Some major contributors: - 
-  Krishna Malviya - [Prifle](https://github.com/Krishna0118)
+  Krishna Malviya - [Profle](https://github.com/Krishna0118)
   
   Kanishka Gupta (Link to your profile)
   
