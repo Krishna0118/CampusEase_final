@@ -12,6 +12,7 @@ function StudentDashboardHallBookingHallList() {
   const [halls, setHalls] = useState([]);
 
   useEffect(() => {
+    
     axios
       // .get("https://au-hallbooking-backend.onrender.com/api/halls/getAllHalls")
       .get("http://localhost:3001/api/halls/getAllHalls")
@@ -58,7 +59,7 @@ function StudentDashboardHallBookingHallList() {
     hall_list.push(hall.Hall_Name); //
     hall_list.push("Book hall");
     listAdd(hall_list);
-    setSelectedHall(hall); ///
+    setSelectedHall(hall); 
   };
 
   const childToParent = (childData) => {

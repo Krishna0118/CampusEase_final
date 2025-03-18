@@ -33,10 +33,13 @@ export const getHall = async (req, res) => {
 //GET ALL HALLS
 export const getAllHalls = async (req, res) => {
     try {
+       
+        
         let params = {};
         if (req.params) {
             params = req.params
         }
+       
         const hallsList = await halls.find(params)
         res.status(200).json(hallsList)
     } catch (err) {

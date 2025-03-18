@@ -137,7 +137,7 @@ function StudentDashboardPendingRequests(props) {
       <div className="p-4 sm:p-10 max-h-[550px] overflow-y-auto">
         <ul>
           {console.log(filteredBookings)}
-          {filteredBookings.map((booking) => (
+          {Array.isArray(filteredBookings) && filteredBookings.map((booking) => (
             <li className="p-2">
               <div
                 className={`${getStatusClassName(booking.Status)}`}

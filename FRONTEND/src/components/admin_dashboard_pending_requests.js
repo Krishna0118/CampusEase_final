@@ -25,8 +25,10 @@ function AdminPendingRequests(props) {
           },
         }
       );
+      
       const hallData = await data.json();
-
+      console.log(hallData);
+      
       setBookingData(hallData);
     };
     fetchData();
@@ -180,7 +182,7 @@ function AdminPendingRequests(props) {
 
       <div className="p-4 sm:p-10 max-h-[550px] overflow-y-auto">
         <ul>
-          {filteredBookings.map((booking) => (
+          {Array.isArray(filteredBookings) && filteredBookings.map((booking) => (
             <li className="p-2">
               <div className={`${getStatusClassName(booking.Status)}`}>
                 <h5 className="mb-2 text-xl font-bold tracking-tight">

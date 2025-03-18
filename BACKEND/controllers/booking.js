@@ -52,11 +52,18 @@ export const getBooking = async (req, res) => {
 //GET Users BOOKINGS
 export const getUserBookings = async (req, res) => {
   try {
+   
+    
     const user = req.user;
+    
+    
     // const bookingdate = new Date(req.query.date)
     const userBookings = await booking.find({
       Student_ID: user.Student_ID,
-    }); // , Date: {$gt : bookingdate}
+    }); 
+    console.log(userBookings);
+    
+    // , Date: {$gt : bookingdate}
     res.status(200).json(userBookings);
   } catch (err) {
     res.status(400).json({
@@ -70,9 +77,12 @@ export const getUserBookings = async (req, res) => {
 export const getAdminBookings = async (req, res) => {
   try {
     console.log(req.user);
-    const halls = await booking.find({
-      Faculty_ID: req.user.adminId,
-    });
+    // const halls = await booking.find({
+    //   Faculty_ID: req.user.adminId,
+    // });
+    const halls = await booking.find({});
+
+
     res.status(200).json(halls);
   } catch (err) {
     res.status(400).json({
