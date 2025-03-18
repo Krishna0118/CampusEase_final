@@ -9,7 +9,7 @@ import hallsRoute from "./routes/halls.js";
 import studentRoute from "./routes/student.js";
 
 const app = express();
-dotenv.config();
+dotenv.config(); 
 
 const connect = async () => {
   try {
@@ -43,17 +43,18 @@ app.use("/api/booking", bookingRoute);
 app.use("/api/halls", hallsRoute);
 app.use("/api/student", studentRoute);
 
-// app.listen(3001, () => {
-//   connect();
-//   console.log("Backend Started");
-// });
-
-
-const PORT = process.env.PORT || 3001; // Use port from .env or fallback to 3002
-
+const PORT = 3001;
 app.listen(PORT, () => {
   connect();
   console.log(`Backend started on port ${PORT}`);
 });
+
+
+// const PORT = process.env.PORT ||  5000 // Use port from .env or fallback to 5000
+
+// app.listen(PORT, () => {
+//   connect();
+//   console.log(`Backend started on port ${PORT}`);
+// });
 
 

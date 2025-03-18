@@ -13,7 +13,8 @@ function StudentDashboardHallBookingHallList() {
 
   useEffect(() => {
     axios
-      .get("https://au-hallbooking-backend.onrender.com/api/halls/getAllHalls")
+      // .get("https://au-hallbooking-backend.onrender.com/api/halls/getAllHalls")
+      .get("http://localhost:3001/api/halls/getAllHalls")
       .then((response) => {
         setHalls(response.data);
       })

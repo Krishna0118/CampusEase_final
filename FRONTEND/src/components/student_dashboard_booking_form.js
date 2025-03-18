@@ -26,7 +26,8 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
 
   useEffect(() => {
     axios
-      .get("https://au-hallbooking-backend.onrender.com/api/halls")
+      // .get("https://au-hallbooking-backend.onrender.com/api/halls")
+      .get("http://localhost:3001/api/halls")
       .then((response) => {
         setHalls(response.data);
       })
@@ -51,7 +52,8 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
       };
 
       const hallBooked = await fetch(
-        " https://au-hallbooking-backend.onrender.com/api/booking/createBooking",
+        // " https://au-hallbooking-backend.onrender.com/api/booking/createBooking",
+        "http://localhost:3001/api/booking/createBooking",
         {
           method: "POST",
           headers: {
@@ -92,7 +94,9 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
     if (selectedDate) {
       console.log("Fetching available time slots...");
       fetch(
-        `https://au-hallbooking-backend.onrender.com/api/booking/availableslots?hallname=${selectedHall.Hall_Name}&date=${selectedDate}`
+        // `https://au-hallbooking-backend.onrender.com/api/booking/availableslots?hallname=${selectedHall.Hall_Name}&date=${selectedDate}`
+        `http://localhost:3001/api/booking/availableslots?hallname=${selectedHall.Hall_Name}&date=${selectedDate}`
+        
       )
         .then((response) => response.json())
         .then((data) => {

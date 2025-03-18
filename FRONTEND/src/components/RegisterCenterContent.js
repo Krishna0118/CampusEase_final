@@ -45,7 +45,8 @@ function RegisterCenterContent() {
       // }
       try {
         const response = await fetch(
-          "https://au-hallbooking-backend.onrender.com/api/auth/register",
+          // "https://au-hallbooking-backend.onrender.com/api/auth/register",
+          "http://localhost:3001/api/auth/register",
           {
             method: "POST",
             headers: {

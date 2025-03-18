@@ -10,7 +10,8 @@ function CalendarCom() {
   useEffect(() => {
     axios
       .get(
-        "https://au-hallbooking-backend.onrender.com/api/booking/allBookings"
+        // "https://au-hallbooking-backend.onrender.com/api/booking/allBookings"
+        "http://localhost:3001/api/booking/allBookings",
       )
       .then((response) => {
         const extractedEvents = response.data.map((booking) => ({

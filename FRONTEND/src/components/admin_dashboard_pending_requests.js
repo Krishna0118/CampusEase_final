@@ -15,7 +15,8 @@ function AdminPendingRequests(props) {
   useEffect(() => {
     const fetchData = async () => {
       const data = await fetch(
-        "https://au-hallbooking-backend.onrender.com/api/booking/adminBookings",
+        // "https://au-hallbooking-backend.onrender.com/api/booking/adminBookings",
+        "http://localhost:3001/api/booking/adminBookings",
         {
           method: "GET",
           headers: {
@@ -68,7 +69,9 @@ function AdminPendingRequests(props) {
   const handleReject = async (bookingId) => {
     try {
       const response = await fetch(
-        "https://au-hallbooking-backend.onrender.com/api/booking/updateBooking",
+        // "https://au-hallbooking-backend.onrender.com/api/booking/updateBooking",
+        "http://localhost:3001/api/booking/updateBooking",
+        
         {
           method: "PATCH",
           headers: {
@@ -99,7 +102,8 @@ function AdminPendingRequests(props) {
   const handleApprove = async (bookingId) => {
     try {
       const response = await fetch(
-        "https://au-hallbooking-backend.onrender.com/api/booking/updateBooking",
+        // "https://au-hallbooking-backend.onrender.com/api/booking/updateBooking",
+        "http://localhost:3001/api/booking/updateBooking",
         {
           method: "PATCH",
           headers: {
