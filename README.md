@@ -3,8 +3,8 @@ This project is constructed under a major project of full-stack web development.
 
 # Some major contributors: - 
   Krishna Malviya - [Profle](https://github.com/Krishna0118)
-  
-  Kanishka Gupta (Link to your profile)
+  Kanishk Singh Jatav - [Profile](https://github.com/KanishkSingh0801)
+  Kanishka Gupta - [Profile](https://github.com/Kanishka52)
   
 # Logs: - (Enter the changes which you've done below)
   1. Added frontend and backend files along with package-lock.json
