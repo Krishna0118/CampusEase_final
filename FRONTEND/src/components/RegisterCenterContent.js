@@ -127,11 +127,22 @@ function RegisterCenterContent() {
                 >
                   <option>Select your department</option>
 
-                  <option>Department of Mathematics</option>
-                  <option>Department of Computer Science</option>
-                  <option>
-                    Department of Information Science and Technology
-                  </option>
+                  <option>Department of BioMedical Engineering</option>
+                  <option>Department of Civil Engineering and Applied Mechanics</option>
+                  <option>Department of Computer Engineering</option>
+                  <option>Department of Computer Technology and Applications</option> 
+                  <option>Department of Electrical Engineering</option>
+                  <option>Electronics and Instruementation Engineering</option>
+                  <option>Department of Electronics and Telecommunication Engineering</option>
+                  <option>Department of Humanities and Social Sciences</option>
+                  <option>Department of Industrial and Production Engineering</option>
+                  <option>Department of Information Technology </option>
+                  <option>Department of Management Studies &#40;MBA&#41;</option>
+                  <option>Department of Mechanical Engineering</option>
+                  <option>Department of Pharmacy</option>
+                  <option>Department of Applied Chemistry</option>
+                  <option>Department of Applied Mathematics and Computational Sciences</option> 
+                  <option>Department of Applied Physics and Optoelectronics</option>
                 </select>
               </div>
               <div>

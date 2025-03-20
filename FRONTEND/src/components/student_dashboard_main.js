@@ -13,14 +13,15 @@ function StudentDashboardMain() {
         <br></br>
         Hall Bookings can be made for the following halls,
         <ol className="m-6 list-decimal ">
-          <li>Drawing Hall No. 48</li>
-          <li>Drawing Hall No. 49</li>
-          <li>Vivekanandha Auditorium</li>
-          <li>Lecture Hall No. 82</li>
-          <li>Lecture Hall No. 83</li>
-          <li>Lecture Hall No. 84</li>
-          <li>Lecture Hall No. 13</li>
-          <li>Srinivasa Ramanujan Seminar Hall</li>
+          <li>Golden Jubilee Hall</li>
+          <li>Silveria Hall</li>
+          <li>Student Activity Center</li>
+          <li>Cricket Ground</li>
+          <li>Gymnasium</li>
+          <li>Tennis Court</li>
+          <li>Volleyball Court</li>
+          <li>Sports Complex</li>
+          <li>Basketball Court</li>
         </ol>
         <div className="font-bold mb-5">Steps to book a hall : </div>
         <ul className="ml-6 list-disc">

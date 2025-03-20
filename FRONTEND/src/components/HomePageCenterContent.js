@@ -30,7 +30,7 @@ function home_page_center_content() {
             <li>Silveria Hall</li>
             <li>Student Activity Center</li>
             <li>Cricket Ground</li>
-            <li>Cafe - 91</li>
+            <li>Gymnasium</li>
             <li>Tennis Court</li>
             <li>Volleyball Court</li>
             <li>Sports Complex</li>
