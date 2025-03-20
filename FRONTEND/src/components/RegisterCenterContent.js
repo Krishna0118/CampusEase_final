@@ -85,7 +85,7 @@ function RegisterCenterContent() {
             <form className="space-y-4 md:space-y-6" onSubmit={handleRegister}>
               <div>
                 <label className="block mb-2 text-sm font-medium text-gray-900">
-                  Register Number
+                  Enrollment Number
                 </label>
                 <input
                   onChange={(e) => {
