@@ -85,7 +85,6 @@ const testInsert = async () => {
   await connect();
 
   const newHall = new Halls({
-    Faculty_ID: 101,
     Hall_ID: "H001",
     Hall_Name: "Seminar Hall A",
     Department: "CSE",

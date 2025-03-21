@@ -161,6 +161,7 @@ function StudentDashboardPendingRequests(props) {
                 </h5>
                 <div className="flex justify-between items-end">
                   <div className="font-normal text-black text-sm">
+                    <div>Requester Name: {booking.Name}</div>
                     <div>Affiliated Department/Club: {booking.Affiliated}</div>
                     <div>Reason : {booking.Reason}</div>
                   </div>

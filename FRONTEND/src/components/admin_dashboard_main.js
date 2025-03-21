@@ -7,7 +7,7 @@ function AdminDashboardMain() {
           className="text-sky-500 hover:underline hover:cursor-pointer"
           href="/admin/dashboard/pending_requests"
         >
-          click here
+          Click here
         </a>{" "}
         to check the pending requests.
         <br></br>
