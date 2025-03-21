@@ -5,6 +5,7 @@ import PopupModal from "./popup_modal";
 
 function StudentDashboardHallBookingBookingForm({ selectedHall }) {
   //GET HALLS FROM halls SCHEMA FROM MONGO
+  const [name, setName] = useState("");
   const [halls, setHalls] = useState([]);
   const [affiliatedDept, setAffiliatedDept] = useState();
   const [Time_From, setTimeFrom] = useState("");
@@ -66,6 +67,7 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
 
     try {
       const data = {
+        Name: name, // Include the name field
         Student_ID: userData.Student_ID,
         Hall_Name: selectedHall.Hall_Name,
         Department: userData.Department,
@@ -121,7 +123,6 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
       fetch(
         // `https://au-hallbooking-backend.onrender.com/api/booking/availableslots?hallname=${selectedHall.Hall_Name}&date=${selectedDate}`
         `http://localhost:3001/api/booking/availableslots?hallname=${selectedHall.Hall_Name}&date=${selectedDate}`
-        
       )
         .then((response) => response.json())
         .then((data) => {
@@ -196,6 +197,24 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
       <form className="py-10 sm:pr-20" onSubmit={handleBooking}>
         <table className="table-auto w-full">
           <tbody>
+            <tr>
+              <td className="w-1/6 sm:w-1/3 p-4">
+                <label className="text-sm sm:text-lg font-bold text-gray-900 flex justify-between">
+                  NAME
+                  <label className="mx-3 font-bold">:</label>
+                </label>
+              </td>
+              <td>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                  className="bg-[#f8fafa] border border-gray-300 text-gray-900 text-md rounded-md
+       focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5"
+                />
+              </td>
+            </tr>
             <tr>
               <td className="w-1/6 sm:w-1/3 p-4">
                 <label className="text-sm sm:text-lg font-bold text-gray-900 flex justify-between">

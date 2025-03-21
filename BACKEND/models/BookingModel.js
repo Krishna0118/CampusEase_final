@@ -18,7 +18,11 @@ const bookingSchema = new mongoose.Schema(
       type: "String",
       required: true,
     },
-    Department: { // jo kr rha h uska department
+    Name: {    // New field added
+      type: "String",
+      required: true,
+    },
+    Department: {// jo kr rha h uska department
       type: "String",
       required: true,
     },
