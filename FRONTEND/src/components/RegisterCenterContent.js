@@ -2,6 +2,7 @@ import { useState } from "react";
 import email_id_input from "../assests/email_id_input.png";
 import password_input from "../assests/password_input.png";
 import { useNavigate } from "react-router-dom";
+import { FaInfoCircle } from "react-icons/fa";
 
 function RegisterCenterContent() {
   const [Student_Name, setName] = useState();
@@ -10,7 +11,25 @@ function RegisterCenterContent() {
   const [Department, setDepartment] = useState();
   const [Password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
+  const [userExist, setuserExist] = useState();
+  const [passwordMismatch, setPasswordMismatch] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+  const [showTooltip, setShowTooltip] = useState(false);
+  
   const navigate = useNavigate();
+
+  // const handleibutton =(e)=>{
+  //   // e.preventDefault();
+  //   console.log("aaaaaaa");
+  //   setShowTooltip(true);
+  //   console.log(`${showTooltip}`);
+    
+  // }
+
+  const handleConfirmPasswordChange = (e) => {
+    setConfirmPassword(e.target.value);
+    setPasswordMismatch(Password !== e.target.value);
+  };
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -63,7 +82,20 @@ function RegisterCenterContent() {
           localStorage.setItem("authToken", JSON.stringify(result));
           console.log("Token stored...");
           navigate("../student/dashboard");
-        } else {
+        } else if(response.status === 401){
+          console.log("user exist");
+          setuserExist(true);
+          setTimeout(() => {
+            setuserExist(false);
+          }, 4000);
+        } else if(response.status === 402){
+          console.log("use strong password");
+          setPasswordError(true);
+          setTimeout(() => {
+            setPasswordError(false);
+          }, 4000);
+        }
+        else {
           console.error("Registration failed:", result);
         }
       } catch (error) {
@@ -169,11 +201,21 @@ function RegisterCenterContent() {
                   />
                 </div>
               </div>
-              <div>
+              {userExist && (
+                <div role="alert">
+                  <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
+                  User with this email already exist !!!
+                  </div>
+                  <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
+                    <p>Please use a different email or log in instead.</p>
+                  </div>
+                </div>
+              )}
+              <div className="relative">
                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-900">
                   Password
                 </label>
-                <div className="flex">
+                <div className="flex items-center">
                   <div className="bg-sky-500 h-10 w-12 rounded-l-sm flex justify-center items-center">
                     <img
                       src={password_input}
@@ -191,8 +233,38 @@ function RegisterCenterContent() {
                     className="bg-neutral-100 rounded-sm block w-full h-10 p-2.5"
                     required
                   />
+                  <button
+                    type="button"
+                    className="ml-2 text-gray-500 hover:text-gray-700 relative"
+                    onMouseEnter={() => setShowTooltip(true)}
+                    onMouseLeave={() => setShowTooltip(false)}
+                    // onClick={handleibutton}
+                  >
+                    <FaInfoCircle size={18} />
+                  </button>
+                  {showTooltip && (
+                    <div className="absolute top-12 right-0 bg-white border border-gray-300 shadow-md rounded-md p-2 w-64 text-sm text-gray-700" onMouseEnter={() => setShowTooltip(true)}
+                    onMouseLeave={() => setShowTooltip(false)}>
+                      <p className="font-medium">Password must:</p>
+                      <ul className="list-disc ml-4">
+                        <li>Be 6-18 characters long</li>
+                        <li>Contain at least one number</li>
+                        <li>Contain at least one special character (!@#$%^&*)</li>
+                      </ul>
+                    </div>
+                  )}
                 </div>
               </div>
+              {passwordError && (
+                <div role="alert">
+                  <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
+                  Make a Strong Password !!!
+                  </div>
+                  <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
+                    <p>Password must be 6-18 characters long, include a number and a special character.</p>
+                  </div>
+                </div>
+              )}
               <div>
                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-900">
                   Confirm password
@@ -208,16 +280,21 @@ function RegisterCenterContent() {
                   <input
                     type="password"
                     name="confirm-password"
-                    onChange={(e) => {
-                      setConfirmPassword(e.target.value);
-                    }}
+                    onChange={handleConfirmPasswordChange}
                     placeholder="••••••••"
                     className="bg-neutral-100 rounded-sm block w-full h-10 p-2.5"
                     required
                   />
+                  
                 </div>
+                
               </div>
-
+              {passwordMismatch && (
+                  <div role="alert" className="border border-red-400 rounded bg-red-100 px-4 py-3 text-red-700">
+                    <span>Passwords do not match!</span>
+                  </div>
+              )}
+ 
               <div className="flex items-center justify-center">
                 <p className="text-sm font-light text-gray-500">
                   Already have an account?{" "}

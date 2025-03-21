@@ -15,13 +15,16 @@ export const registerUser = asyncHandler(async (req, res) => {
     // throw new Error( "Please fill all required field")
   }
 
-  
+  const passwordRegex = /^(?=.*[0-9])(?=.*[\W_]).{6,18}$/;
+  if (!passwordRegex.test(Password)) {
+    return res.status(402).json({ msg: "Password must be 6-18 characters long, include a number and a special character." });
+  }
+
   const userExist = await User.findOne({ Email });
   if (userExist) {
     console.log("User already exists:", Email);
 
     return res.status(401).json({ msg: "User with this email already exist." });
-    // throw new Error("User with this email already exist.")
   }
   const salt = await bcrypt.genSalt(10);
   const secpass = await bcrypt.hash(Password, salt);
