@@ -1,10 +1,7 @@
 import mongoose from "mongoose";
 
 const hallsSchema = new mongoose.Schema({
-  Faculty_ID: {
-    type: "Number",
-    required: true,
-  },
+  
   Hall_ID: {
     type: "String",
     required: true,

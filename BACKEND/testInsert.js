@@ -85,24 +85,25 @@ const testInsert = async () => {
   await connect();
 
   const newHall = new Halls({
-    Faculty_ID: 101,
-    Hall_ID: "H001",
-    Hall_Name: "Seminar Hall A",
+    Hall_ID: "H009",
+    Hall_Name: "Sports Complex",
     Department: "CSE",
-    Description: "A well-equipped seminar hall with modern amenities.",
-    Capacity: 150,
-    Image1: "https://example.com/image1.jpg",
-    Image2: "https://example.com/image2.jpg",
+    Description: "A college sports complex is a multi-sport facility equipped with courts, fields, and gyms for various athletic activities. It supports training, competitions, and promotes physical fitness and sportsmanship among students.",
+    Capacity: "100",
+    Image1: "https://res.cloudinary.com/dpswdrktw/image/upload/v1742553544/sports_ncayql.webp",
+    Image2: "https://res.cloudinary.com/dpswdrktw/image/upload/v1742553339/sport_complex_a5kip4.webp"
+
   });
 
   try {
+    console.log("Inserting new hall:", newHall); 
     await newHall.save();
-    console.log("Hall Saved Successfully to Database");
-    mongoose.connection.close(); // Close the connection after insertion
+    console.log("Hall Saved Successfully to Database ");
+
+    mongoose.connection.close(); // Close DB connection
   } catch (error) {
     console.error("Error Saving Hall:", error);
     mongoose.connection.close();
   }
 };
-
 testInsert();

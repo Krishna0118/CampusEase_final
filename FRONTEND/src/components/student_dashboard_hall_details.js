@@ -24,6 +24,7 @@ function StudentHallBookingDetailsPage({ selectedHall }) {
               className="w-1/2 max-h-96 pl-2"
               alt="image2"
             ></img>
+
           </div>
           <div className="text-black font-bold text-2xl my-2">ABOUT :</div>
           <div className="text-justify">{selectedHall.Description}</div>
