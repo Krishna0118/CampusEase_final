@@ -6,15 +6,15 @@ const bookingSchema = new mongoose.Schema(
       type: "Number",
       required: true,
     },
-    Faculty_ID: {
-      type: "Number",
-      required: true,
-    },
     Hall_Name: {
       type: "String",
       required: true,
     },
     Student_ID: {
+      type: "String",
+      required: true,
+    },
+    Name: {    // New field added
       type: "String",
       required: true,
     },

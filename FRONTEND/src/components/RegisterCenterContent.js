@@ -170,7 +170,7 @@ function RegisterCenterContent() {
                 </div>
               </div>
               <div>
-                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-900">
                   Password
                 </label>
                 <div className="flex">
@@ -194,7 +194,7 @@ function RegisterCenterContent() {
                 </div>
               </div>
               <div>
-                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-900">
                   Confirm password
                 </label>
                 <div className="flex">
