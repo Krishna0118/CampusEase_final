@@ -7,7 +7,7 @@ export const createBooking = async (req, res) => {
   const selectedHallName = req.body.Hall_Name;
   const data = await halls.findOne({ Hall_Name: selectedHallName });
 
-  req.body.Faculty_ID = data.Faculty_ID;
+  // req.body.Faculty_ID = data.Faculty_ID;
   const bookingId = await autoInc();
   const newBooking = req.body;
   newBooking["Booking_ID"] = bookingId;
@@ -52,18 +52,13 @@ export const getBooking = async (req, res) => {
 //GET Users BOOKINGS
 export const getUserBookings = async (req, res) => {
   try {
-   
-    
     const user = req.user;
-    
-    
     // const bookingdate = new Date(req.query.date)
     const userBookings = await booking.find({
       Student_ID: user.Student_ID,
     }); 
     console.log(userBookings);
-    
-    // , Date: {$gt : bookingdate}
+ 
     res.status(200).json(userBookings);
   } catch (err) {
     res.status(400).json({

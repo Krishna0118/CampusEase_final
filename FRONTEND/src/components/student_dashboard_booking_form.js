@@ -21,20 +21,45 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("authToken"));
     setUserData(data);
+    console.log(data);
+    
   }, []);
   //
 
+  // useEffect(() => {
+  //   axios
+  //     .get("http://localhost:3001/api/halls")
+  //     .then((response) => {
+  //       setHalls(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching hall data:", error);
+  //     });
+  // }, []);
+
   useEffect(() => {
+    
     axios
-      // .get("https://au-hallbooking-backend.onrender.com/api/halls")
-      .get("http://localhost:3001/api/halls")
+    .get(`http://localhost:3001/api/halls?Hall_ID=${selectedHall.Hall_ID}`)
       .then((response) => {
         setHalls(response.data);
+        console.log(response.data);
       })
       .catch((error) => {
         console.error("Error fetching hall data:", error);
       });
   }, []);
+  // useEffect(() => {
+  //   axios
+  //     .get("http://localhost:3001/api/halls"
+  //     .then((response) => {
+  //       setHalls(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching hall data:", error);
+  //     });
+  // }, []);
+
   ///Handle Booking
   const handleBooking = async (event) => {
     event.preventDefault();
@@ -216,8 +241,7 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
                 <input
                   onChange={(e) => {
                     setAffiliatedDept(e.target.value);
-                  }}
-                  className="bg-[#f8fafa] border border-gray-300 text-gray-900 text-md rounded-md
+                  }}                  className="bg-[#f8fafa] border border-gray-300 text-gray-900 text-md rounded-md
                    focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5"
                 />
               </td>
