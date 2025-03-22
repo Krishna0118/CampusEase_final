@@ -7,7 +7,7 @@ function StudentDashboardMain() {
           className="text-sky-500 hover:underline hover:cursor-pointer"
           href="/student/dashboard/hall_availability"
         >
-          click here
+          Click here
         </a>{" "}
         to check the availability of halls.
         <br></br>

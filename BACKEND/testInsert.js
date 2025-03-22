@@ -85,8 +85,8 @@ const testInsert = async () => {
   await connect();
 
   const newHall = new Halls({
-    Hall_ID: "H009",
-    Hall_Name: "Sports Complex",
+    Hall_ID: "H001",
+    Hall_Name: "Seminar Hall A",
     Department: "CSE",
     Description: "A college sports complex is a multi-sport facility equipped with courts, fields, and gyms for various athletic activities. It supports training, competitions, and promotes physical fitness and sportsmanship among students.",
     Capacity: "100",

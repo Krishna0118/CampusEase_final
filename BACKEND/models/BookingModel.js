@@ -6,10 +6,10 @@ const bookingSchema = new mongoose.Schema(
       type: "Number",
       required: true,
     },
-    Faculty_ID: {
-      type: "Number",
-      required: true,
-    },
+    // Faculty_ID: {
+    //   type: "Number",
+    //   required: true,
+    // },
     Hall_Name: {
       type: "String",
       required: true,
@@ -18,11 +18,15 @@ const bookingSchema = new mongoose.Schema(
       type: "String",
       required: true,
     },
-    Department: {
+    Name: {    // New field added
       type: "String",
       required: true,
     },
-    Affiliated: {
+    Department: {// jo kr rha h uska department
+      type: "String",
+      required: true,
+    },
+    Affiliated: {  //jis bhi club ne book kia ha uska department
       type: "String",
       required: true,
     },

@@ -14,26 +14,30 @@ function StudentDashboardHallBookingHallList() {
   useEffect(() => {
     
     axios
-      // .get("https://au-hallbooking-backend.onrender.com/api/halls/getAllHalls")
       .get("http://localhost:3001/api/halls/getAllHalls")
       .then((response) => {
         setHalls(response.data);
+        // console.log("Hall data fetcjed");
+        
+        // console.log(response.data);
+
       })
       .catch((error) => {
         console.error("Error fetching hall data:", error);
       });
   }, []);
   ///
-
-  //HANDLING DEPARTMENT CHANGE
-  const [selectedDepartment, setSelectedDepartment] = useState("");
-  const handleDepartmentChange = (e) => {
-    setSelectedDepartment(e.target.value);
+ 
+  
+  // Handling filter by capacity 
+  const [selectedCapacity, setSelectedCapacity] = useState("");
+  const handleCapacityChange = (e) => {
+    setSelectedCapacity(e.target.value);
   };
-  const filteredHalls = selectedDepartment
-    ? halls.filter((hall) => hall.Department === selectedDepartment)
-    : halls;
-  ///
+  const filteredHalls = selectedCapacity
+  ? halls.filter((hall) => hall.Capacity >= parseInt(selectedCapacity))
+  : halls;
+  
 
   //HANDLING SELECTED HALL
   const [selectedHall, setSelectedHall] = useState("");
@@ -52,6 +56,9 @@ function StudentDashboardHallBookingHallList() {
     hall_list.push(hall.Hall_Name);
     listAdd(hall_list);
     setSelectedHall(hall);
+    console.log(`hall list (loaddetailspage) ${hall_list}`);
+    console.log(`list (loaddetailspage) ${list}`);
+    
   };
 
   const loadBookingForm = (hall) => {
@@ -60,6 +67,8 @@ function StudentDashboardHallBookingHallList() {
     hall_list.push("Book hall");
     listAdd(hall_list);
     setSelectedHall(hall); 
+    console.log(`hall list (loadbookingform) ${hall_list}`);
+    console.log(`list (loaddetailspage) ${list}`);
   };
 
   const childToParent = (childData) => {
@@ -91,11 +100,12 @@ function StudentDashboardHallBookingHallList() {
       }
       {!show && !showBF && (
         <div className="p-5 md:p-10 bg-zinc-100">
-          <div className="text-3xl font-semibold text-green-700 mb-5">
+          {/* <div className="text-3xl font-semibold text-green-700 mb-5"> */}
+          <div className="mb-4 text-md md:text-2xl font-bold whitespace-nowrap">
             HALL DETAILS
           </div>
           <div className="flex justify-between flex-wrap">
-            <div className="flex items-center w-full mb-3 md:w-1/2">
+            {/* <div className="flex items-center w-full mb-3 md:w-1/2">
               <div className="whitespace-nowrap text-gray-900 font-semibold">
                 Department :{" "}
               </div>
@@ -109,15 +119,35 @@ function StudentDashboardHallBookingHallList() {
                 <option value="Mathematics">Department of Mathematics</option>
                 <option value="Dean's Office">Office of Dean</option>
               </select>
+            </div> */}
+
+            <div className="flex items-center w-full mb-3 md:w-1/2">
+              <div className="whitespace-nowrap text-gray-900 font-semibold">
+                Capacity:{" "}
+              </div>
+              <select
+                id="Capacity"
+                onChange={handleCapacityChange}
+                defaultValue="Any Capacity"
+                className="bg-zinc-200 text-gray-500 w-full ml-3 md:mx-3 text-md rounded-lg p-1.5"
+              >
+                <option value="">Any Capacity</option>
+                <option value="50">50+ Seats</option>
+                <option value="100">100+ Seats</option>
+                <option value="200">200+ Seats</option>
+                <option value="500">500+ Seats</option>
+              </select>
             </div>
-            <div className=" w-full md:w-1/2">
+ 
+
+            {/* <div className=" w-full md:w-1/2">
               <input
                 type="text"
                 id="first_name"
                 className="bg-zinc-200 w-full text-gray-500 border-gray-300 text-md rounded-lg p-1.5"
                 placeholder="Search"
               />
-            </div>
+            </div> */}
           </div>
 
           <div className="-mx-3 flex flex-wrap">
