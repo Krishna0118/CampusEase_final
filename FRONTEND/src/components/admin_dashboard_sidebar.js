@@ -107,7 +107,7 @@ function AdminDashboardSidebar(props) {
             ></img>
             <div className="text-grey">Logout</div>
           </div>
-        </button>
+        </button> 
       </nav>
 
       
@@ -134,6 +134,8 @@ function AdminDashboardSidebar(props) {
                   </button>
                   <button
                     className="bg-sky-500 text-white hover:bg-sky-600 font-semibold text-md px-4 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    type="button"
+                    href="/"
                     onClick={(e) => {
                       e.preventDefault();
                       setShowModal(false);
