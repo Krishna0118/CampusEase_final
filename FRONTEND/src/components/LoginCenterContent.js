@@ -5,17 +5,18 @@ import { useNavigate } from "react-router-dom";
 
 function LoginCenterContent() {
   const navigate = useNavigate();
-  const [Email, setEmail] = useState();
+  // const [Email, setEmail] = useState();
+  const [identifier, setIdentifier] = useState(""); // Can be email or username
+  
   const [Password, setPassword] = useState();
   const [errorMessage, setErrorMessage] = useState(false);
   const handleLogin = async (e) => {
     e.preventDefault();
     const data = {
-      Email,
+      identifier,
       Password,
     };
     const userData = await fetch(
-      // "https://au-hallbooking-backend.onrender.com/api/auth/login",
       "http://localhost:3001/api/auth/login",
       {
         method: "POST",
@@ -57,14 +58,14 @@ function LoginCenterContent() {
                   Invalid Credentials !!!
                 </div>
                 <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
-                  <p>Email or Password is incorrect.</p>
+                  <p>Email/ User Name or Password is incorrect.</p>
                 </div>
               </div>
             )}
             <form className="space-y-4 md:space-y-6" action="#">
               <div>
                 <label className="block mb-2 text-sm font-medium text-gray-900">
-                  Email ID
+                Enter Email or Username
                 </label>
                 <div className="flex">
                   <div className="bg-sky-500 h-10 w-12 rounded-l-sm flex justify-center items-center">
@@ -76,12 +77,12 @@ function LoginCenterContent() {
                   </div>
                   <input
                     onChange={(e) => {
-                      setEmail(e.target.value);
+                      setIdentifier(e.target.value);
                     }}
                     type="email"
                     name="email"
                     className="bg-neutral-100 text-blue sm:text-sm rounded-sm block w-full h-10 p-2.5"
-                    placeholder="student@fmail.com"
+                    placeholder="student@gmail.com"
                     required
                   />
                 </div>

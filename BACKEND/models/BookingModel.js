@@ -6,24 +6,35 @@ const bookingSchema = new mongoose.Schema(
       type: "Number",
       required: true,
     },
-    // Faculty_ID: {
-    //   type: "Number",
-    //   required: true,
-    // },
+    
     Hall_Name: {
       type: "String",
       required: true,
     },
-    Student_ID: {
+    // Student_ID: {
+    //   type: "String",
+    //   required: true,
+    // },
+    Booking_Person_ID: {
+      type: "String",
+      required: true,
+      default: null
+    },
+    // Name: {    // New field added
+    //   type: "String",
+    //   required: true,
+    // },
+    Booking_Person_Name: {    // New field added
       type: "String",
       required: true,
     },
-    Name: {    // New field added
+    User_name: {    
       type: "String",
       required: true,
     },
-    Department: {// jo kr rha h uska department
-      type: "String",
+    User_type: {
+      type: String,
+      enum: ["student", "faculty", "visitor"], 
       required: true,
     },
     Affiliated: {  //jis bhi club ne book kia ha uska department

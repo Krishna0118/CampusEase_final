@@ -16,29 +16,28 @@ dotenv.config();
 //   }
 // };
 
-// const testInsert = async () => {
-//   await connect();
+const testInsert = async () => {
+  await connect();
 
-//   const salt = await bcrypt.genSalt(10);
-//   const hashedPassword = await bcrypt.hash("testpassword", salt);
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash("testpassword", salt);
 
-//   const newUser = new User({
-//     Student_ID: "2023123",
-//     Student_Name: "Test User",
-//     Department: "CSE",
-//     Password: hashedPassword,
-//     Email: "test@example.com",
-//   });
+  const newUser = new User({
+    User_Name: "kkk",
+    Applicant_Name: "kk",
+    Password: hashedPassword,
+    Email: "test@example.com",
+  });
 
-//   try {
-//     await newUser.save();
-//     console.log("User Saved Successfully to Database");
-//     mongoose.connection.close(); // Close the connection after insertion
-//   } catch (error) {
-//     console.error("Error Saving User:", error);
-//     mongoose.connection.close();
-//   }
-// };
+  try {
+    await newUser.save();
+    console.log("User Saved Successfully to Database");
+    mongoose.connection.close(); // Close the connection after insertion
+  } catch (error) {
+    console.error("Error Saving User:", error);
+    mongoose.connection.close();
+  }
+};
 
 
 
@@ -81,27 +80,27 @@ const connect = async () => {
 //   }
 // };
 
-const testInsert = async () => {
-  await connect();
+// const testInsert = async () => {
+//   await connect();
 
-  const newHall = new Halls({
-    Hall_ID: "H001",
-    Hall_Name: "Seminar Hall A",
-    Department: "CSE",
-    Description: "A well-equipped seminar hall with modern amenities.",
-    Capacity: 150,
-    Image1: "https://example.com/image1.jpg",
-    Image2: "https://example.com/image2.jpg",
-  });
+//   const newHall = new Halls({
+//     Hall_ID: "H001",
+//     Hall_Name: "Seminar Hall A",
+//     Department: "CSE",
+//     Description: "A well-equipped seminar hall with modern amenities.",
+//     Capacity: 150,
+//     Image1: "https://example.com/image1.jpg",
+//     Image2: "https://example.com/image2.jpg",
+//   });
 
-  try {
-    await newHall.save();
-    console.log("Hall Saved Successfully to Database");
-    mongoose.connection.close(); // Close the connection after insertion
-  } catch (error) {
-    console.error("Error Saving Hall:", error);
-    mongoose.connection.close();
-  }
-};
+//   try {
+//     await newHall.save();
+//     console.log("Hall Saved Successfully to Database");
+//     mongoose.connection.close(); // Close the connection after insertion
+//   } catch (error) {
+//     console.error("Error Saving Hall:", error);
+//     mongoose.connection.close();
+//   }
+// };
 
 testInsert();

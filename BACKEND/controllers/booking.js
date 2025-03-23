@@ -1,6 +1,49 @@
 import booking from "../models/BookingModel.js";
 import halls from "../models/HallsModel.js";
+import student from "../models/CollegeStudentModel.js";
+import faculty from "../models/FacultyModel.js";
 import { autoInc } from "../utils/AutoIncrement.js";
+
+
+export const verifyuser = async (req, res) => {
+  try {
+    // console.log("not fommmmmmmmmmm und");
+      const { id, type } = req.query;
+
+      if (!id || !type) {
+          return res.status(400).json({ success: false, message: "Missing user ID or type" });
+      }
+      
+
+      let user;
+        
+      if (type === "student") {
+          user = await student.findOne({ student_id: id }); // Check in student database
+      } else if (type === "faculty") {
+          user = await faculty.findOne({ faculty_id: id }); // Check in faculty database
+      } else {
+        console.log("Invalid user type");
+          return res.status(400).json({ success: false, message: "Invalid user type" });
+      }
+
+      if (user) {
+          return res.status(200).json({ verified: true, message: "User verified" });
+      } else {
+        console.log("not found");
+        
+          return res.status(404).json({ verified: false, message: "User not found" });
+      }
+
+
+  } catch (error) {
+      console.error("Error in verification:", error);
+      res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+
+
+
 
 //CREATE BOOKING
 export const createBooking = async (req, res) => {

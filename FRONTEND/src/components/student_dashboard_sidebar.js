@@ -67,7 +67,7 @@ function StudentDashboardSidebar(props) {
             <div className="bg-gray-300 h-14 w-14 mr-3 rounded-full flex justify-center items-center">
               <img src={profile} className="h-10 w-10" alt="profile-icon"></img>
             </div>
-            <div className="font-bold text-xl">{userData.Student_Name}</div>
+            <div className="font-bold text-xl">{userData.Applicant_Name}</div>
           </div>
           <a
             className="block text-gray-500 py-2.5 px-4 my-2 rounded"

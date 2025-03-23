@@ -144,7 +144,6 @@ function AdminDashboardSidebar(props) {
                       props.changeRefreshState();
                       navigate("/");
                     }}
-
                   >
                     Yes
                   </button>
