@@ -1,56 +1,40 @@
 import booking from "../models/BookingModel.js";
 import halls from "../models/HallsModel.js";
-// import student from "../models/HallsModel.js";
-// import faculty from "../models/HallsModel.js";
+import student from "../models/CollegeStudentModel.js";
+import faculty from "../models/FacultyModel.js";
 import { autoInc } from "../utils/AutoIncrement.js";
-
-
-// export const verifyuser = async(req, res)=>{
-//   const { id, type } = req.query;
-//   console.log({id});
-//   console.log({type});
-//   res.json({ verified: true });
-//   // console.log("verified");
-//   return;
-//   let collection = type === "student" ? "students" : "faculty"; 
-
-//   const user = await db.collection(collection).findOne({ id });
-//   if (user) {
-//     res.json({ verified: true });
-//     console.log("verified");
-    
-//   } else {
-//     res.json({ verified: false });
-//     console.log("not verified");
-//   }
-// }
-
-
 
 
 export const verifyuser = async (req, res) => {
   try {
+    // console.log("not fommmmmmmmmmm und");
       const { id, type } = req.query;
 
       if (!id || !type) {
           return res.status(400).json({ success: false, message: "Missing user ID or type" });
       }
+      
 
-      // Define the collection to check based on user type
       let user;
+        
       if (type === "student") {
-          user = await User.findOne({ studentID: id });
+          user = await student.findOne({ student_id: id }); // Check in student database
       } else if (type === "faculty") {
-          user = await User.findOne({ facultyID: id });
+          user = await faculty.findOne({ faculty_id: id }); // Check in faculty database
       } else {
+        console.log("Invalid user type");
           return res.status(400).json({ success: false, message: "Invalid user type" });
       }
 
       if (user) {
-          return res.status(200).json({ verified: true });
+          return res.status(200).json({ verified: true, message: "User verified" });
       } else {
+        console.log("not found");
+        
           return res.status(404).json({ verified: false, message: "User not found" });
       }
+
+
   } catch (error) {
       console.error("Error in verification:", error);
       res.status(500).json({ success: false, message: "Server error" });

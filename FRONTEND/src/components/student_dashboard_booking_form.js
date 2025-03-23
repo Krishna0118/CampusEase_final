@@ -25,60 +25,6 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
 
 
 
-  // const handleVerification = async() => {
-  //   if (!userType) {
-  //     alert("Please select a user type first.");
-  //     return;
-  //   }
-
-  //   setVerifying(true);
-    
-   
-
-  //   if (userType === "visitor") {
-  //     setIsVerified(true);
-  //     // setDiscount(0);
-  //     setVerifying(false);
-  //     return;
-  //   }
-
-  //   // axios
-  //   //   .get("http://localhost:3001/api/booking/verifyuser", {
-  //   //     id: id,
-  //   //     type: userType,
-  //   //   })
-  //   //   .then((response) => {
-  //   //     if (response.data.verified) {
-  //   //       setIsVerified(true);
-  //   //       // setDiscount(userType === "Student" ? 70 : 50);
-  //   //     } else {
-  //   //       setIsVerified(false);
-  //   //       alert("Verification failed. Please enter valid details.");
-  //   //     }
-  //   //   })
-  //   //   .catch((error) => console.error("Verification error:", error))
-  //   //   .finally(() => setVerifying(false));
-  //   try {
-  //     const response = await axios.get(`http://localhost:3001/api/booking/verifyuser`, {
-  //       params: { id: id, type: userType }
-  //     });
-  
-  //     if (response.data.verified) {
-  //       setDiscount(userType === "student" ? 70 : 50); // 70% for students, 50% for faculty
-  //       return true;
-  //     } else {
-  //       alert("User verification failed. Please check your details.");
-  //       return false;
-  //     }
-  //   } catch (error) {
-  //     console.error("Error verifying user:", error);
-  //     alert("Error verifying user.");
-  //     return false;
-  //   }
-  // };
-
-
-
   //STUDENT ODA DEPARTMENT
   
   
@@ -87,14 +33,16 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
         alert("Please select a user type and enter the ID.");
         return;
     }
-
+  
     setVerifying(true); // Start verification process
 
     try {
+        // console.log("jjjjjjjj");
         const response = await axios.get(`http://localhost:3001/api/booking/verifyuser`, {
             params: { id: id, type: userType }
         });
-
+        // console.log("jjjjjjjj");
+        
         if (response.data.verified) {
             setIsVerified(true);
         } else {
@@ -104,7 +52,7 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
         console.error("Error verifying user:", error);
         alert("Verification error. Please try again.");
     } finally {
-        setVerifying(false); // End verification process
+        setVerifying(false); 
     }
 };
 
@@ -117,18 +65,9 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
     console.log(data);
     
   }, []);
-  //
 
-  // useEffect(() => {
-  //   axios
-  //     .get("http://localhost:3001/api/halls")
-  //     .then((response) => {
-  //       setHalls(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error fetching hall data:", error);
-  //     });
-  // }, []);
+
+  
 
   useEffect(() => {
     
@@ -142,16 +81,6 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
         console.error("Error fetching hall data:", error);
       });
   }, []);
-  // useEffect(() => {
-  //   axios
-  //     .get("http://localhost:3001/api/halls"
-  //     .then((response) => {
-  //       setHalls(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error fetching hall data:", error);
-  //     });
-  // }, []);
 
   ///Handle Booking
   const handleBooking = async (event) => {
@@ -159,10 +88,11 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
 
     try {
       const data = {
-        Name: name, // Include the name field
-        Student_ID: userData.Student_ID,
+
+        User_name: userData.User_Name,
         Hall_Name: selectedHall.Hall_Name,
         Booking_Person_Name: bookingPersonName,
+        User_type: userType,
         Booking_Person_ID: id,
         Affiliated: affiliatedDept,
         Date: selectedDate,
@@ -288,41 +218,6 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
       <form className="py-10 sm:pr-20" onSubmit={handleBooking}>
         <table className="table-auto w-full">
           <tbody>
-            <tr>
-              <td className="w-1/6 sm:w-1/3 p-4">
-                <label className="text-sm sm:text-lg font-bold text-gray-900 flex justify-between">
-                  NAME
-                  <label className="mx-3 font-bold">:</label>
-                </label>
-              </td>
-              <td>
-                <input
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  required
-                  className="bg-[#f8fafa] border border-gray-300 text-gray-900 text-md rounded-md
-       focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5"
-                />
-              </td>
-            </tr>
-            <tr>
-              <td className="w-1/6 sm:w-1/3 p-4">
-                <label className="text-sm sm:text-lg font-bold text-gray-900 flex justify-between">
-                  DEPARTMENT
-                  <label className="mx-3 font-bold">:</label>
-                </label>
-              </td>
-              <td>
-                <input
-                  type="text"
-                  value={userData.Department}
-                  readOnly
-                  className="bg-[#f8fafa] border border-gray-300 text-gray-900 text-md rounded-md
-                   focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5"
-                />
-              </td>
-            </tr> 
             
             <tr>
               <td className="w-1/6 sm:w-1/3 p-4">
@@ -351,7 +246,7 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
               <td>
                 <input
                   type="text"
-                  value={userData.Student_Name}
+                  value={userData.User_Name}
                   readOnly
                   className="bg-[#f8fafa] border border-gray-300 text-gray-900 text-md rounded-md
                    focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5"
