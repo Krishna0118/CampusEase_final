@@ -1,6 +1,7 @@
 import { useState } from "react";
 import email_id_input from "../assests/email_id_input.png";
 import password_input from "../assests/password_input.png";
+import cross_button from "../assests/cross_button.png";
 import { useNavigate } from "react-router-dom";
 import { FaInfoCircle } from "react-icons/fa";
 
@@ -11,6 +12,7 @@ function RegisterCenterContent() {
   const [Department, setDepartment] = useState();
   const [Password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
+<<<<<<< HEAD
   const [userExist, setuserExist] = useState();
   const [passwordMismatch, setPasswordMismatch] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
@@ -26,6 +28,12 @@ function RegisterCenterContent() {
     
   // }
 
+=======
+  const [UserExist, setUserExist] = useState(false);
+  const [passwordMismatch, setPasswordMismatch] = useState(false); 
+  const navigate = useNavigate();
+
+>>>>>>> kanishka
   const handleConfirmPasswordChange = (e) => {
     setConfirmPassword(e.target.value);
     setPasswordMismatch(Password !== e.target.value);
@@ -45,23 +53,6 @@ function RegisterCenterContent() {
 
 
       console.log("Data being sent to backend:", data);
-      // const userData = await fetch(
-      //   "https://au-hallbooking-backend.onrender.com/api/auth/register",
-      //   {
-      //     method: "POST",
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //     },  
-      //     body: JSON.stringify(data),
-      //   }
-      // );  
-
-      // if (userData.status === 201) {
-      //   const token = await userData.json();
-      //   localStorage.setItem("authToken", JSON.stringify(token));
-      //   console.log("token stored...");
-      //   navigate("../student/dashboard");
-      // }
       try {
         const response = await fetch(
           // "https://au-hallbooking-backend.onrender.com/api/auth/register",
@@ -82,6 +73,7 @@ function RegisterCenterContent() {
           localStorage.setItem("authToken", JSON.stringify(result));
           console.log("Token stored...");
           navigate("../student/dashboard");
+<<<<<<< HEAD
         } else if(response.status === 401){
           console.log("user exist");
           setuserExist(true);
@@ -94,6 +86,15 @@ function RegisterCenterContent() {
           setTimeout(() => {
             setPasswordError(false);
           }, 4000);
+=======
+        }
+        else if (response.status === 401) {
+          console.error("Registration failed:", result);
+          setUserExist(true);
+          setTimeout(() => {
+            setUserExist(false);
+          }, 6000);
+>>>>>>> kanishka
         }
         else {
           console.error("Registration failed:", result);
@@ -102,7 +103,11 @@ function RegisterCenterContent() {
         console.error("Error during registration:", error);
       }
     }
+    else{
+      console.log("password didnt matched!");
+    }
   };
+
 
 
    return (
@@ -113,7 +118,7 @@ function RegisterCenterContent() {
             <h1 className="text-xl text-center font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
               Register
             </h1>
-
+            
             <form className="space-y-4 md:space-y-6" onSubmit={handleRegister}>
               <div>
                 <label className="block mb-2 text-sm font-medium text-gray-900">
@@ -196,12 +201,16 @@ function RegisterCenterContent() {
                       setEmail(e.target.value);
                     }}
                     className="bg-neutral-100 text-blue sm:text-sm rounded-sm block w-full h-10 p-2.5"
-                    placeholder="student@fmail.com"
+                    placeholder="student@gmail.com"
                     required
                   />
                 </div>
               </div>
+<<<<<<< HEAD
               {userExist && (
+=======
+              {UserExist && (
+>>>>>>> kanishka
                 <div role="alert">
                   <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
                   User with this email already exist !!!
@@ -211,8 +220,13 @@ function RegisterCenterContent() {
                   </div>
                 </div>
               )}
+<<<<<<< HEAD
               <div className="relative">
                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-900">
+=======
+              <div>
+                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+>>>>>>> kanishka
                   Password
                 </label>
                 <div className="flex items-center">
@@ -290,11 +304,18 @@ function RegisterCenterContent() {
                 
               </div>
               {passwordMismatch && (
+<<<<<<< HEAD
                   <div role="alert" className="border border-red-400 rounded bg-red-100 px-4 py-3 text-red-700">
                     <span>Passwords do not match!</span>
                   </div>
               )}
  
+=======
+                <div role="alert" className="border border-red-400 rounded bg-red-100 px-4 py-3 text-red-700">
+                  <span>Passwords do not match!</span>
+                </div>
+              )}
+>>>>>>> kanishka
               <div className="flex items-center justify-center">
                 <p className="text-sm font-light text-gray-500">
                   Already have an account?{" "}
@@ -306,6 +327,7 @@ function RegisterCenterContent() {
                   </a>
                 </p>
               </div>
+              
               <button
                 type="submit"
                 onClick={handleRegister}
