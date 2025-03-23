@@ -1,7 +1,8 @@
 import { useState } from "react";
-import email_id_input from "../assests/email_id_input.png";
-import password_input from "../assests/password_input.png";
-import cross_button from "../assests/cross_button.png";
+
+import email_id_input from "../assets/email_id_input.png";
+import password_input from "../assets/password_input.png";
+
 import { useNavigate } from "react-router-dom";
 import { FaInfoCircle } from "react-icons/fa";
 import axios from "axios";
