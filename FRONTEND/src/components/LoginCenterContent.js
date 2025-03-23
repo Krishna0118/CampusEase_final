@@ -81,7 +81,7 @@ function LoginCenterContent() {
                     type="email"
                     name="email"
                     className="bg-neutral-100 text-blue sm:text-sm rounded-sm block w-full h-10 p-2.5"
-                    placeholder="student@fmail.com"
+                    placeholder="student@gmail.com"
                     required
                   />
                 </div>
