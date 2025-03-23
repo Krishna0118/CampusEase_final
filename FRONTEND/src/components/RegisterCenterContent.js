@@ -1,70 +1,96 @@
 import { useState } from "react";
-import email_id_input from "../assests/email_id_input.png";
-import password_input from "../assests/password_input.png";
+
+import email_id_input from "../assets/email_id_input.png";
+import password_input from "../assets/password_input.png";
+
 import { useNavigate } from "react-router-dom";
 import { FaInfoCircle } from "react-icons/fa";
-
+import axios from "axios";
+  
 function RegisterCenterContent() {
-  const [Student_Name, setName] = useState();
-  const [Student_ID, setId] = useState();
+  // const [Student_Name, setName] = useState();
+  const [Applicant_Name, setName] = useState();
+  // const [Student_ID, setId] = useState();
   const [Email, setEmail] = useState();
-  const [Department, setDepartment] = useState();
+  // const [Department, setDepartment] = useState();
   const [Password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
   const [userExist, setuserExist] = useState();
   const [passwordMismatch, setPasswordMismatch] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
+
+  const [User_Name, setUser_Name] = useState("");
+  const [isValid, setIsValid] = useState(false);
+  const [checking, setChecking] = useState(false);
+  const [usernameErrorMessage, setUsernameErrorMessage] = useState("");
+
+  const [registerError, setRegisterError] = useState(""); //this is made to  show a error messege if user tries to register without getting verified foe unique username 
   
   const navigate = useNavigate();
 
-  // const handleibutton =(e)=>{
-  //   // e.preventDefault();
-  //   console.log("aaaaaaa");
-  //   setShowTooltip(true);
-  //   console.log(`${showTooltip}`);
-    
-  // }
 
   const handleConfirmPasswordChange = (e) => {
     setConfirmPassword(e.target.value);
     setPasswordMismatch(Password !== e.target.value);
   };
 
+
+  const handleusername =(e)=>{
+    setUser_Name(e.target.value);
+    setIsValid(false);
+  }
+
+  const handleCheckUsername = async () => {
+    if (User_Name.length < 3) {
+      setIsValid(false);
+      setUsernameErrorMessage("Username must be at least 3 characters.");
+      setTimeout(() => setUsernameErrorMessage(""), 3000);
+      return;
+    }
+
+    setChecking(true);
+    try {
+      
+      const response = await axios.get(`http://localhost:3001/api/auth/checkusername`, {
+        params: { User_Name },
+      });
+      if (response.data.isUnique) {
+        setIsValid(true);
+      } else {
+        setIsValid(false);
+        setUsernameErrorMessage("Username is already taken. Use a different one.");
+        setTimeout(() => setUsernameErrorMessage(""), 3000);
+      }
+    } catch (error) {
+      console.error("Error checking username:", error);
+      setIsValid(false);
+    } finally {
+      setChecking(false);
+    }
+  };
+
   const handleRegister = async (e) => {
     e.preventDefault();
+
+    if (!isValid) {
+      setRegisterError("Please verify your username before registering.");
+      setTimeout(() => setRegisterError(""), 3000); // Hide error after 3 seconds
+      return;
+    }
+
     if (Password === confirmPassword) {
       const data = {
-        // Student_ID: parseFloat(Student_ID),
-        Student_ID: Student_ID.trim() !== "" ? parseInt(Student_ID, 10) : null,
-        Student_Name,
-        Department,
+        User_Name,
+        Applicant_Name,
         Password,
         Email,
       };
 
 
       console.log("Data being sent to backend:", data);
-      // const userData = await fetch(
-      //   "https://au-hallbooking-backend.onrender.com/api/auth/register",
-      //   {
-      //     method: "POST",
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //     },  
-      //     body: JSON.stringify(data),
-      //   }
-      // );  
-
-      // if (userData.status === 201) {
-      //   const token = await userData.json();
-      //   localStorage.setItem("authToken", JSON.stringify(token));
-      //   console.log("token stored...");
-      //   navigate("../student/dashboard");
-      // }
       try {
         const response = await fetch(
-          // "https://au-hallbooking-backend.onrender.com/api/auth/register",
           "http://localhost:3001/api/auth/register",
           {
             method: "POST",
@@ -102,10 +128,14 @@ function RegisterCenterContent() {
         console.error("Error during registration:", error);
       }
     }
+    else{
+      console.log("password didnt matched!");
+    }
   };
 
 
-   return (
+
+   return( 
     <div>
       <div className="flex flex-col items-center justify-center px-6 my-20">
         <div className="w-full bg-white rounded-lg shadow-xl md:mt-0 sm:max-w-md xl:p-0">
@@ -113,26 +143,11 @@ function RegisterCenterContent() {
             <h1 className="text-xl text-center font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
               Register
             </h1>
-
+            
             <form className="space-y-4 md:space-y-6" onSubmit={handleRegister}>
               <div>
                 <label className="block mb-2 text-sm font-medium text-gray-900">
-                  Enrollment Number
-                </label>
-                <input
-                  onChange={(e) => {
-                    setId(e.target.value);
-                  }}
-                  type="text"
-                  name="name"
-                  className="bg-neutral-100 text-gray-900 sm:text-sm rounded-sm block w-full h-10  p-2.5"
-                  placeholder="Enter your name"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block mb-2 text-sm font-medium text-gray-900">
-                  Applicant name
+                  Full Name
                 </label>
                 <input
                   type="text"
@@ -145,38 +160,30 @@ function RegisterCenterContent() {
                   required
                 />
               </div>
+              
               <div>
                 <label className="block mb-2 text-sm font-medium text-gray-900">
-                  Department
+                  User Name
                 </label>
-                <select
-                  name="department"
+                <input
+                  type="text"
+                  name="name"
+                  onChange={handleusername}
                   className="bg-neutral-100 text-gray-900 sm:text-sm rounded-sm block w-full h-10  p-2.5"
+                  placeholder="Enter unique username"
                   required
-                  onChange={(e) => {
-                    setDepartment(e.target.value);
-                  }}
+                />
+                {usernameErrorMessage && (
+                  <p className="text-xs text-red-500 mt-1">{usernameErrorMessage}</p>
+                )}
+                <span
+                    onClick={handleCheckUsername}
+                    className="text-blue-600 cursor-pointer hover:underline"
                 >
-                  <option>Select your department</option>
-
-                  <option>Department of BioMedical Engineering</option>
-                  <option>Department of Civil Engineering and Applied Mechanics</option>
-                  <option>Department of Computer Engineering</option>
-                  <option>Department of Computer Technology and Applications</option> 
-                  <option>Department of Electrical Engineering</option>
-                  <option>Electronics and Instruementation Engineering</option>
-                  <option>Department of Electronics and Telecommunication Engineering</option>
-                  <option>Department of Humanities and Social Sciences</option>
-                  <option>Department of Industrial and Production Engineering</option>
-                  <option>Department of Information Technology </option>
-                  <option>Department of Management Studies &#40;MBA&#41;</option>
-                  <option>Department of Mechanical Engineering</option>
-                  <option>Department of Pharmacy</option>
-                  <option>Department of Applied Chemistry</option>
-                  <option>Department of Applied Mathematics and Computational Sciences</option> 
-                  <option>Department of Applied Physics and Optoelectronics</option>
-                </select>
+                  {checking ? "Verifying..." : isValid ? "✔ Verified" : "Verify"}
+                </span>
               </div>
+
               <div>
                 <label className="block mb-2 text-sm font-medium text-gray-900">
                   Email ID
@@ -196,7 +203,7 @@ function RegisterCenterContent() {
                       setEmail(e.target.value);
                     }}
                     className="bg-neutral-100 text-blue sm:text-sm rounded-sm block w-full h-10 p-2.5"
-                    placeholder="student@fmail.com"
+                    placeholder="applicant@gmail.com"
                     required
                   />
                 </div>
@@ -306,13 +313,16 @@ function RegisterCenterContent() {
                   </a>
                 </p>
               </div>
+              
               <button
                 type="submit"
                 onClick={handleRegister}
                 className="w-full text-white bg-sky-500 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-sm text-sm px-5 py-2.5 text-center"
+                // disabled={!isValid}
               >
                 Register
               </button>
+              {registerError && <p className="text-xs text-red-500 mt-2">{registerError}</p>}
             </form>
           </div>
         </div>

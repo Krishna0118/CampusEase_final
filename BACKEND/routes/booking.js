@@ -8,6 +8,7 @@ import {
   getBooking,
   getUserBookings,
   updateBooking,
+  verifyuser
 } from "../controllers/booking.js";
 import { protectUserRoutes } from "../middleware/authmiddleware.js";
 import { protectAdminRoutes } from "../middleware/adminVerify.js";
@@ -23,6 +24,8 @@ router.get("/userBookings", protectUserRoutes, getUserBookings);
 
 //GET ALL
 router.get("/allBookings", getAllBookings);
+
+router.get("/verifyuser", verifyuser);
 
 // Admin Routes
 router.post("/createBooking", protectUserRoutes, createBooking);

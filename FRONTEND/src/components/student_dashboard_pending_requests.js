@@ -21,7 +21,6 @@ function StudentDashboardPendingRequests(props) {
   useEffect(() => {
     const fetchData = async () => {
       const data = await fetch(
-        // "https://au-hallbooking-backend.onrender.com/api/booking/userBookings",
         "http://localhost:3001/api/booking/userBookings",
         {
           method: "GET",
@@ -161,7 +160,8 @@ function StudentDashboardPendingRequests(props) {
                 </h5>
                 <div className="flex justify-between items-end">
                   <div className="font-normal text-black text-sm">
-                    <div>Requester Name: {booking.Name}</div>
+                    <div>Requester Name: {booking.Booking_Person_Name}</div>
+                    <div>Requester user Name: {booking.User_name}</div>
                     <div>Affiliated Department/Club: {booking.Affiliated}</div>
                     <div>Reason : {booking.Reason}</div>
                   </div>

@@ -1,4 +1,4 @@
-import ceg from "../assests/ceg.jpeg";
+import sgsits from "../assets/sgsits.jpeg";
 import StudentHallBookingDetailsPage from "./student_dashboard_hall_details";
 import StudentHallBookingNavbar from "./student_dashboard_navbar";
 import StudentHallBookingBookingForm from "./student_dashboard_booking_form";

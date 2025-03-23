@@ -1,13 +1,13 @@
-import dashboard_icon_grey from "../assests/dashboard_icon_grey.png";
-import dashboard_icon_white from "../assests/dashboard_icon_white.png";
-import hall_icon_grey from "../assests/hall_icon_grey.png";
-import hall_icon_white from "../assests/hall_icon_white.png";
-import calendar_icon_grey from "../assests/calendar_icon_grey.png";
-import calendar_icon_white from "../assests/calendar_icon_white.png";
-import message_icon_grey from "../assests/message_icon_grey.png";
-import message_icon_white from "../assests/message_icon_white.png";
-import logout_icon_grey from "../assests/logout_icon_grey.png";
-import profile from "../assests/email_id_input.png";
+import dashboard_icon_grey from "../assets/dashboard_icon_grey.png";
+import dashboard_icon_white from "../assets/dashboard_icon_white.png";
+import hall_icon_grey from "../assets/hall_icon_grey.png";
+import hall_icon_white from "../assets/hall_icon_white.png";
+import calendar_icon_grey from "../assets/calendar_icon_grey.png";
+import calendar_icon_white from "../assets/calendar_icon_white.png";
+import message_icon_grey from "../assets/message_icon_grey.png";
+import message_icon_white from "../assets/message_icon_white.png";
+import logout_icon_grey from "../assets/logout_icon_grey.png";
+import profile from "../assets/email_id_input.png";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Popup_Modal from "./popup_modal";
@@ -67,7 +67,7 @@ function StudentDashboardSidebar(props) {
             <div className="bg-gray-300 h-14 w-14 mr-3 rounded-full flex justify-center items-center">
               <img src={profile} className="h-10 w-10" alt="profile-icon"></img>
             </div>
-            <div className="font-bold text-xl">{userData.Student_Name}</div>
+            <div className="font-bold text-xl">{userData.Applicant_Name}</div>
           </div>
           <a
             className="block text-gray-500 py-2.5 px-4 my-2 rounded"
