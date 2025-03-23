@@ -1,11 +1,11 @@
-import dashboard_icon_grey from "../assests/dashboard_icon_grey.png";
-import dashboard_icon_white from "../assests/dashboard_icon_white.png";
-import calendar_icon_white from "../assests/calendar_icon_white.png";
-import calendar_icon_grey from "../assests/calendar_icon_grey.png";
-import message_icon_grey from "../assests/message_icon_grey.png";
-import message_icon_white from "../assests/message_icon_white.png";
-import logout_icon_grey from "../assests/logout_icon_grey.png";
-import profile from "../assests/admin_profile_icon.png";
+import dashboard_icon_grey from "../assets/dashboard_icon_grey.png";
+import dashboard_icon_white from "../assets/dashboard_icon_white.png";
+import calendar_icon_white from "../assets/calendar_icon_white.png";
+import calendar_icon_grey from "../assets/calendar_icon_grey.png";
+import message_icon_grey from "../assets/message_icon_grey.png";
+import message_icon_white from "../assets/message_icon_white.png";
+import logout_icon_grey from "../assets/logout_icon_grey.png";
+import profile from "../assets/admin_profile_icon.png";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 

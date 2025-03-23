@@ -1,5 +1,5 @@
-import email_id_input from "../assests/admin_profile_icon.png";
-import password_input from "../assests/password_input.png";
+import email_id_input from "../assets/admin_profile_icon.png";
+import password_input from "../assets/password_input.png";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 function Admin_Login() {
