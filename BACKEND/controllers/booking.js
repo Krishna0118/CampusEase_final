@@ -5,20 +5,60 @@ import halls from "../models/HallsModel.js";
 import { autoInc } from "../utils/AutoIncrement.js";
 
 
-export const verifyuser = async(req, res)=>{
-  const { id, type } = req.query;
-  let collection = type === "student" ? "students" : "faculty"; 
+// export const verifyuser = async(req, res)=>{
+//   const { id, type } = req.query;
+//   console.log({id});
+//   console.log({type});
+//   res.json({ verified: true });
+//   // console.log("verified");
+//   return;
+//   let collection = type === "student" ? "students" : "faculty"; 
 
-  const user = await db.collection(collection).findOne({ id });
-  if (user) {
-    res.json({ verified: true });
-    console.log("verified");
+//   const user = await db.collection(collection).findOne({ id });
+//   if (user) {
+//     res.json({ verified: true });
+//     console.log("verified");
     
-  } else {
-    res.json({ verified: false });
-    console.log("not verified");
+//   } else {
+//     res.json({ verified: false });
+//     console.log("not verified");
+//   }
+// }
+
+
+
+
+export const verifyuser = async (req, res) => {
+  try {
+      const { id, type } = req.query;
+
+      if (!id || !type) {
+          return res.status(400).json({ success: false, message: "Missing user ID or type" });
+      }
+
+      // Define the collection to check based on user type
+      let user;
+      if (type === "student") {
+          user = await User.findOne({ studentID: id });
+      } else if (type === "faculty") {
+          user = await User.findOne({ facultyID: id });
+      } else {
+          return res.status(400).json({ success: false, message: "Invalid user type" });
+      }
+
+      if (user) {
+          return res.status(200).json({ verified: true });
+      } else {
+          return res.status(404).json({ verified: false, message: "User not found" });
+      }
+  } catch (error) {
+      console.error("Error in verification:", error);
+      res.status(500).json({ success: false, message: "Server error" });
   }
-}
+};
+
+
+
 
 
 //CREATE BOOKING

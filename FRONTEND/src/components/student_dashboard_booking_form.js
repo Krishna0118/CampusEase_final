@@ -24,44 +24,91 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
 
 
 
-  const handleVerification = () => {
-    if (!userType) {
-      alert("Please select a user type first.");
-      return;
-    }
+  // const handleVerification = async() => {
+  //   if (!userType) {
+  //     alert("Please select a user type first.");
+  //     return;
+  //   }
 
-    setVerifying(true);
+  //   setVerifying(true);
     
    
 
-    if (userType === "Visitor") {
-      setIsVerified(true);
-      // setDiscount(0);
-      setVerifying(false);
-      return;
-    }
+  //   if (userType === "visitor") {
+  //     setIsVerified(true);
+  //     // setDiscount(0);
+  //     setVerifying(false);
+  //     return;
+  //   }
 
-    axios
-      .get("http://localhost:3001/api/booking/verifyuser", {
-        id: bookingDetails.Student_ID,
-        type: userType,
-      })
-      .then((response) => {
-        if (response.data.verified) {
-          setIsVerified(true);
-          // setDiscount(userType === "Student" ? 70 : 50);
-        } else {
-          setIsVerified(false);
-          alert("Verification failed. Please enter valid details.");
-        }
-      })
-      .catch((error) => console.error("Verification error:", error))
-      .finally(() => setVerifying(false));
-  };
+  //   // axios
+  //   //   .get("http://localhost:3001/api/booking/verifyuser", {
+  //   //     id: id,
+  //   //     type: userType,
+  //   //   })
+  //   //   .then((response) => {
+  //   //     if (response.data.verified) {
+  //   //       setIsVerified(true);
+  //   //       // setDiscount(userType === "Student" ? 70 : 50);
+  //   //     } else {
+  //   //       setIsVerified(false);
+  //   //       alert("Verification failed. Please enter valid details.");
+  //   //     }
+  //   //   })
+  //   //   .catch((error) => console.error("Verification error:", error))
+  //   //   .finally(() => setVerifying(false));
+  //   try {
+  //     const response = await axios.get(`http://localhost:3001/api/booking/verifyuser`, {
+  //       params: { id: id, type: userType }
+  //     });
+  
+  //     if (response.data.verified) {
+  //       setDiscount(userType === "student" ? 70 : 50); // 70% for students, 50% for faculty
+  //       return true;
+  //     } else {
+  //       alert("User verification failed. Please check your details.");
+  //       return false;
+  //     }
+  //   } catch (error) {
+  //     console.error("Error verifying user:", error);
+  //     alert("Error verifying user.");
+  //     return false;
+  //   }
+  // };
 
 
 
   //STUDENT ODA DEPARTMENT
+  
+  
+  const handleVerification = async () => {
+    if (!userType || !id) {
+        alert("Please select a user type and enter the ID.");
+        return;
+    }
+
+    setVerifying(true); // Start verification process
+
+    try {
+        const response = await axios.get(`http://localhost:3001/api/booking/verifyuser`, {
+            params: { id: id, type: userType }
+        });
+
+        if (response.data.verified) {
+            setIsVerified(true);
+        } else {
+            alert("Verification failed. Please check your details.");
+        }
+    } catch (error) {
+        console.error("Error verifying user:", error);
+        alert("Verification error. Please try again.");
+    } finally {
+        setVerifying(false); // End verification process
+    }
+};
+
+  
+  
   const [userData, setUserData] = useState("");
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("authToken"));
