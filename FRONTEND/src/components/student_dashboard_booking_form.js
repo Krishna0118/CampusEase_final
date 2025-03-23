@@ -11,10 +11,55 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
   const [Time_To, setTimeTo] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
   const [reason, setReason] = useState();
+  const [bookingPersonName, setBookingPersonName] = useState();  //change
+  const [userType, setUserType] = useState(""); //change
+  const [id, setId] = useState("");
+  const [isVerified, setIsVerified] = useState(false); //change
+  const [verifying, setVerifying] = useState(false); //change
+  
 
   //
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [showErrorMessage, setShowErrorMessage] = useState(false);
+
+
+
+  const handleVerification = () => {
+    if (!userType) {
+      alert("Please select a user type first.");
+      return;
+    }
+
+    setVerifying(true);
+    
+   
+
+    if (userType === "Visitor") {
+      setIsVerified(true);
+      // setDiscount(0);
+      setVerifying(false);
+      return;
+    }
+
+    axios
+      .get("http://localhost:3001/api/booking/verifyuser", {
+        id: bookingDetails.Student_ID,
+        type: userType,
+      })
+      .then((response) => {
+        if (response.data.verified) {
+          setIsVerified(true);
+          // setDiscount(userType === "Student" ? 70 : 50);
+        } else {
+          setIsVerified(false);
+          alert("Verification failed. Please enter valid details.");
+        }
+      })
+      .catch((error) => console.error("Verification error:", error))
+      .finally(() => setVerifying(false));
+  };
+
+
 
   //STUDENT ODA DEPARTMENT
   const [userData, setUserData] = useState("");
@@ -26,7 +71,6 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
 
   useEffect(() => {
     axios
-      // .get("https://au-hallbooking-backend.onrender.com/api/halls")
       .get("http://localhost:3001/api/halls")
       .then((response) => {
         setHalls(response.data);
@@ -43,7 +87,8 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
       const data = {
         Student_ID: userData.Student_ID,
         Hall_Name: selectedHall.Hall_Name,
-        Department: userData.Department,
+        Booking_Person_Name: bookingPersonName,
+        Booking_Person_ID: id,
         Affiliated: affiliatedDept,
         Date: selectedDate,
         Time_From: Time_From,
@@ -52,7 +97,6 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
       };
 
       const hallBooked = await fetch(
-        // " https://au-hallbooking-backend.onrender.com/api/booking/createBooking",
         "http://localhost:3001/api/booking/createBooking",
         {
           method: "POST",
@@ -94,7 +138,6 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
     if (selectedDate) {
       console.log("Fetching available time slots...");
       fetch(
-        // `https://au-hallbooking-backend.onrender.com/api/booking/availableslots?hallname=${selectedHall.Hall_Name}&date=${selectedDate}`
         `http://localhost:3001/api/booking/availableslots?hallname=${selectedHall.Hall_Name}&date=${selectedDate}`
         
       )
@@ -171,7 +214,7 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
       <form className="py-10 sm:pr-20" onSubmit={handleBooking}>
         <table className="table-auto w-full">
           <tbody>
-            <tr>
+            {/* <tr>
               <td className="w-1/6 sm:w-1/3 p-4">
                 <label className="text-sm sm:text-lg font-bold text-gray-900 flex justify-between">
                   DEPARTMENT
@@ -187,7 +230,8 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
                    focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5"
                 />
               </td>
-            </tr>
+            </tr> */}
+            
             <tr>
               <td className="w-1/6 sm:w-1/3 p-4">
                 <label className="text-sm sm:text-lg font-bold text-gray-900 flex justify-between">
@@ -208,6 +252,96 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
             <tr>
               <td className="w-1/6 sm:w-1/3 p-4">
                 <label className="text-sm sm:text-lg font-bold text-gray-900 flex justify-between">
+                  User Name
+                  <label className="mx-3 font-bold">:</label>
+                </label>
+              </td>
+              <td>
+                <input
+                  type="text"
+                  value={userData.Student_Name}
+                  readOnly
+                  className="bg-[#f8fafa] border border-gray-300 text-gray-900 text-md rounded-md
+                   focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td className="w-1/6 sm:w-1/3 p-4">
+                <label className="text-sm sm:text-lg font-bold text-gray-900 flex justify-between">
+                  BOOKING PERSON NAME
+                <label className="mx-3 font-bold">:</label>
+                </label>
+              </td>
+              <td>
+                <input
+                  onChange={(e) => {
+                    setBookingPersonName(e.target.value);
+                  }}
+                  className="bg-[#f8fafa] border border-gray-300 text-gray-900 text-md rounded-md
+                   focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5"
+                />
+              </td>
+            </tr>
+            {/* this field added :: change */}
+            <tr> 
+              <td className="w-1/6 sm:w-1/3 p-4">
+                <label className="text-sm sm:text-lg font-bold text-gray-900 flex justify-between">
+                  USER TYPE
+                  <label className="mx-3 font-bold">:</label>
+                </label>
+              </td>
+              <td>
+                <select
+                  value={userType}
+                  onChange={(e) => setUserType(e.target.value)}
+                  required
+                  className="bg-[#f8fafa] border border-gray-300 text-gray-900 text-md rounded-md 
+                    focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5"
+                >
+                  <option value="">Select User Type</option>
+                  <option value="student">Student</option>
+                  <option value="faculty">Faculty</option>
+                  <option value="visitor">Visitor</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+            {userType === "student" || userType === "faculty" ? (
+              <>
+                <td className="w-1/6 sm:w-1/3 p-4">
+                  <label className="text-sm sm:text-lg font-bold text-gray-900 flex items-center">
+                    {userType === "student" ? "Register Number" : "Faculty ID"} 
+                    <span className="mx-3 font-bold">:</span>
+                  </label>
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    value={id}
+                    onChange={(e) => setId(e.target.value)}
+                    className="bg-[#f8fafa] border border-gray-300 text-gray-900 text-md rounded-md 
+                      focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5"
+                    placeholder="Enter your ID"
+                    required
+                  />
+                </td>
+                <td>
+                  <span
+                    onClick={handleVerification}
+                    className="text-blue-600 cursor-pointer hover:underline"
+                    // disabled={verifying || isVerified}
+                  >
+                    {verifying ? "Verifying..." : isVerified ? "✔ Verified" : "Verify"}
+                  </span>
+                </td>
+              </>
+            ) : null}
+            </tr>
+          
+            <tr>
+              <td className="w-1/6 sm:w-1/3 p-4">
+                <label className="text-sm sm:text-lg font-bold text-gray-900 flex justify-between">
                   AFFILIATED DEPARTMENT/ CLUB
                   <label className="mx-3 font-bold">:</label>
                 </label>
@@ -219,6 +353,7 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
                   }}
                   className="bg-[#f8fafa] border border-gray-300 text-gray-900 text-md rounded-md
                    focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5"
+                   disabled={!isVerified}
                 />
               </td>
             </tr>
@@ -234,6 +369,7 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
                   type="date"
                   className="bg-[#f8fafa] border border-gray-300 text-gray-900 text-md rounded-md
                   focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5"
+                  disabled={!isVerified}
                   onChange={handleDateChange}
                   min={new Date().toISOString().split("T")[0]}
                 />
@@ -253,6 +389,7 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
                   onChange={handleTimeFromChange}
                   className="bg-[#f8fafa] border border-gray-300 text-gray-900 text-md rounded-md
                    focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5"
+                   disabled={!isVerified}
                   required
                 >
                   <option disabled value="">
@@ -283,6 +420,7 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
                   onChange={handleTimeToChange}
                   className="bg-[#f8fafa] border border-gray-300 text-gray-900 text-md rounded-md
                    focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5"
+                   disabled={!isVerified}
                   required
                 >
                   <option value="">Select a time</option>
@@ -304,6 +442,7 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
                   }}
                   className="bg-[#f8fafa] h-24 border border-gray-300 text-gray-900 text-md rounded-md
                    focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5"
+                   disabled={!isVerified}
                 />
               </td>
             </tr>

@@ -1,6 +1,25 @@
 import booking from "../models/BookingModel.js";
 import halls from "../models/HallsModel.js";
+// import student from "../models/HallsModel.js";
+// import faculty from "../models/HallsModel.js";
 import { autoInc } from "../utils/AutoIncrement.js";
+
+
+export const verifyuser = async(req, res)=>{
+  const { id, type } = req.query;
+  let collection = type === "student" ? "students" : "faculty"; 
+
+  const user = await db.collection(collection).findOne({ id });
+  if (user) {
+    res.json({ verified: true });
+    console.log("verified");
+    
+  } else {
+    res.json({ verified: false });
+    console.log("not verified");
+  }
+}
+
 
 //CREATE BOOKING
 export const createBooking = async (req, res) => {
