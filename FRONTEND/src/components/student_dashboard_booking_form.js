@@ -322,7 +322,7 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
                    focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5"
                 />
               </td>
-            </tr> */}
+            </tr> 
             
             <tr>
               <td className="w-1/6 sm:w-1/3 p-4">
