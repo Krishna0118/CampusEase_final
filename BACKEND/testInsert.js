@@ -63,7 +63,7 @@ const connect = async () => {
 //   const hashedPassword = await bcrypt.hash("kanishka", salt);
 
 //   const newadmin = new Admin({
-//     adminId: "1074",
+//   adminId: "1074",
 //     adminName: "Kanishka",
 //     department: "HOI",
 //     email: "kanishka@gmail.com",
