@@ -11,7 +11,7 @@ function AdminDashboardMain() {
         </a>{" "}
         to check the pending requests.
         <br></br>
-        Folowing halls were assigned to you,
+        Following halls were assigned to you,
         <ol className="m-6 list-decimal ">
           <li>Golden Jubilee Hall</li>
           <li>Silveria Hall</li>
