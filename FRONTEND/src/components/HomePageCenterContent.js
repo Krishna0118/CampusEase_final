@@ -56,11 +56,7 @@ function home_page_center_content() {
                 Check the calendar for availability of the resources on specific
                 dates
               </li>
-              <li>Click "Add new request" and fill in the form and submit</li>
-              <li>
-                You will receive an email upon submitting this form and an email
-                after request is approved
-              </li>
+              <li>Click "Book Hall" and fill in the form and submit</li>
               <li>
                 Meanwhile the status of your record can be tracked from your
                 dashboard
