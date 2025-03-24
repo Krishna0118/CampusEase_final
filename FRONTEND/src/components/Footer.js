@@ -13,7 +13,7 @@ function Footer() {
           </span>
         </span>
         <span className="text-m text-white text-center dark:text-white-400">
-          Developed by SGSITS, Indore
+          Developed by SGSITS
         </span>
       </div>
     </footer>
