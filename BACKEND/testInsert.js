@@ -16,28 +16,28 @@ dotenv.config();
 //   }
 // };
 
-const testInsert = async () => {
-  await connect();
+// const testInsert = async () => {
+//   await connect();
 
-  const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash("testpassword", salt);
+//   const salt = await bcrypt.genSalt(10);
+//   const hashedPassword = await bcrypt.hash("testpassword", salt);
 
-  const newUser = new User({
-    User_Name: "kkk",
-    Applicant_Name: "kk",
-    Password: hashedPassword,
-    Email: "test@example.com",
-  });
+//   const newUser = new User({
+//     User_Name: "kkk",
+//     Applicant_Name: "kk",
+//     Password: hashedPassword,
+//     Email: "test@example.com",
+//   });
 
-  try {
-    await newUser.save();
-    console.log("User Saved Successfully to Database");
-    mongoose.connection.close(); // Close the connection after insertion
-  } catch (error) {
-    console.error("Error Saving User:", error);
-    mongoose.connection.close();
-  }
-};
+//   try {
+//     await newUser.save();
+//     console.log("User Saved Successfully to Database");
+//     mongoose.connection.close(); // Close the connection after insertion
+//   } catch (error) {
+//     console.error("Error Saving User:", error);
+//     mongoose.connection.close();
+//   }
+// };
 
 
 
@@ -80,17 +80,18 @@ const connect = async () => {
 //   }
 // };
 
-// const testInsert = async () => {
-//   await connect();
+//  const testInsert = async () => {
+//    await connect();
 
 //   const newHall = new Halls({
-//     Hall_ID: "H001",
-//     Hall_Name: "Seminar Hall A",
+//     Hall_ID: "H002",
+//     Hall_Name: "Silveria",
 //     Department: "CSE",
-//     Description: "A well-equipped seminar hall with modern amenities.",
-//     Capacity: 150,
-//     Image1: "https://example.com/image1.jpg",
-//     Image2: "https://example.com/image2.jpg",
+//     Description: "College Biggest Auditorium",
+//     Price: 50000,
+//     Capacity: 1500,
+//     Image1: "https://res.cloudinary.com/dpswdrktw/image/upload/v1742553070/Silveria_son70k.jpg",
+//     Image2: "https://res.cloudinary.com/dpswdrktw/image/upload/v1742553247/sillveria2_l5cojh.webp",
 //   });
 
 //   try {
@@ -103,4 +104,4 @@ const connect = async () => {
 //   }
 // };
 
-testInsert();
+// testInsert();
