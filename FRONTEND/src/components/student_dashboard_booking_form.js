@@ -85,6 +85,9 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
       });
   }, []);
 
+
+
+
   ///Handle Booking
   const handleBooking = async (event) => {
     event.preventDefault();
@@ -268,6 +271,7 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
                   onChange={(e) => {
                     setBookingPersonName(e.target.value);
                   }}
+                  required
                   className="bg-[#f8fafa] border border-gray-300 text-gray-900 text-md rounded-md
                    focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5"
                 />
@@ -345,6 +349,7 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
                   }}                  className="bg-[#f8fafa] border border-gray-300 text-gray-900 text-md rounded-md
                    focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5"
                    disabled={!isVerified}
+                   required
                 />
               </td>
             </tr>
@@ -362,6 +367,7 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
                   focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5"
                   disabled={!isVerified}
                   onChange={handleDateChange}
+                  required
                   min={new Date().toISOString().split("T")[0]}
                 />
               </td>
@@ -419,6 +425,23 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
                 </select>
               </td>
             </tr>
+            {/* <tr>
+              <td className="w-1/6 sm:w-1/3 p-4">
+                <label className="text-sm sm:text-lg font-bold text-gray-900 flex justify-between">
+                  Price 
+                  <label className="mx-3 font-bold">:</label>
+                </label>
+              </td>
+              <td>
+                <input
+                  // onChange= 
+                  className="bg-[#f8fafa] border border-gray-300 text-gray-900 text-md rounded-md
+                   focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5"
+                   disabled={!isVerified}
+                   required
+                />
+              </td> 
+            </tr> */}
             <tr>
               <td className="w-1/6 sm:w-1/3 p-4 align-top">
                 <label className="text-sm sm:text-lg font-bold text-gray-900 flex justify-between">
@@ -431,6 +454,7 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
                   onChange={(e) => {
                     setReason(e.target.value);
                   }}
+                  required
                   className="bg-[#f8fafa] h-24 border border-gray-300 text-gray-900 text-md rounded-md
                    focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5"
                    disabled={!isVerified}
