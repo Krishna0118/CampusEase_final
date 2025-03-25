@@ -4,15 +4,13 @@ import email_id_input from "../assets/email_id_input.png";
 import password_input from "../assets/password_input.png";
 
 import { useNavigate } from "react-router-dom";
-import { FaInfoCircle } from "react-icons/fa";
+import { FaInfoCircle, FaCheckCircle } from "react-icons/fa";
 import axios from "axios";
+
   
 function RegisterCenterContent() {
-  // const [Student_Name, setName] = useState();
   const [Applicant_Name, setName] = useState();
-  // const [Student_ID, setId] = useState();
   const [Email, setEmail] = useState();
-  // const [Department, setDepartment] = useState();
   const [Password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
   const [userExist, setuserExist] = useState();
@@ -75,7 +73,7 @@ function RegisterCenterContent() {
 
     if (!isValid) {
       setRegisterError("Please verify your username before registering.");
-      setTimeout(() => setRegisterError(""), 3000); // Hide error after 3 seconds
+      setTimeout(() => setRegisterError(""), 3000);
       return;
     }
 
@@ -176,11 +174,12 @@ function RegisterCenterContent() {
                 {usernameErrorMessage && (
                   <p className="text-xs text-red-500 mt-1">{usernameErrorMessage}</p>
                 )}
+
                 <span
-                    onClick={handleCheckUsername}
-                    className="text-blue-600 cursor-pointer hover:underline"
+                  className={isValid ? "text-green-500 font-semibold flex items-center gap-1" : "text-blue-600 cursor-pointer hover:underline"}
+                  onClick={handleCheckUsername}
                 >
-                  {checking ? "Verifying..." : isValid ? "✔ Verified" : "Verify"}
+                  {checking ? "Verifying..." : isValid ? <><FaCheckCircle className="text-green-500" /> Verified</> : "Verify Unique Username"}
                 </span>
               </div>
 

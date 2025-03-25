@@ -2,6 +2,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import PopupModal from "./popup_modal";
+import { FaCheckCircle } from "react-icons/fa";
+
 
 function StudentDashboardHallBookingBookingForm({ selectedHall }) {
   //GET HALLS FROM halls SCHEMA FROM MONGO
@@ -31,6 +33,7 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
   const handleVerification = async () => {
     if (!userType || !id) {
         alert("Please select a user type and enter the ID.");
+        
         return;
     }
   
@@ -306,7 +309,10 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
                   <input
                     type="text"
                     value={id}
-                    onChange={(e) => setId(e.target.value)}
+                    onChange={(e) => {
+                      setId(e.target.value)
+                      setIsVerified(false);
+                    }}
                     className="bg-[#f8fafa] border border-gray-300 text-gray-900 text-md rounded-md 
                       focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5"
                     placeholder="Enter your ID"
@@ -315,11 +321,10 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
                 </td>
                 <td>
                   <span
+                    className={isVerified ? "text-green-500 font-semibold flex items-center gap-1" : "text-blue-600 cursor-pointer hover:underline"}
                     onClick={handleVerification}
-                    className="text-blue-600 cursor-pointer hover:underline"
-                    // disabled={verifying || isVerified}
                   >
-                    {verifying ? "Verifying..." : isVerified ? "✔ Verified" : "Verify"}
+                    {verifying ? "Verifying..." : isVerified ? <><FaCheckCircle className="text-green-500" /> Verified</> : "Verify"}
                   </span>
                 </td>
               </>
