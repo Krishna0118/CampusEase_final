@@ -21,6 +21,10 @@ const hallsSchema = new mongoose.Schema({
   Description: {
     type: "String",
   },
+  Price : {
+    type: "Number",
+    required: true
+  },
   Capacity: {
     type: "Number",
     required: false,
