@@ -31,6 +31,9 @@ function StudentDashboardMain() {
           </li>
           <li>Click "Book Hall" and fill in the form and submit</li>
           <li>
+          You will recive a email upon submitting this form and email after request is approved.
+          </li>
+          <li>
             Meanwhile the status of your record can be tracked from your
             Hall-Booking dashboard
           </li>
