@@ -26,15 +26,15 @@ function home_page_center_content() {
             <span> to check availability of resources</span>
           </div>
           <ol className="list-decimal ml-5 mt-5">
-            <li>Golden Jubilee Hall</li>
-            <li>Silveria Hall</li>
-            <li>Student Activity Center</li>
-            <li>Cricket Ground</li>
-            <li>Gymnasium</li>
-            <li>Tennis Court</li>
-            <li>Volleyball Court</li>
-            <li>Sports Complex</li>
-            <li>Basketball Court</li>
+          <li>Silveria</li>
+          <li>Golden Jubilee Hall</li>
+          <li>Basketball Court</li>
+          <li>Cricket Ground</li>
+          <li>Tennis Court</li>
+          <li>Student Activity Center</li>
+          <li>Volleyball Court</li>
+          <li>Sports Complex</li>
+          <li>Gymnasium</li>
           </ol>
         </div>
         <div className="sm:w-6/12 w-full p-5 sm:p-10">
