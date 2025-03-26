@@ -15,38 +15,40 @@ import AdminDashboardHallAvailability from "./views/AdminDashboardHallAvailabili
 import CalendarCom from "./components/calendar";
 import HallDetailMain from "./components/student_dashboard_hall_booking";
 import Admin_Login from "./components/Admin_Login";
+import CampusMap from "./components/CampusMap"; // Ensure the filename matches exactly
 
 function App() {
-  const [refresh, setRefresh] = useState();
+  const [refresh, setRefresh] = useState(false);
+
   const changeRefreshState = () => {
     setRefresh(!refresh);
   };
+
   const isHeader = () => {
     const pathname = window.location.pathname;
-    if (
+    return (
       pathname === "/" ||
       pathname === "/calendar" ||
       pathname.startsWith("/hall_details") ||
       pathname.startsWith("/admin_login")
-    ) {
-      return true;
-    }
+    );
   };
+
   useEffect(() => {
     isHeader();
   }, [refresh]);
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <Header data={{ flag: isHeader() }} />
-      <BrowserRouter>
+    <BrowserRouter>
+      <div className="flex flex-col min-h-screen">
+        <Header data={{ flag: isHeader() }} />
         <Routes>
-          <Route path="" element={<HomePageCenterContent />} />
+          <Route path="/" element={<HomePageCenterContent />} />
           <Route path="/admin_login" element={<Admin_Login />} />
-          <Route path="login" element={<LoginCenterContent />} />
-          <Route path="register" element={<RegisterCenterContent />} />
+          <Route path="/login" element={<LoginCenterContent />} />
+          <Route path="/register" element={<RegisterCenterContent />} />
           <Route
-            path="student/dashboard"
+            path="/student/dashboard"
             element={
               <StudentDashboardMainPage
                 data={"dashboard"}
@@ -55,7 +57,7 @@ function App() {
             }
           />
           <Route
-            path="student/dashboard/hall_booking"
+            path="/student/dashboard/hall_booking"
             element={
               <StudentDashboardHallBookingMainPage
                 data={"hall_booking"}
@@ -64,7 +66,7 @@ function App() {
             }
           />
           <Route
-            path="student/dashboard/pending_requests"
+            path="/student/dashboard/pending_requests"
             element={
               <StudentDashboardPendingRequests
                 data={"pending_requests"}
@@ -73,7 +75,7 @@ function App() {
             }
           />
           <Route
-            path="student/dashboard/hall_availability"
+            path="/student/dashboard/hall_availability"
             element={
               <StudentDashboardHallAvailability
                 data={"hall_availability"}
@@ -82,7 +84,7 @@ function App() {
             }
           />
           <Route
-            path="admin/dashboard"
+            path="/admin/dashboard"
             element={
               <AdminDashboardMainPage
                 data={"dashboard"}
@@ -91,23 +93,24 @@ function App() {
             }
           />
           <Route
-            path="admin/dashboard/pending_requests"
+            path="/admin/dashboard/pending_requests"
             element={
               <AdminDashboardPendingRequests data={"pending_requests"} />
             }
           />
           <Route
-            path="admin/dashboard/hall_availability"
+            path="/admin/dashboard/hall_availability"
             element={
               <AdminDashboardHallAvailability data={"hall_availability"} />
             }
           />
           <Route path="/calendar" element={<CalendarCom />} />
           <Route path="/hall_details" element={<HallDetailMain />} />
+          <Route path="/campus_map" element={<CampusMap />} />
         </Routes>
-      </BrowserRouter>
-      <Footer />
-    </div>
+        <Footer />
+      </div>
+    </BrowserRouter>
   );
 }
 
