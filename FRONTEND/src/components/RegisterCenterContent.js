@@ -33,7 +33,6 @@ function RegisterCenterContent() {
     setPasswordMismatch(Password !== e.target.value);
   };
 
-
   const handleusername =(e)=>{
     setUser_Name(e.target.value);
     setIsValid(false);
