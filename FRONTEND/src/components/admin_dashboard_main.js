@@ -13,15 +13,15 @@ function AdminDashboardMain() {
         <br></br>
         Following halls were assigned to you,
         <ol className="m-6 list-decimal ">
+          <li>Silveria</li>
           <li>Golden Jubilee Hall</li>
-          <li>Silveria Hall</li>
-          <li>Student Activity Center</li>
+          <li>Basketball Court</li>
           <li>Cricket Ground</li>
-          <li>Gymnasium</li>
           <li>Tennis Court</li>
+          <li>Student Activity Center</li>
           <li>Volleyball Court</li>
           <li>Sports Complex</li>
-          <li>Basketball Court</li>
+          <li>Gymnasium</li>
         </ol>
         <div className="font-bold mb-5">Steps to reply a request : </div>
         <ul className="ml-6 list-disc">

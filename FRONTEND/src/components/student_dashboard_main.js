@@ -13,15 +13,15 @@ function StudentDashboardMain() {
         <br></br>
         Hall Bookings can be made for the following halls,
         <ol className="m-6 list-decimal ">
+          <li>Silveria</li>
           <li>Golden Jubilee Hall</li>
-          <li>Silveria Hall</li>
-          <li>Student Activity Center</li>
+          <li>Basketball Court</li>
           <li>Cricket Ground</li>
-          <li>Gymnasium</li>
           <li>Tennis Court</li>
+          <li>Student Activity Center</li>
           <li>Volleyball Court</li>
           <li>Sports Complex</li>
-          <li>Basketball Court</li>
+          <li>Gymnasium</li>
         </ol>
         <div className="font-bold mb-5">Steps to book a hall : </div>
         <ul className="ml-6 list-disc">
@@ -30,6 +30,9 @@ function StudentDashboardMain() {
             dates
           </li>
           <li>Click "Book Hall" and fill in the form and submit</li>
+          <li>
+          You will recive a email upon submitting this form and email after request is approved.
+          </li>
           <li>
             Meanwhile the status of your record can be tracked from your
             Hall-Booking dashboard

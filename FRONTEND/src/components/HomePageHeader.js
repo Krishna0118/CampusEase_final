@@ -56,6 +56,14 @@ function HomePageHeader() {
                     HALL DETAILS
                   </a>
                 </li>
+                <li>
+                  <a
+                    href="/campus_map"
+                    className="hover:underline hover:underline-offset-4"
+                  >
+                    CAMPUS MAP
+                  </a>
+                </li>
               </ul>
             </div>
             <div className="w-full md:block md:w-auto" id="navbar-default">
