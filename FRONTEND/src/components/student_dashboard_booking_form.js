@@ -31,6 +31,13 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
   
   
   const handleVerification = async () => {
+    
+    if(userType==="visitor"){
+      // console.log(userType);
+      
+      setIsVerified(true);
+      return;
+    }
     if (!userType || !id) {
         alert("Please select a user type and enter the ID.");
         
@@ -288,7 +295,14 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
               <td>
                 <select
                   value={userType}
-                  onChange={(e) => setUserType(e.target.value)}
+                  onChange={(e) => {
+                    const selectedValue = e.target.value;
+                    setUserType(selectedValue);
+                    
+                    if (selectedValue === "visitor") {
+                      setIsVerified(true);
+                    }
+                  }}
                   required
                   className="bg-[#f8fafa] border border-gray-300 text-gray-900 text-md rounded-md 
                     focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5"
@@ -301,6 +315,7 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
               </td>
             </tr>
             <tr>
+            
             {userType === "student" || userType === "faculty" ? (
               <>
                 <td className="w-1/6 sm:w-1/3 p-4">
