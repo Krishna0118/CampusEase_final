@@ -57,4 +57,4 @@ export const authAdmin = asyncHandler(async (req, res) => {
   }
 });
 
-export const restrictTo = () => {};
+// export const restrictTo = () => {};
