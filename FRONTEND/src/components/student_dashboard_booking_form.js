@@ -3,18 +3,20 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import PopupModal from "./popup_modal";
 import { FaCheckCircle } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+
 
 
 function StudentDashboardHallBookingBookingForm({ selectedHall }) {
   //GET HALLS FROM halls SCHEMA FROM MONGO
   const [name, setName] = useState("");
   const [halls, setHalls] = useState([]);
-  const [affiliatedDept, setAffiliatedDept] = useState();
+  const [affiliatedDept, setAffiliatedDept] = useState("");
   const [Time_From, setTimeFrom] = useState("");
   const [Time_To, setTimeTo] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
-  const [reason, setReason] = useState();
-  const [bookingPersonName, setBookingPersonName] = useState();  //change
+  const [reason, setReason] = useState("");
+  const [bookingPersonName, setBookingPersonName] = useState("");  //change
   const [userType, setUserType] = useState(""); //change
   const [id, setId] = useState("");
   const [isVerified, setIsVerified] = useState(false); //change
@@ -24,7 +26,8 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
   //
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [showErrorMessage, setShowErrorMessage] = useState(false);
-
+  const [errorMessage, setErrorMessage] = useState(""); // Add this line
+  const navigate = useNavigate();
 
 
   //STUDENT ODA DEPARTMENT
@@ -99,6 +102,12 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
   const handleBooking = async (event) => {
     event.preventDefault();
 
+    if (!userData || !userData.token) {
+      // Redirect to login if the user is not logged in
+      navigate("/login");  // 👈 Redirect user to login page
+      return;
+    }
+
     try {
       const data = {
 
@@ -136,13 +145,20 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
         setTimeout(() => {
           setShowSuccessMessage(false);
         }, 3000);
-      } else {
+      } else if(hallBooked.status == 401) {
+        setErrorMessage("You must be logged in to book a hall.");
+        setShowErrorMessage(true);
+      }
+      else {
         console.error("Failed to create booking");
-        setShowErrorMessage(true); //ERROR MESSAGE
+        const responseData = await hallBooked.json();
+        setErrorMessage(responseData?.msg || "Failed to create booking.");
+        setShowErrorMessage(true);
         setShowSuccessMessage(false);
       }
     } catch (error) {
       console.error("Error creating booking:", error.message);
+      setErrorMessage(error.message || "An unexpected error occurred. Please try again.");
       setShowErrorMessage(true);
       setShowSuccessMessage(false);
     }
@@ -224,7 +240,7 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
       {showErrorMessage && (
         <PopupModal
           setShowModal={setShowErrorMessage}
-          message={"There occured error, please try again."}
+          message={errorMessage || "There occurred an error, please try again."}
         />
       )}
 
