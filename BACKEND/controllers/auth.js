@@ -2,7 +2,7 @@ import asyncHandler from "express-async-handler";
 import User from "../models/StudentModel.js";
 import { generateToken } from "../config/genrateToken.js";
 import bcrypt from "bcryptjs";
-import sendEmail from "../utils/sendEmail.js"; // ✅ Import email function
+import sendEmail from "../utils/sendEmail.js"; //  Import email function
 
 export const registerUser = asyncHandler(async (req, res) => {
   console.log("🔹 Register API called");
@@ -11,7 +11,7 @@ export const registerUser = asyncHandler(async (req, res) => {
   const { Applicant_Name, User_Name, Password, Email } = req.body;
 
   if (!Applicant_Name || !User_Name || !Password || !Email) {
-    console.log("❌ Missing required fields");
+    console.log(" Missing required fields");
     return res.status(400).json({ msg: "Please fill all required fields." });
   }
 
@@ -22,7 +22,7 @@ export const registerUser = asyncHandler(async (req, res) => {
 
   const userExist = await User.findOne({ Email });
   if (userExist) {
-    console.log("❌ User already exists:", Email);
+    console.log(" User already exists:", Email);
     return res.status(401).json({ msg: "User with this email already exists." });
   }
 
@@ -36,12 +36,12 @@ export const registerUser = asyncHandler(async (req, res) => {
     Password: secpass,
   });
 
-  console.log("✅ User Created Successfully:", user);
+  console.log(" User Created Successfully:", user);
 
   if (user) {
-    console.log("✅ User registered successfully:", user);
+    console.log(" User registered successfully:", user);
 
-    // 📧 Send Welcome Email
+    //  Send Welcome Email
     const emailSubject = "Welcome to Our Platform!";
     const emailBody = `Hello ${Applicant_Name},\n\nThank you for registering! Your username is: ${User_Name}.\n\nBest Regards,\nTeam CampusEase`;
 
@@ -55,7 +55,7 @@ export const registerUser = asyncHandler(async (req, res) => {
       token: generateToken(user._id),
     });
   } else {
-    console.log("❌ Failed to create user");
+    console.log(" Failed to create user");
     return res.status(500).json({ msg: "Failed to create user." });
   }
 });
@@ -67,7 +67,7 @@ export const checkusername = asyncHandler(async (req, res) => {
 
     res.json({ isUnique: !existingUser });
   } catch (error) {
-    console.error("❌ Error checking username:", error);
+    console.error(" Error checking username:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 });
