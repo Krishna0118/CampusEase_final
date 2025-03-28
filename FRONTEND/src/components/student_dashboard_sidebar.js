@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import dashboard_icon_grey from "../assets/dashboard_icon_grey.png";
 import dashboard_icon_white from "../assets/dashboard_icon_white.png";
 import hall_icon_grey from "../assets/hall_icon_grey.png";
@@ -8,198 +10,108 @@ import message_icon_grey from "../assets/message_icon_grey.png";
 import message_icon_white from "../assets/message_icon_white.png";
 import logout_icon_grey from "../assets/logout_icon_grey.png";
 import profile from "../assets/email_id_input.png";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import Popup_Modal from "./popup_modal";
 
-function StudentDashboardSidebar(props) {
-  const styles = {
-    backgroundColor: "rgb(14, 165, 233)",
-    color: "rgb(255, 255, 255)",
-  };
-
+function StudentDashboardSidebar({ data, changeRefreshState }) {
   const [toggleMenu, setToggleMenu] = useState(false);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-
-  useEffect(() => {
-    const changeWidth = () => {
-      setScreenWidth(window.innerWidth);
-    };
-
-    window.addEventListener("resize", changeWidth);
-
-    return () => {
-      window.removeEventListener("resize", changeWidth);
-    };
-  }, []);
-
-  const toggleNav = () => {
-    setToggleMenu(!toggleMenu);
-  };
-
-  const [userData, setUserData] = useState("");
-  const navigate = useNavigate();
-  useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("authToken"));
-    setUserData(data);
-  }, []);
-
+  const [userData, setUserData] = useState({});
   const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setUserData(JSON.parse(localStorage.getItem("authToken")));
+  }, []);
+
+  useEffect(() => {
+    const changeWidth = () => setScreenWidth(window.innerWidth);
+    window.addEventListener("resize", changeWidth);
+    return () => window.removeEventListener("resize", changeWidth);
+  }, []);
+
+  const menuItems = [
+    { name: "Dashboard", key: "dashboard", icon: dashboard_icon_grey, activeIcon: dashboard_icon_white, path: "/student/dashboard" },
+    { name: "Hall Availability", key: "hall_availability", icon: calendar_icon_grey, activeIcon: calendar_icon_white, path: "/student/dashboard/hall_availability" },
+    { name: "Hall Booking", key: "hall_booking", icon: hall_icon_grey, activeIcon: hall_icon_white, path: "/student/dashboard/hall_booking" },
+    { name: "Booking Status", key: "pending_requests", icon: message_icon_grey, activeIcon: message_icon_white, path: "/student/dashboard/pending_requests" },
+  ];
 
   return (
-    <div
-      className="p-2 bg-white w-full flex flex-col justify-end md:w-96 md:flex md:flex-col md:justify-between"
-      id="sideNav"
-    >
+    <div className="p-2 bg-white w-full flex flex-col md:w-80 rounded-lg shadow-lg">
+      {/* Mobile Menu Button */}
       <div className="md:hidden flex justify-end">
         <button
           id="menuBtn"
-          onClick={toggleNav}
-          className="bg-zinc-300 p-2 rounded w-8 h-8 flex justify-center items-center hover:bg-neutral-300"
+          onClick={() => setToggleMenu(!toggleMenu)}
+          className="bg-gray-300 p-2 rounded w-10 h-10 flex justify-center items-center hover:bg-gray-400"
         >
-          {!toggleMenu && <i className="fa-solid fa-bars"></i>}
-          {toggleMenu && <i class="fa-solid fa-xmark"></i>}
+          {toggleMenu ? <i className="fa-solid fa-xmark text-lg"></i> : <i className="fa-solid fa-bars text-lg"></i>}
         </button>
       </div>
+
+      {/* Sidebar Content */}
       {(toggleMenu || screenWidth > 768) && (
-        <nav className="w-full md:block">
-          <div className="flex justify-start items-center mt-2 mb-6 p-2">
-            <div className="bg-gray-300 h-14 w-14 mr-3 rounded-full flex justify-center items-center">
-              <img src={profile} className="h-10 w-10" alt="profile-icon"></img>
+        <nav className="w-full">
+          {/* Profile Section */}
+          <div className="flex items-center p-4 bg-blue-50 rounded-lg mb-4">
+            <img src={profile} className="h-12 w-12 rounded-full border-2 border-gray-300" alt="Profile" />
+            <div className="ml-3">
+              <div className="font-bold text-lg text-blue-900">{userData?.Applicant_Name || "User"}</div>
+              <div className="text-xs text-gray-600">{userData?.Email || "user@example.com"}</div>
             </div>
-            <div className="font-bold text-xl">{userData.Applicant_Name}</div>
           </div>
-          <a
-            className="block text-gray-500 py-2.5 px-4 my-2 rounded"
-            style={props.data === "dashboard" ? styles : {}}
-            href="/student/dashboard"
+
+          {/* Menu Items */}
+          {menuItems.map((item) => (
+            <a
+              key={item.key}
+              className={`block py-2.5 px-4 my-2 rounded-lg transition duration-300 ${
+                data === item.key ? "bg-gradient-to-r from-blue-500 to-blue-400 text-white" : "text-gray-700 hover:bg-gray-200"
+              }`}
+              href={item.path}
+            >
+              <div className="flex items-center">
+                <img src={data === item.key ? item.activeIcon : item.icon} className="h-5 w-5 mr-3" alt={item.name} />
+                {item.name}
+              </div>
+            </a>
+          ))}
+
+          {/* Logout Button */}
+          <button
+            className="w-full py-2.5 px-4 my-4 rounded-lg text-red-600 font-semibold hover:bg-red-100 transition duration-300"
+            onClick={() => setShowModal(true)}
           >
             <div className="flex items-center">
-              <img
-                src={
-                  props.data === "dashboard"
-                    ? dashboard_icon_white
-                    : dashboard_icon_grey
-                }
-                className="h-5 w-5 mr-2"
-                alt="dashboard-icon"
-              ></img>
-              <div className="text-grey">Dashboard</div>
+              <img src={logout_icon_grey} className="h-5 w-5 mr-3" alt="Logout" />
+              Logout
             </div>
-          </a>
-          <a
-            className="block text-gray-500 py-2.5 px-4 my-2 rounded"
-            style={props.data === "hall_availability" ? styles : {}}
-            href="/student/dashboard/hall_availability"
-          >
-            <div className="flex items-center">
-              <img
-                src={
-                  props.data === "hall_availability"
-                    ? calendar_icon_white
-                    : calendar_icon_grey
-                }
-                className="h-5 w-5 mr-2"
-                alt="hall-icon"
-              ></img>
-              <div className="text-grey">Hall Availability</div>
-            </div>
-          </a>
-          <a
-            className="block text-gray-500 py-2.5 px-4 my-2 rounded"
-            style={props.data === "hall_booking" ? styles : {}}
-            href="/student/dashboard/hall_booking"
-          >
-            <div className="flex items-center">
-              <img
-                src={
-                  props.data === "hall_booking"
-                    ? hall_icon_white
-                    : hall_icon_grey
-                }
-                className="h-5 w-5 mr-2"
-                alt="calendar-icon"
-              ></img>
-              <div className="text-grey">Hall Booking</div>
-            </div>
-          </a>
-          <a
-            className="block text-gray-500 py-2.5 px-4 my-2 rounded"
-            style={props.data === "pending_requests" ? styles : {}}
-            href="/student/dashboard/pending_requests"
-          >
-            <div className="flex items-center">
-              <img
-                src={
-                  props.data === "pending_requests"
-                    ? message_icon_white
-                    : message_icon_grey
-                }
-                className="h-5 w-5 mr-2"
-                alt="message-icon"
-              ></img>
-              <div className="text-grey">Booking Status</div>
-            </div>
-          </a>
+          </button>
         </nav>
       )}
-      {(toggleMenu || screenWidth >= 768) && (
-        <button
-          className="text-gray-500 w-full pb-2.5 md:py-2.5 px-4 md:my-2 rounded md:flex"
-          onClick={() => setShowModal(true)}
-        >
-          <div className="flex items-center">
-            <img
-              src={logout_icon_grey}
-              className="h-5 w-5 mr-2"
-              alt="logout-icon"
-            ></img>
-            <div className="text-grey">Logout</div>
-          </div>
-        </button>
-      )}
-      {showModal ? (
-        <>
-          <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-            <div className="relative w-auto my-6 mx-auto max-w-3xl">
-              {/*content*/}
-              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-                {/*body*/}
-                <div className="relative p-6 flex-auto">
-                  <p className="my-4 text-blueGray-500 text-lg leading-relaxed px-20">
-                    Do you really want to logout ?
-                  </p>
-                </div>
-                {/*footer*/}
-                <div className="flex items-center justify-end p-3 border-t border-solid border-blueGray-200 rounded-b">
-                  <button
-                    className="text-red-500 hover:bg-red-50 font-semibold px-4 py-2 text-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                    type="button"
-                    onClick={() => setShowModal(false)}
-                  >
-                    No
-                  </button>
-                  <button
-                    className="bg-sky-500 text-white hover:bg-sky-600 font-semibold text-md px-4 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                    type="button"
-                    href="/"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setShowModal(false);
-                      localStorage.removeItem("authToken");
-                      props.changeRefreshState();
-                      navigate("/");
-                    }}
-                  >
-                    Yes
-                  </button>
-                </div>
-              </div>
+
+      {/* Logout Modal */}
+      {showModal && (
+        <div className="fixed inset-0 z-50 flex justify-center items-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg">
+            <p className="text-lg font-semibold text-gray-700">Do you really want to logout?</p>
+            <div className="flex justify-end mt-4">
+              <button className="px-4 py-2 mr-2 text-gray-700 bg-gray-200 rounded hover:bg-gray-300" onClick={() => setShowModal(false)}>
+                Cancel
+              </button>
+              <button
+                className="px-4 py-2 text-white bg-red-500 rounded hover:bg-red-600"
+                onClick={() => {
+                  localStorage.removeItem("authToken");
+                  changeRefreshState();
+                  navigate("/");
+                }}
+              >
+                Logout
+              </button>
             </div>
           </div>
-          <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
-        </>
-      ) : null}
+        </div>
+      )}
     </div>
   );
 }
