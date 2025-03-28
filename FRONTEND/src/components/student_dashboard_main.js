@@ -23,17 +23,24 @@ function StudentDashboardMain() {
           {/* Hall List Box */}
           <div className="bg-white shadow-md rounded-xl p-6 h-full flex flex-col">
             <div className="text-lg font-semibold mb-4">Available Halls:</div>
-            <ol className="list-decimal ml-6 text-gray-700 space-y-1">
-              <li>Silveria</li>
-              <li>Golden Jubilee Hall</li>
-              <li>Basketball Court</li>
-              <li>Cricket Ground</li>
-              <li>Tennis Court</li>
-              <li>Student Activity Center</li>
-              <li>Volleyball Court</li>
-              <li>Sports Complex</li>
-              <li>Gymnasium</li>
-            </ol>
+            <ol className="list-decimal ml-5 mt-5 text-lg text-gray-700 leading-loose space-y-3">
+            {[
+              { name: "Silveria", icon: "🏛️" },
+              { name: "Golden Jubilee Hall", icon: "🎉" },
+              { name: "Basketball Court", icon: "🏀" },
+              { name: "Cricket Ground", icon: "🏏" },
+              { name: "Tennis Court", icon: "🎾" },
+              { name: "Student Activity Center", icon: "🏫" },
+              { name: "Volleyball Court", icon: "🏐" },
+              { name: "Sports Complex", icon: "🏟️" },
+              { name: "Gymnasium", icon: "💪" },
+            ].map((item, index) => (
+              <li key={index} className="flex items-center space-x-2">
+                <span className="text-xl">{item.icon}</span>
+                <span>{item.name}</span>
+              </li>
+            ))}
+          </ol>
           </div>
         </div>
 

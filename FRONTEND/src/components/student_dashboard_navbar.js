@@ -1,4 +1,8 @@
-function StudentDashboardNavbar({ listAdd, childToParent }) {
+function StudentDashboardNavbar({ listAdd = [], childToParent = () => {} }) {
+  if (!Array.isArray(listAdd) || listAdd.length === 0) {
+    listAdd = ["Hall Booking"];
+  }
+
   const leng = listAdd.length;
   const first = listAdd.slice(0, leng - 1);
   const last = listAdd[leng - 1];
@@ -7,10 +11,10 @@ function StudentDashboardNavbar({ listAdd, childToParent }) {
     <div className="bg-neutral-100 w-full text-base">
       <nav className="flex h-16 pl-5 bg-white" aria-label="Breadcrumb">
         <ol className="inline-flex items-center space-x-1 md:space-x-2">
-          {first.map((item) => (
-            <li className="inline-flex items-center">
+          {first.map((item, index) => (
+            <li key={index} className="inline-flex items-center">
               <button
-                onClick={() => childToParent([listAdd, item])}
+                onClick={() => childToParent(first)} // Pass updated list correctly
                 className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600"
               >
                 {item}
@@ -27,10 +31,7 @@ function StudentDashboardNavbar({ listAdd, childToParent }) {
             </li>
           ))}
           <li className="inline-flex items-center">
-            <button
-              disabled
-              className="inline-flex items-center text-sm font-medium text-gray-700"
-            >
+            <button disabled className="inline-flex items-center text-sm font-medium text-gray-700">
               {last}
             </button>
           </li>
