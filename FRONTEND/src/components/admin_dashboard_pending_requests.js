@@ -1,38 +1,46 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { usePDF } from "react-to-pdf";
 
 function AdminPendingRequests(props) {
   const [bookingData, setBookingData] = useState([]);
-  const [selectedStatus, setSelectedStatus] = useState("all");
-  const [refresh, setRefresh] = useState(true);
+  const [selectedStatus] = useState("all");
+  const [bookingPDFData, setBookingPDFData] = useState(null);
+  const { toPDF, targetRef } = usePDF({ filename: "Booking_Approval.pdf" });
+  const pdfContainerRef = useRef(null); // Ensures PDF content is available before generation
 
-  //STUDENT ODA DETAILS
   const userData = JSON.parse(localStorage.getItem("authToken"));
-  //
-
-  const bookingDate = new Date();
-  bookingDate.setDate(bookingDate.getDate() - 1);
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await fetch(
-        // "https://au-hallbooking-backend.onrender.com/api/booking/adminBookings",
-        "http://localhost:3001/api/booking/adminBookings",
-        {
+      try {
+        const response = await fetch("http://localhost:3001/api/booking/adminBookings", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${userData.token}`,
           },
-        }
-      );
-      
-      const hallData = await data.json();
-      console.log(hallData);
-      
-      setBookingData(hallData);
+        });
+
+        const hallData = await response.json();
+        setBookingData(hallData);
+      } catch (error) {
+        console.error("Error fetching booking data:", error);
+      }
     };
+
     fetchData();
-  }, [refresh]);
+  }, [userData.token]);
+
+  const formatISODate = (isoDate) =>
+    new Date(isoDate).toLocaleString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+      timeZoneName: "short",
+    });
 
   const filteredBookings =
     selectedStatus === "all"
@@ -42,198 +50,144 @@ function AdminPendingRequests(props) {
   const getStatusClassName = (status) => {
     switch (status) {
       case "rejected":
-        return "block w-full p-4 bg-[#fe3233] rounded-lg shadow-lg hover:bg-[#f0292a] hover:cursor-default";
+        return "bg-red-500 hover:bg-red-600 text-white";
       case "approved":
-        return "block w-full p-4 bg-[#37b317] rounded-lg shadow-lg hover:bg-[#31a314] hover:cursor-default"; // cursor-pointer for clickable
+        return "bg-green-500 hover:bg-green-600 text-white cursor-pointer";
       case "pending":
-        return "block w-full p-4 bg-[#c9c9c9] rounded-lg shadow-lg hover:bg-[#c0c0c0] hover:cursor-default";
+        return "bg-yellow-500 hover:bg-yellow-600 text-white";
       default:
-        return "bg-white cursor-default";
+        return "bg-gray-200 text-gray-800";
     }
   };
 
-  const [showModal, setShowModal] = useState(false);
-  const handleDivClick = (status, id) => {
-    if (status === "pending") {
-      setShowModal(true);
-      console.log(`Printing PDF for booking with ID: ${id}`);
+  const handleDivClick = (status, booking) => {
+    if (status === "approved") {
+      setBookingPDFData(null); // Reset before setting new data
+      setTimeout(() => {
+        setBookingPDFData(booking);
+      }, 100);
     }
   };
 
-  const options = {
-    weekday: "short",
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  }; //DATE OPTIONS
-  const timeOptions = { hour: "numeric", minute: "numeric" }; //TIME OPTIONS
+  useEffect(() => {
+    if (bookingPDFData && targetRef.current) {
+      const generatePDF = async () => {
+        await new Promise((resolve) => setTimeout(resolve, 500)); // Ensures content is rendered
+        toPDF();
+      };
+      generatePDF();
+    }
+  }, [bookingPDFData, toPDF, targetRef]);
+  
 
-  const handleReject = async (bookingId) => {
+  const handleStatusUpdate = async (bookingId, newStatus) => {
     try {
-      const response = await fetch(
-        // "https://au-hallbooking-backend.onrender.com/api/booking/updateBooking",
-        "http://localhost:3001/api/booking/updateBooking",
-        
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${userData.token}`,
-          },
-          body: JSON.stringify({
-            _id: bookingId,
-            Status: "rejected",
-          }),
-        }
-      );
+      const response = await fetch("http://localhost:3001/api/booking/updateBooking", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userData.token}`,
+        },
+        body: JSON.stringify({ _id: bookingId, Status: newStatus }),
+      });
 
       if (response.ok) {
-        // Handle success
-        console.log("Booking rejected successfully");
-        setRefresh(refresh ? false : true);
-        // Add any additional logic or state updates as needed
+        setBookingData((prev) =>
+          prev.map((booking) =>
+            booking._id === bookingId ? { ...booking, Status: newStatus } : booking
+          )
+        );
       } else {
-        // Handle error
-        console.error("Failed to reject booking");
+        console.error("Failed to update booking");
       }
     } catch (error) {
-      console.error("Error:", error);
-    }
-  };
-
-  const handleApprove = async (bookingId) => {
-    try {
-      const response = await fetch(
-        // "https://au-hallbooking-backend.onrender.com/api/booking/updateBooking",
-        "http://localhost:3001/api/booking/updateBooking",
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${userData.token}`,
-          },
-          body: JSON.stringify({
-            _id: bookingId,
-            Status: "approved",
-          }),
-        }
-      );
-      console.log(response);
-      if (response.ok) {
-        // Handle success
-        const data = await response.json();
-        console.log(data);
-        console.log("Booking Approved successfully");
-        // Add any additional logic or state updates as needed
-      } else {
-        // Handle error
-        console.error("Failed to reject booking");
-      }
-
-      setRefresh(refresh ? false : true);
-    } catch (error) {
-      console.error("Error:", error);
+      console.error("Error updating booking:", error);
     }
   };
 
   return (
-    <div className="bg-neutral-100 w-full">
-      <nav className="bg-white border-gray-200">
-        <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-          <div className="flex items-center flex-wrap">
-            <span className="self-center mr-4 text-md md:text-2xl font-bold whitespace-nowrap">
-              REQUESTS :{" "}
-            </span>
-            <ul className="font-medium mt-2 sm:mt-0 flex flex-wrap rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 bg-white">
-              <li className="flex items-center mr-2 text-sm sm:text-md">
-                <div className="h-4 w-6 bg-[#fe3233] mr-2"></div>
-                <div>Rejected</div>
-              </li>
-              <li className="flex items-center mr-2 text-sm sm:text-md">
-                <div className="h-4 w-6 bg-[#37b317] mr-2"></div>
-                <div>Approved</div>
-              </li>
-              <li className="flex items-center mr-2 text-sm sm:text-md">
-                <div className="h-4 w-6 bg-[#c9c9c9] mr-2"></div>
-                <div>Pending</div>
-              </li>
-            </ul>
-          </div>
-
-          <div
-            className="mt-2 lg:mt-0 w-full md:block md:w-auto"
-            id="navbar-default"
-          >
-            <select
-              id="email"
-              value={selectedStatus}
-              onChange={(e) => setSelectedStatus(e.target.value)}
-              className="bg-[#f8fafa] border border-gray-300 text-gray-900 text-md rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5"
-              required
-            >
-              <option value="all">All</option>
-              <option value="approved">Approved</option>
-              <option value="pending">Pending</option>
-              <option value="rejected">Rejected</option>
-            </select>
-          </div>
-        </div>
-      </nav>
-
-      <div className="p-4 sm:p-10 max-h-[550px] overflow-y-auto">
+    <div className="bg-gray-100 w-full min-h-screen p-6">
+      {/* Booking List */}
+      <div className="mt-6 max-h-[550px] overflow-y-auto">
         <ul>
-          {Array.isArray(filteredBookings) && filteredBookings.map((booking) => (
-            <li className="p-2">
-              <div className={`${getStatusClassName(booking.Status)}`}>
-                <h5 className="mb-2 text-xl font-bold tracking-tight">
-                  {booking.Hall_Name} |{" "}
-                  {new Date(booking.Date).toLocaleDateString("en-US", options)}{" "}
-                  |{" "}
-                  {new Date(booking.Time_From).toLocaleTimeString(
-                    "en-US",
-                    timeOptions
-                  )}{" "}
-                  TO{" "}
-                  {new Date(booking.Time_To).toLocaleTimeString(
-                    "en-US",
-                    timeOptions
-                  )}{" "}
+          {filteredBookings.map((booking) => (
+            <li key={booking._id} className="mb-4">
+              <div
+                className={`p-6 rounded-lg shadow-md transition-transform transform hover:scale-105 ${getStatusClassName(
+                  booking.Status
+                )}`}
+                onClick={() => handleDivClick(booking.Status, booking)}
+              >
+                <h5 className="mb-2 text-lg font-semibold">
+                  📍 {booking.Hall_Name} | 📅 {formatISODate(booking.Date)}
                 </h5>
-                <div className="flex justify-between items-end">
-                  <div className="font-normal text-black text-sm">
-                    <div>Requester Name: {booking.Booking_Person_Name}</div>
-                    <div>Requester user Name: {booking.User_name}</div>
-                    <div>Affiliated Department/Club: {booking.Affiliated}</div>
-                    <div>Reason : {booking.Reason}</div>
-                  </div>
+                <div className="flex justify-between items-center">
                   <div className="text-sm">
-                    <div>Submitted On :</div>
-                    <div>{new Date(booking.createdAt).toLocaleString()}</div>
+                    <p>👤 Requester: <span className="font-semibold">{booking.Booking_Person_Name}</span></p>
+                    <p>🆔 User: <span className="font-semibold">{booking.User_name}</span></p>
+                    <p>🏛️ Department/Club: <span className="font-semibold">{booking.Affiliated}</span></p>
+                    <p>✍️ Reason: {booking.Reason}</p>
+                  </div>
+                  <div className="text-sm text-right">
+                    <p className="text-gray-300">📌 Submitted On:</p>
+                    <p>{formatISODate(booking.createdAt)}</p>
                   </div>
                 </div>
 
-                {booking.Status === "pending" ? (
-                  <div className="flex justify-end">
+                {booking.Status === "pending" && (
+                  <div className="flex justify-end mt-4">
                     <button
-                      className="bg-green-500 text-white hover:bg-green-600 font-semibold text-md px-4 py-2 rounded shadow hover:shadow-lg mr-2"
-                      onClick={() => handleApprove(booking._id)}
+                      className="bg-green-500 text-white hover:bg-green-600 font-semibold px-4 py-2 rounded mr-2"
+                      onClick={() => handleStatusUpdate(booking._id, "approved")}
                     >
                       Approve
                     </button>
                     <button
-                      className="bg-red-500 text-white hover:bg-red-600 font-semibold text-md px-4 py-2 rounded shadow hover:shadow-lg"
-                      onClick={() => handleReject(booking._id)}
+                      className="bg-red-500 text-white hover:bg-red-600 font-semibold px-4 py-2 rounded"
+                      onClick={() => handleStatusUpdate(booking._id, "rejected")}
                     >
                       Reject
                     </button>
                   </div>
-                ) : null}
+                )}
               </div>
             </li>
           ))}
         </ul>
       </div>
+
+      {/* PDF Content (Hidden) */}
+      <div ref={pdfContainerRef}>
+        {bookingPDFData && (
+          <div ref={targetRef} className="hidden p-10 text-lg">
+            <h1 className="text-4xl font-bold mb-4">{bookingPDFData.Department}</h1>
+            <p className="mb-2">📅 Date: {formatISODate(bookingPDFData.createdAt)}</p>
+
+            <h2 className="text-3xl font-bold mt-6">✅ Approval Confirmation</h2>
+            <p>Dear {bookingPDFData.Booking_Person_Name},</p>
+            <p className="mt-4">
+              🎉 Your request for booking <strong>{bookingPDFData.Hall_Name}</strong> has been approved.
+            </p>
+
+            <h3 className="text-2xl font-bold mt-6">📋 Booking Details</h3>
+            <p>📅 <strong>Date:</strong> {formatISODate(bookingPDFData.Date)}</p>
+            <p>⏰ <strong>Time:</strong> {bookingPDFData.Time_From} - {bookingPDFData.Time_To}</p>
+            <p>🏛️ <strong>Venue:</strong> {bookingPDFData.Hall_Name}</p>
+
+            <h3 className="text-2xl font-bold mt-6">📜 Terms and Conditions</h3>
+            <ul className="mt-4">
+              <li>✔️ Booking is confirmed for the specified time.</li>
+              <li>✔️ Any changes require prior approval.</li>
+              <li>✔️ The event must comply with venue policies.</li>
+            </ul>
+
+            <p className="mt-6">Best regards,</p>
+            <p className="text-xl font-semibold">🏢 Hall Incharge</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
+
 export default AdminPendingRequests;

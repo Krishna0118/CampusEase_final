@@ -11,149 +11,121 @@ import { useNavigate } from "react-router-dom";
 
 function AdminDashboardSidebar(props) {
   const navigate = useNavigate();
-  const styles = {
-    backgroundColor: "rgb(14, 165, 233)",
-    color: "rgb(255, 255, 255)",
-  };
-
   const [showModal, setShowModal] = useState(false);
   const userData = JSON.parse(localStorage.getItem("authToken"));
 
+  const activeStyle = {
+    backgroundColor: "rgb(14, 165, 233)",
+    color: "white",
+    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+  };
+
   return (
-    <div
-      className="p-2 bg-white w-full flex justify-end md:w-96 md:flex md:flex-col md:justify-between"
-      id="sideNav"
-    >
+    <div className="p-2 bg-white w-full flex justify-end md:w-96 md:flex md:flex-col md:justify-between border-r border-gray-200 shadow-sm">
       <div className="md:hidden flex items-center">
         <button
           id="menuBtn"
-          className="bg-neutral-100 p-2 rounded w-8 h-8 flex justify-center items-center hover:bg-neutral-300"
+          className="bg-neutral-100 p-2 rounded w-8 h-8 flex justify-center items-center hover:bg-neutral-300 transition"
         >
           <i className="fa-solid fa-bars"></i>
         </button>
       </div>
+
       <nav className="hidden md:block">
+        {/* Profile Section */}
         <div className="flex justify-start items-center mt-2 mb-6 p-2">
-          <div className="bg-gray-300 h-14 w-14 mr-3 rounded-full flex justify-center items-center">
-            <img src={profile} className="h-10 w-10" alt="profile-icon"></img>
+          <div className="bg-gray-300 h-14 w-14 mr-3 rounded-full flex justify-center items-center shadow-sm">
+            <img src={profile} className="h-10 w-10" alt="profile-icon" />
           </div>
-          <div className="font-bold text-xl">{userData.adminName}</div>
+          <div className="font-bold text-xl text-gray-800">{userData.adminName}</div>
         </div>
+
+        {/* Sidebar Links */}
         <a
-          className="block text-gray-500 py-2.5 px-4 my-2 rounded"
-          style={props.data === "dashboard" ? styles : {}}
+          className="block text-gray-600 py-2.5 px-4 my-2 rounded-md transition-all hover:bg-blue-100 hover:text-blue-600"
+          style={props.data === "dashboard" ? activeStyle : {}}
           href="/admin/dashboard"
         >
           <div className="flex items-center">
             <img
-              src={
-                props.data === "dashboard"
-                  ? dashboard_icon_white
-                  : dashboard_icon_grey
-              }
+              src={props.data === "dashboard" ? dashboard_icon_white : dashboard_icon_grey}
               className="h-5 w-5 mr-2"
               alt="dashboard-icon"
-            ></img>
-            <div className="text-grey">Dashboard</div>
+            />
+            <div>Dashboard</div>
           </div>
         </a>
+
         <a
-          className="block text-gray-500 py-2.5 px-4 my-2 rounded"
-          style={props.data === "hall_availability" ? styles : {}}
+          className="block text-gray-600 py-2.5 px-4 my-2 rounded-md transition-all hover:bg-blue-100 hover:text-blue-600"
+          style={props.data === "hall_availability" ? activeStyle : {}}
           href="/admin/dashboard/hall_availability"
         >
           <div className="flex items-center">
             <img
-              src={
-                props.data === "hall_availability"
-                  ? calendar_icon_white
-                  : calendar_icon_grey
-              }
+              src={props.data === "hall_availability" ? calendar_icon_white : calendar_icon_grey}
               className="h-5 w-5 mr-2"
               alt="hall-icon"
-            ></img>
-            <div className="text-grey">Hall Availability</div>
+            />
+            <div>Hall Availability</div>
           </div>
         </a>
+
         <a
-          className="block text-gray-500 py-2.5 px-4 my-2 rounded"
-          style={props.data === "pending_requests" ? styles : {}}
+          className="block text-gray-600 py-2.5 px-4 my-2 rounded-md transition-all hover:bg-blue-100 hover:text-blue-600"
+          style={props.data === "pending_requests" ? activeStyle : {}}
           href="/admin/dashboard/pending_requests"
         >
           <div className="flex items-center">
             <img
-              src={
-                props.data === "pending_requests"
-                  ? message_icon_white
-                  : message_icon_grey
-              }
+              src={props.data === "pending_requests" ? message_icon_white : message_icon_grey}
               className="h-5 w-5 mr-2"
               alt="message-icon"
-            ></img>
-            <div className="text-grey">Pending Requests</div>
+            />
+            <div>Pending Requests</div>
           </div>
         </a>
+
+        {/* Logout Button */}
         <button
-          className="text-gray-500 w-full py-2.5 px-4 my-2 rounded hidden md:flex"
-          onClick={() => {
-            setShowModal(true);
-          }}
+          className="text-gray-600 w-full py-2.5 px-4 my-2 rounded-md flex items-center transition-all hover:bg-red-100 hover:text-red-600"
+          onClick={() => setShowModal(true)}
         >
-          <div className="flex items-center">
-            <img
-              src={logout_icon_grey}
-              className="h-5 w-5 mr-2"
-              alt="logout-icon"
-            ></img>
-            <div className="text-grey">Logout</div>
-          </div>
-        </button> 
+          <img src={logout_icon_grey} className="h-5 w-5 mr-2" alt="logout-icon" />
+          <div>Logout</div>
+        </button>
       </nav>
 
-      
-      {showModal ? (
+      {/* Logout Confirmation Modal */}
+      {showModal && (
         <>
-          <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-            <div className="relative w-auto my-6 mx-auto max-w-3xl">
-              {/*content*/}
-              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-                {/*body*/}
-                <div className="relative p-6 flex-auto">
-                  <p className="my-4 text-blueGray-500 text-lg leading-relaxed px-20">
-                    Do you really want to logout ?
-                  </p>
-                </div>
-
-                <div className="flex items-center justify-end p-3 border-t border-solid border-blueGray-200 rounded-b">
-                  <button
-                    className="text-red-500 hover:bg-red-100 rounded font-semibold px-4 py-2 text-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                    type="button"
-                    onClick={() => setShowModal(false)}
-                  >
-                    No
-                  </button>
-                  <button
-                    className="bg-sky-500 text-white hover:bg-sky-600 font-semibold text-md px-4 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                    type="button"
-                    href="/"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setShowModal(false);
-                      localStorage.removeItem("authToken");
-
-                      props.changeRefreshState();
-                      navigate("/");
-                    }}
-                  >
-                    Yes
-                  </button>
-                </div>
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+            <div className="bg-white rounded-lg p-6 shadow-lg w-80">
+              <p className="text-gray-700 text-lg font-semibold text-center">
+                Do you really want to logout?
+              </p>
+              <div className="flex justify-center gap-4 mt-6">
+                <button
+                  className="text-red-500 border border-red-500 px-4 py-2 rounded-md hover:bg-red-500 hover:text-white transition"
+                  onClick={() => setShowModal(false)}
+                >
+                  No
+                </button>
+                <button
+                  className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition"
+                  onClick={() => {
+                    localStorage.removeItem("authToken");
+                    props.changeRefreshState();
+                    navigate("/");
+                  }}
+                >
+                  Yes
+                </button>
               </div>
             </div>
           </div>
-          <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
         </>
-      ) : null}
+      )}
     </div>
   );
 }
