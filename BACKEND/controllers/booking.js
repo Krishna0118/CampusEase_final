@@ -47,6 +47,10 @@ export const verifyuser = async (req, res) => {
 
 //CREATE BOOKING
 export const createBooking = async (req, res) => {
+  if (!req.user) {
+    return res.status(401).json({ success: false, message: "Unauthorized. Please log in." });
+  }
+
   console.log("Received Booking Data:", req.body); // Log the request body
   const selectedHallName = req.body.Hall_Name;
   const data = await halls.findOne({ Hall_Name: selectedHallName });
@@ -55,6 +59,7 @@ export const createBooking = async (req, res) => {
   const bookingId = await autoInc();
   const newBooking = req.body;
   newBooking["Booking_ID"] = bookingId;
+  newBooking["Student_ID"] = req.user.Student_ID;
   console.log(newBooking);
   try {
     const savedBooking = await booking.create(newBooking);
