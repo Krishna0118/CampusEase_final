@@ -24,6 +24,8 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
   
   const [totalPrice, setTotalPrice] = useState(0); // State to store total price
 
+  const [proposalPDF, setProposalPDF] = useState(null);
+  const [isAccepted, setIsAccepted] = useState(false);
   //
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [showErrorMessage, setShowErrorMessage] = useState(false);
@@ -37,8 +39,6 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
   const handleVerification = async () => {
     
     if(userType==="visitor"){
-      // console.log(userType);
-      
       setIsVerified(true);
       return;
     }
@@ -105,13 +105,12 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
 
     if (!userData || !userData.token) {
       // Redirect to login if the user is not logged in
-      navigate("/login");  // 👈 Redirect user to login page
+      navigate("/login");  
       return;
     }
-
+    // const pdfFile = document.getElementById("pdfUpload").files[0];
     try {
       const data = {
-
         User_name: userData.User_Name,
         Hall_Name: selectedHall.Hall_Name,
         Booking_Person_Name: bookingPersonName,
@@ -122,7 +121,16 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
         Time_From: Time_From,
         Time_To: Time_To,
         Reason: reason,
+        Price: totalPrice,
       };
+
+    //   const formData = new FormData();
+    // // Append the booking data as JSON
+    // formData.append("bookingData", JSON.stringify(data));
+    // // Append the PDF file
+    // if (pdfFile) {
+    //   formData.append("pdfFile", pdfFile);
+    // }
 
       const hallBooked = await fetch(
         "http://localhost:3001/api/booking/createBooking",
@@ -133,6 +141,7 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
             Authorization: `Bearer ${userData.token}`,
           },
           body: JSON.stringify(data),
+          // body: formData,  // Send FormData with the booking and PDF
         }
       );
 
@@ -279,6 +288,19 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
     setSelectedDate(selectedDate);
   };
   //
+
+
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0];
+    if (file && file.type === "application/pdf") {
+        setProposalPDF(file);
+        console.log("Uploaded PDF:", file.name);
+    } else {
+        alert("Please upload a valid PDF file.");
+    }
+  };
+
+
 
   return (
     <div className="sm:p-14 p-3 bg-zinc-100">
@@ -522,7 +544,6 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
               </td>
               <td>
                 <input
-                  // value={totalPrice}
                   value={`₹ ${totalPrice}`}
                   readOnly  
                   className="bg-[#f8fafa] border border-gray-300 text-gray-900 text-md rounded-md
@@ -549,6 +570,44 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
                    focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5"
                    disabled={!isVerified}
                 />
+              </td>
+            </tr>
+            {/* <tr>
+              <td className="w-1/6 sm:w-1/3 p-4 align-top">
+                <label className="text-sm sm:text-lg font-bold text-gray-900 flex justify-between">
+                Upload Proposal PDF
+                  <label className="mx-3 font-bold">:</label>
+                </label>
+              </td>
+              <td className="pt-4">
+                <input 
+                  type="file" 
+                  accept="application/pdf" 
+                  onChange={handleFileUpload} 
+                  required
+                  className="bg-[#f8fafa] border border-gray-300 text-gray-900 text-md rounded-md
+                  focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5"
+                  disabled={!isVerified}
+                />
+              </td>
+            </tr> */}
+            <tr>
+              <td className="w-1/6 sm:w-1/3 p-4 align-top" colSpan={2}>
+                
+                <label className="flex items-center mt-4">
+                  <input 
+                    type="checkbox" 
+                    disabled={!isVerified}
+                    required
+                    checked={isAccepted} 
+                    onChange={(e) => setIsAccepted(e.target.checked)} 
+                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                  />
+                  <span className="ml-2 text-gray-900">
+                    I accept the conditions and agree to pay ₹{totalPrice}.
+                  </span>
+                
+                </label>
               </td>
             </tr>
           </tbody>

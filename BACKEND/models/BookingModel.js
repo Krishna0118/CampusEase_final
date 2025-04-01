@@ -58,6 +58,10 @@ const bookingSchema = new mongoose.Schema(
       type: "String",
       required: false,
     },
+    Price: {
+      type: "Number",  // New field to store price of the booking
+      required: true,
+    },
   },
   { timestamps: true }
 );
