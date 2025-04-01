@@ -87,6 +87,8 @@ function RegisterCenterContent() {
 
       console.log("Data being sent to backend:", data);
       try {
+        // console.log("hello");
+        
         const response = await fetch(
           "http://localhost:3001/api/auth/register",
           {

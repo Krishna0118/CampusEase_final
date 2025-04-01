@@ -20,6 +20,7 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
   const [isVerified, setIsVerified] = useState(false); //change
   const [verifying, setVerifying] = useState(false); //change
   
+  const [totalPrice, setTotalPrice] = useState(0); // State to store total price
 
   //
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
@@ -168,6 +169,53 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
     }
   }, [selectedDate]);
 
+
+
+
+
+
+
+
+  const calculateTotalPrice = () => {
+    const pricePerHour = selectedHall.Price ;
+    console.log(pricePerHour);
+    
+    if (!Time_From || !Time_To) return 0;
+
+    console.log("Raw Time_From:", Time_From);
+    console.log("Raw Time_To:", Time_To);
+
+
+    const fromTime = new Date(Time_From);
+    const toTime = new Date(Time_To);
+
+    console.log(fromTime);
+    console.log(toTime);
+
+
+    const hours = (toTime - fromTime) / (1000 * 60 * 60);
+  
+    console.log(`hours: ${hours}`); 
+    // console.log("Type of Hours:", typeof hours);
+    
+    // to use this change const hours to let hours, as const make it immutable. thus cannot be changed
+    // if(hours===0.5) hours = 1;
+    // const totalHours = Math.ceil(hours);
+  
+    // return totalHours * pricePerHour;
+    return hours * pricePerHour;
+  };
+  useEffect(() => {
+    const totalPrice = calculateTotalPrice();
+    if(totalPrice>0)setTotalPrice(totalPrice); // Update price dynamically
+    else setTotalPrice(0);
+  }, [Time_From, Time_To]);
+
+
+
+
+
+
   useEffect(() => {
     // Set the initial value to the first element of availableTimes
     if (availableTimes.length > 0) {
@@ -177,7 +225,9 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
   }, [availableTimes]);
 
   const [timeToOptions, setTimeToOptions] = useState([]);
+  
   const handleTimeFromChange = (event) => {
+    console.log("Selected Time_From:", event.target.value);
     setTimeFrom(event.target.value);
   };
 
@@ -198,9 +248,16 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
   }, [Time_From]);
 
   const handleTimeToChange = (event) => {
+    console.log("Selected Time_TO:", event.target.value);
     setTimeTo(event.target.value);
+    console.log("called price calculating function");
+    
   };
-  //
+//   useEffect(() => {
+//     console.log("Updated Time_To:", Time_To);
+//     console.log(calculateTotalPrice()); 
+// }, [Time_To]);
+
   const handleDateChange = (e) => {
     const selectedDate = e.target.value;
     setSelectedDate(selectedDate);
@@ -440,7 +497,7 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
                 </select>
               </td>
             </tr>
-            {/* <tr>
+            <tr>
               <td className="w-1/6 sm:w-1/3 p-4">
                 <label className="text-sm sm:text-lg font-bold text-gray-900 flex justify-between">
                   Price 
@@ -449,14 +506,16 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
               </td>
               <td>
                 <input
-                  // onChange= 
+                  // value={totalPrice}
+                  value={`₹ ${totalPrice}`}
+                  readOnly  
                   className="bg-[#f8fafa] border border-gray-300 text-gray-900 text-md rounded-md
-                   focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5"
-                   disabled={!isVerified}
-                   required
+                  focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5"
+                  disabled={!isVerified}
+                  required
                 />
               </td> 
-            </tr> */}
+            </tr>
             <tr>
               <td className="w-1/6 sm:w-1/3 p-4 align-top">
                 <label className="text-sm sm:text-lg font-bold text-gray-900 flex justify-between">
@@ -466,7 +525,7 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
               </td>
               <td className="pt-4">
                 <textarea
-                  onChange={(e) => {
+                  onChange={(e) => {  
                     setReason(e.target.value);
                   }}
                   required

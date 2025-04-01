@@ -20,14 +20,21 @@ export const registerUser = asyncHandler(async (req, res) => {
     return res.status(402).json({ msg: "Password must be 6-18 characters long, include a number and a special character." });
   }
 
+  console.log("debug1");
+  
+
   const userExist = await User.findOne({ Email });
   if (userExist) {
     console.log("❌ User already exists:", Email);
     return res.status(401).json({ msg: "User with this email already exists." });
   }
 
+  console.log("debug2");
+
   const salt = await bcrypt.genSalt(10);
   const secpass = await bcrypt.hash(Password, salt);
+
+  console.log("debug3");
 
   const user = await User.create({
     User_Name,
