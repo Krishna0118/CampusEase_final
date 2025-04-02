@@ -21,27 +21,27 @@ function StudentDashboardHallBookingHallList() {
       .get("http://localhost:3001/api/halls/getAllHalls")
       .then((response) => setHalls(response.data))
       .catch((error) => console.error("Error fetching hall data:", error));
-  }, [selectedCapacity]); // ✅ Refetch when capacity changes
+  }, [selectedCapacity]); //  Refetch when capacity changes
 
   const handleBreadcrumbClick = (updatedList) => {
     setList(updatedList);
   };
 
   const loadDetailsPage = (hall) => {
-    if (!hall) return; // ✅ Prevents null errors
+    if (!hall) return; //  Prevents null errors
     setShowDetails(true);
     setShowBookingForm(false);
     setSelectedHall(hall);
-    setList(["Hall Booking", hall.Hall_Name]); // ✅ Replaces instead of appending
+    setList(["Hall Booking", hall.Hall_Name]); //  Replaces instead of appending
     setTimeout(() => detailsRef.current?.scrollIntoView({ behavior: "smooth" }), 200);
   };
 
   const loadBookingForm = (hall) => {
-    if (!hall) return; // ✅ Prevents null errors
+    if (!hall) return; //  Prevents null errors
     setShowDetails(false);
     setShowBookingForm(true);
     setSelectedHall(hall);
-    setList(["Hall Booking", hall.Hall_Name, "Book hall"]); // ✅ Replaces instead of appending
+    setList(["Hall Booking", hall.Hall_Name, "Book hall"]); //  Replaces instead of appending
     setTimeout(() => detailsRef.current?.scrollIntoView({ behavior: "smooth" }), 200);
   };
 
