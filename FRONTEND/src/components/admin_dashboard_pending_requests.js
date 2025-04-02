@@ -1,12 +1,8 @@
-import { useEffect, useState, useRef } from "react";
-import { usePDF } from "react-to-pdf";
+import { useEffect, useState } from "react";
 
 function AdminPendingRequests(props) {
   const [bookingData, setBookingData] = useState([]);
   const [selectedStatus] = useState("all");
-  const [bookingPDFData, setBookingPDFData] = useState(null);
-  const { toPDF, targetRef } = usePDF({ filename: "Booking_Approval.pdf" });
-  const pdfContainerRef = useRef(null); // Ensures PDF content is available before generation
 
   const userData = JSON.parse(localStorage.getItem("authToken"));
 
@@ -60,26 +56,6 @@ function AdminPendingRequests(props) {
     }
   };
 
-  const handleDivClick = (status, booking) => {
-    if (status === "approved") {
-      setBookingPDFData(null); // Reset before setting new data
-      setTimeout(() => {
-        setBookingPDFData(booking);
-      }, 100);
-    }
-  };
-
-  useEffect(() => {
-    if (bookingPDFData && targetRef.current) {
-      const generatePDF = async () => {
-        await new Promise((resolve) => setTimeout(resolve, 500)); // Ensures content is rendered
-        toPDF();
-      };
-      generatePDF();
-    }
-  }, [bookingPDFData, toPDF, targetRef]);
-  
-
   const handleStatusUpdate = async (bookingId, newStatus) => {
     try {
       const response = await fetch("http://localhost:3001/api/booking/updateBooking", {
@@ -113,20 +89,17 @@ function AdminPendingRequests(props) {
           {filteredBookings.map((booking) => (
             <li key={booking._id} className="mb-4">
               <div
-                className={`p-6 rounded-lg shadow-md transition-transform transform hover:scale-105 ${getStatusClassName(
-                  booking.Status
-                )}`}
-                onClick={() => handleDivClick(booking.Status, booking)}
+                className={`p-6 rounded-lg shadow-md ${getStatusClassName(booking.Status)}`}
               >
                 <h5 className="mb-2 text-lg font-semibold">
-                  📍 {booking.Hall_Name} | 📅 {formatISODate(booking.Date)}
+                   {booking.Hall_Name} | 📅 {formatISODate(booking.Date)}
                 </h5>
                 <div className="flex justify-between items-center">
                   <div className="text-sm">
-                    <p>👤 Requester: <span className="font-semibold">{booking.Booking_Person_Name}</span></p>
-                    <p>🆔 User: <span className="font-semibold">{booking.User_name}</span></p>
-                    <p>🏛️ Department/Club: <span className="font-semibold">{booking.Affiliated}</span></p>
-                    <p>✍️ Reason: {booking.Reason}</p>
+                    <p> Requester: <span className="font-semibold">{booking.Booking_Person_Name}</span></p>
+                    <p> User: <span className="font-semibold">{booking.User_name}</span></p>
+                    <p> Department/Club: <span className="font-semibold">{booking.Affiliated}</span></p>
+                    <p> Reason: {booking.Reason}</p>
                   </div>
                   <div className="text-sm text-right">
                     <p className="text-gray-300">📌 Submitted On:</p>
@@ -154,37 +127,6 @@ function AdminPendingRequests(props) {
             </li>
           ))}
         </ul>
-      </div>
-
-      {/* PDF Content (Hidden) */}
-      <div ref={pdfContainerRef}>
-        {bookingPDFData && (
-          <div ref={targetRef} className="hidden p-10 text-lg">
-            <h1 className="text-4xl font-bold mb-4">{bookingPDFData.Department}</h1>
-            <p className="mb-2">📅 Date: {formatISODate(bookingPDFData.createdAt)}</p>
-
-            <h2 className="text-3xl font-bold mt-6">✅ Approval Confirmation</h2>
-            <p>Dear {bookingPDFData.Booking_Person_Name},</p>
-            <p className="mt-4">
-              🎉 Your request for booking <strong>{bookingPDFData.Hall_Name}</strong> has been approved.
-            </p>
-
-            <h3 className="text-2xl font-bold mt-6">📋 Booking Details</h3>
-            <p>📅 <strong>Date:</strong> {formatISODate(bookingPDFData.Date)}</p>
-            <p>⏰ <strong>Time:</strong> {bookingPDFData.Time_From} - {bookingPDFData.Time_To}</p>
-            <p>🏛️ <strong>Venue:</strong> {bookingPDFData.Hall_Name}</p>
-
-            <h3 className="text-2xl font-bold mt-6">📜 Terms and Conditions</h3>
-            <ul className="mt-4">
-              <li>✔️ Booking is confirmed for the specified time.</li>
-              <li>✔️ Any changes require prior approval.</li>
-              <li>✔️ The event must comply with venue policies.</li>
-            </ul>
-
-            <p className="mt-6">Best regards,</p>
-            <p className="text-xl font-semibold">🏢 Hall Incharge</p>
-          </div>
-        )}
       </div>
     </div>
   );
