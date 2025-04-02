@@ -615,9 +615,9 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
         <button
           type="submit"
           className="text-white bg-sky-500 hover:bg-sky-600 focus:ring-4 focus:outline-none
-           focus:ring-blue-300 font-medium mt-5 rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+          focus:ring-blue-300 font-medium mt-5 rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center"
         >
-          Book Hall
+          Send Book Request
         </button>
       </form>
     </div>

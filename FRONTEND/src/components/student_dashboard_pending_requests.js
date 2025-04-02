@@ -1,11 +1,15 @@
 import { useEffect, useState, useRef } from "react";
 import { usePDF } from "react-to-pdf";
+import { FaDownload } from "react-icons/fa";
 
 function StudentDashboardPendingRequests() {
   const [bookingData, setBookingData] = useState([]);
   const [bookingPDFData, setBookingPDFData] = useState(null);
   const { toPDF, targetRef } = usePDF({ filename: "Booking_Approval.pdf" });
   const pdfContainerRef = useRef(null); // ✅ New ref for PDF content
+
+
+  const [paymentStatus, setPaymentStatus] = useState({});
 
   const userData = JSON.parse(localStorage.getItem("authToken"));
 
@@ -64,14 +68,35 @@ function StudentDashboardPendingRequests() {
 useEffect(() => {
   if (bookingPDFData && targetRef.current) {
     const generatePDF = async () => {
+      targetRef.current.style.display = "block"; // Make it visible
       await new Promise((resolve) => setTimeout(resolve, 500)); // Delay for rendering
       toPDF();
+      setTimeout(() => {
+        targetRef.current.style.display = "none"; // Hide it again
+      }, 1000);
     };
     generatePDF();
   }
 }, [bookingPDFData, toPDF, targetRef]);
 
 // Removed targetRef and toPDF from dependencies to avoid unnecessary re-renders
+
+
+const handleProceedToPayment = (bookingID) => {
+  
+  setPaymentStatus((prevStatus) => ({
+    ...prevStatus,
+    [bookingID]: true,
+  }));
+  console.log(`Payment done for booking ID: ${bookingID}`);
+  
+};
+
+const handleDownloadClick = (booking) => {
+  handleDivClick(booking.Status, booking); // Trigger after download click
+};
+
+
 
   return (
     <div className="bg-gray-100 w-full min-h-screen p-6">
@@ -84,7 +109,7 @@ useEffect(() => {
                 className={`p-6 rounded-lg shadow-md transition-transform transform hover:scale-105 ${getStatusClassName(
                   booking.Status
                 )}`}
-                onClick={() => handleDivClick(booking.Status, booking)}
+                // onClick={() => handleDivClick(booking.Status, booking)}
               >
                 <h5 className="mb-2 text-lg font-semibold">
                   📍 {booking.Hall_Name} | 📅 {formatISODate(booking.Date)}
@@ -101,6 +126,31 @@ useEffect(() => {
                     <p>{formatISODate(booking.createdAt)}</p>
                   </div>
                 </div>
+
+                {/* Show "Proceed to Payment" button if the request is approved and payment is not done */}
+                {booking.Status === "approved" && !paymentStatus[booking._id] && (
+                  <button
+                    onClick={() => handleProceedToPayment(booking._id)}
+                    className="mt-3 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+                  >
+                    Proceed to Payment
+                  </button>
+                )}
+
+          {/* Show success message + download icon after payment */}
+          {paymentStatus[booking._id] && (
+                  <div className="flex items-center mt-3 space-x-4">
+                    <span className="text-green-600 font-semibold">✅ Payment Successful!</span>
+                    <button
+                      onClick={() => handleDownloadClick(booking)}
+                      className="p-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition"
+                    >
+                      <FaDownload size={20} />
+                    </button>
+                  </div>
+                )}
+
+
               </div>
             </li>
           ))}

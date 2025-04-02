@@ -140,7 +140,7 @@ function AdminPendingRequests(props) {
                       className="bg-green-500 text-white hover:bg-green-600 font-semibold px-4 py-2 rounded mr-2"
                       onClick={() => handleStatusUpdate(booking._id, "approved")}
                     >
-                      Approve
+                      Accept
                     </button>
                     <button
                       className="bg-red-500 text-white hover:bg-red-600 font-semibold px-4 py-2 rounded"

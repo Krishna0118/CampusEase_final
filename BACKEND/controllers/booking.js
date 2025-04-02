@@ -101,6 +101,7 @@ export const getBooking = async (req, res) => {
 //GET Users BOOKINGS
 export const getUserBookings = async (req, res) => {
   try {
+ 
     const user = req.user;
     // const bookingdate = new Date(req.query.date)
     const userBookings = await booking.find({
