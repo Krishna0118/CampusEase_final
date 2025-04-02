@@ -19,7 +19,7 @@ export const protectUserRoutes = async (req, res, next) => {
             }
 
             req.user = user;
-            return next(); // ✅ Ensures no further execution
+            return next(); // Ensures no further execution
 
         } catch (error) {
             return res.status(401).json({ msg: "Not authorized, token failed." });
