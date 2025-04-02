@@ -26,7 +26,7 @@ function StudentDashboardMain() {
             <ol className="list-decimal ml-5 mt-5 text-lg text-gray-700 leading-loose space-y-3">
             {[
               { name: "Silveria", icon: "🏛️" },
-              { name: "Golden Jubilee Hall", icon: "🎉" },
+              { name: "Golden Jubilee Hall", icon: "🏨" },
               { name: "Basketball Court", icon: "🏀" },
               { name: "Cricket Ground", icon: "🏏" },
               { name: "Tennis Court", icon: "🎾" },
@@ -51,15 +51,10 @@ function StudentDashboardMain() {
               <i className="fa-solid fa-bookmark text-blue-700 mr-2"></i> STEPS FOR BOOKING
             </div>
             <ul className="list-none ml-5 mt-5 space-y-3 text-gray-800">
-              <li>
-                <i className="fa-solid fa-right-to-bracket text-blue-700 mr-2"></i>
-                <a className="text-blue-700 hover:underline hover:cursor-pointer font-semibold" href="/login">
-                  Click here
-                </a> to login
-              </li>
+             
               <li>
                 <i className="fa-solid fa-calendar-check text-blue-700 mr-2"></i>
-                Check the calendar for availability of the resources on specific dates.
+                Check the calendar in Hall Availability for availability of the resources on specific dates.
               </li>
               <li>
                 <i className="fa-solid fa-pen-to-square text-blue-700 mr-2"></i>
