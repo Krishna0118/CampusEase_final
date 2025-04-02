@@ -27,7 +27,7 @@ function AdminDashboardMain() {
             <ol className="list-decimal ml-5 mt-5 text-lg text-gray-700 leading-loose space-y-3">
               {[
                 { name: "Silveria", icon: "🏛️" },
-                { name: "Golden Jubilee Hall", icon: "🎉" },
+                { name: "Golden Jubilee Hall", icon: "🏨" },
                 { name: "Basketball Court", icon: "🏀" },
                 { name: "Cricket Ground", icon: "🏏" },
                 { name: "Tennis Court", icon: "🎾" },

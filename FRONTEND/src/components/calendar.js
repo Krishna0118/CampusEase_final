@@ -1,5 +1,4 @@
 import FullCalendar from "@fullcalendar/react";
-import "@fullcalendar/daygrid";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -7,50 +6,65 @@ import axios from "axios";
 function CalendarCom() {
   const [events, setEvents] = useState([]);
 
-  useEffect(() => {
-    axios
-      .get(
-        // "https://au-hallbooking-backend.onrender.com/api/booking/allBookings"
-        "http://localhost:3001/api/booking/allBookings",
-      )
-      .then((response) => {
-        const extractedEvents = response.data.map((booking) => ({
-          start: booking.Time_From, // Replace with the actual property names in your API response
-          end: booking.Time_To,
-          color: getEventColor(booking.Status),
-          title: booking.Hall_Name,
-        }));
-
-        setEvents(extractedEvents);
-      })
-      .catch((error) => {
-        console.error("Error fetching booking data:", error);
-      });
-  }, []);
-
+  // Helper function to determine event color
   const getEventColor = (status) => {
     switch (status) {
       case "approved":
         return "green";
       case "pending":
         return "orange";
-      // Add more cases for other statuses if needed
       default:
-        return "blue"; // Default color for unknown statuses
+        return "blue";
     }
   };
+
+  useEffect(() => {
+    const storedData = localStorage.getItem("authToken");
+    const parsedData = storedData ? JSON.parse(storedData) : null;
+    const token = parsedData?.token;  // Extract the actual token
+    if (!token) {
+      console.error("No token found in localStorage");
+      return;
+    }
+
+    axios
+      .get("http://localhost:3001/api/booking/allBookings", {
+        headers: {
+          Authorization: `Bearer ${token}`, 
+        },
+      })
+      .then((response) => {
+        console.log("API Response:", response.data);
+        if (!response?.data) {
+          console.error("Invalid response format");
+          return;
+        }
+
+        setEvents(
+          response.data.map((booking) => ({
+            start: new Date(booking.Time_From).toISOString(),
+            end: new Date(booking.Time_To).toISOString(),
+            color: getEventColor(booking.Status),
+            title: booking.Hall_Name,
+          }))
+        );
+      })
+      .catch((error) => {
+        console.error("Error fetching booking data:", error?.response?.data || error);
+      });
+  }, []);
+
   return (
     <div className="w-full p-2 md:p-8 bg-zinc-100">
       <div className="bg-white p-5">
         <FullCalendar
-          defaultView="dayGridMonth"
+          initialView="dayGridMonth"
           themeSystem="standard"
           plugins={[dayGridPlugin]}
           events={events}
-          displayEventEnd="true"
+          displayEventEnd={true}
           eventMinHeight={30}
           eventDisplay="block"
-          eventColor={"#434343"}
           dayMaxEventRows={2}
           moreLinkClick="popover"
         />

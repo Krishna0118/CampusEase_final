@@ -115,7 +115,9 @@ function AdminDashboardSidebar(props) {
                   className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition"
                   onClick={() => {
                     localStorage.removeItem("authToken");
-                    props.changeRefreshState();
+                    if (props.changeRefreshState) {
+                      props.changeRefreshState(); // Safely call the function
+                    }
                     navigate("/");
                   }}
                 >

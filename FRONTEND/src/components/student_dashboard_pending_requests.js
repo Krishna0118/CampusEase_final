@@ -6,7 +6,7 @@ function StudentDashboardPendingRequests() {
   const [bookingData, setBookingData] = useState([]);
   const [bookingPDFData, setBookingPDFData] = useState(null);
   const { toPDF, targetRef } = usePDF({ filename: "Booking_Approval.pdf" });
-  const pdfContainerRef = useRef(null); // ✅ New ref for PDF content
+  const pdfContainerRef = useRef(null); //  New ref for PDF content
 
 
   const [paymentStatus, setPaymentStatus] = useState({});
@@ -64,7 +64,7 @@ function StudentDashboardPendingRequests() {
     }
   };
 
-  // ✅ Ensure `toPDF()` only runs when content exists
+  // Ensure `toPDF()` only runs when content exists
 useEffect(() => {
   if (bookingPDFData && targetRef.current) {
     const generatePDF = async () => {
