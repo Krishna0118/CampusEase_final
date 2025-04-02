@@ -3,8 +3,14 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const sendEmail = async (to, subject, text) => {
-    console.log("🔹 sendEmail() function called!");
+const sendEmail = async (to, subject, html) => {
+  console.log("🔹 sendEmail() function called!");
+
+  if (!to) {
+    console.error("❌ Error: No recipient email provided!");
+    throw new Error("Recipient email is required.");
+  }
+
   try {
     const transporter = nodemailer.createTransport({
       service: "gmail",
@@ -16,16 +22,16 @@ const sendEmail = async (to, subject, text) => {
 
     const mailOptions = {
       from: process.env.EMAIL,
-      to,
+      to: Array.isArray(to) ? to.join(",") : to, // Support multiple recipients
       subject,
-      text,
+      html, // Use HTML instead of plain text
     };
 
     const info = await transporter.sendMail(mailOptions);
-    console.log("Email sent:", info.response);
+    console.log("✅ Email sent successfully:", info.response);
     return info;
   } catch (error) {
-    console.error("Error sending email:", error);
+    console.error("❌ Error sending email:", error.message);
     throw error;
   }
 };

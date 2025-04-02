@@ -3,11 +3,12 @@ import halls from "../models/HallsModel.js";
 import student from "../models/CollegeStudentModel.js";
 import faculty from "../models/FacultyModel.js";
 import { autoInc } from "../utils/AutoIncrement.js";
+import sendEmail from "../utils/sendEmail.js";
+
 
 
 export const verifyuser = async (req, res) => {
   try {
-
       const { id, type } = req.query;
 
       if (!id || !type) {
@@ -42,27 +43,33 @@ export const verifyuser = async (req, res) => {
 };
 
 
-
-
-
 //CREATE BOOKING
 export const createBooking = async (req, res) => {
   if (!req.user) {
     return res.status(401).json({ success: false, message: "Unauthorized. Please log in." });
   }
 
-  console.log("Received Booking Data:", req.body); // Log the request body
+  console.log("Received Booking Data:", req.body);
   const selectedHallName = req.body.Hall_Name;
   const data = await halls.findOne({ Hall_Name: selectedHallName });
 
-  // req.body.Faculty_ID = data.Faculty_ID;
   const bookingId = await autoInc();
   const newBooking = req.body;
   newBooking["Booking_ID"] = bookingId;
   newBooking["Student_ID"] = req.user.Student_ID;
-  console.log(newBooking);
+
   try {
     const savedBooking = await booking.create(newBooking);
+
+    // 📩 Send Email Notification
+    const emailContent = `
+      <p>Dear <b>${req.user.Name} || User</b>,</p>
+      <p>Your booking request for <b>${selectedHallName}</b> from <b>${req.body.Time_From}</b> to <b>${req.body.Time_To}</b> has been submitted successfully. It is currently <b style="color:orange;">pending approval.</b></p>
+      <p>Regards,<br><b>SGSITS Staff</b></p>
+    `;
+
+    await sendEmail(req.user.Email, "Booking Request Submitted ✅", emailContent);
+
     res.status(200).json(savedBooking);
   } catch (err) {
     res.status(400).json({
