@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -14,6 +14,7 @@ function StudentDashboardHallBookingHallList() {
   const [showDetails, setShowDetails] = useState(false);
   const [showBookingForm, setShowBookingForm] = useState(false);
   const [list, setList] = useState(["Hall Booking"]);
+  const detailsRef = useRef(null);
 
   useEffect(() => {
     axios
@@ -32,6 +33,7 @@ function StudentDashboardHallBookingHallList() {
     setShowBookingForm(false);
     setSelectedHall(hall);
     setList(["Hall Booking", hall.Hall_Name]); // ✅ Replaces instead of appending
+    setTimeout(() => detailsRef.current?.scrollIntoView({ behavior: "smooth" }), 200);
   };
 
   const loadBookingForm = (hall) => {
@@ -40,9 +42,11 @@ function StudentDashboardHallBookingHallList() {
     setShowBookingForm(true);
     setSelectedHall(hall);
     setList(["Hall Booking", hall.Hall_Name, "Book hall"]); // ✅ Replaces instead of appending
+    setTimeout(() => detailsRef.current?.scrollIntoView({ behavior: "smooth" }), 200);
   };
 
   return (
+    <div>
     <div className="min-h-screen bg-gray-100">
       {/* Navbar with breadcrumb handling */}
       <StudentHallBookingNavbar listAdd={list} childToParent={handleBreadcrumbClick} />
@@ -70,7 +74,7 @@ function StudentDashboardHallBookingHallList() {
           {halls
             .filter((hall) => !selectedCapacity || hall.Capacity >= parseInt(selectedCapacity))
             .map((hall) => (
-              <div key={hall._id} className="bg-white rounded-xl shadow-lg overflow-hidden transition transform hover:scale-105">
+              <div key={hall._id} className="bg-white rounded-xl shadow-lg overflow-hidden">
                 <div className="relative">
                   <img src={hall.Image1} alt={hall.Hall_Name} className="w-full h-48 object-cover" />
                   <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
@@ -81,7 +85,7 @@ function StudentDashboardHallBookingHallList() {
                   <div className="flex justify-between">
                     <button
                       onClick={() => loadDetailsPage(hall)}
-                      className="w-1/2 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-bl-lg hover:bg-gray-300"
+                      className="w-1/2 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-bl-lg"
                     >
                       View Details
                     </button>
@@ -94,7 +98,7 @@ function StudentDashboardHallBookingHallList() {
                         }
                         loadBookingForm(hall);
                       }}
-                      className="w-1/2 py-2 text-sm font-medium text-white bg-blue-500 rounded-br-lg hover:bg-blue-600"
+                      className="w-1/2 py-2 text-sm font-medium text-white bg-blue-500 rounded-br-lg"
                     >
                       Book Hall
                     </button>
@@ -105,8 +109,13 @@ function StudentDashboardHallBookingHallList() {
         </div>
       </div>
 
-      {showDetails && <StudentHallBookingDetailsPage selectedHall={selectedHall} />}
-      {showBookingForm && <StudentHallBookingBookingForm selectedHall={selectedHall} />}
+      {/* Details and Booking Form Section */}
+      
+    </div>
+      <div ref={detailsRef} className="mt-10 container mx-auto">
+        {showDetails && <StudentHallBookingDetailsPage selectedHall={selectedHall} />}
+        {showBookingForm && <StudentHallBookingBookingForm selectedHall={selectedHall} />}
+      </div>
     </div>
   );
 }

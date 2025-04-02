@@ -48,11 +48,11 @@ function StudentDashboardPendingRequests() {
   const getStatusClassName = (status) => {
     switch (status) {
       case "rejected":
-        return "bg-red-500 hover:bg-red-600 text-white";
+        return "bg-red-500 text-white";
       case "approved":
-        return "bg-green-500 hover:bg-green-600 text-white cursor-pointer";
+        return "bg-green-500 text-white cursor-pointer";
       case "pending":
-        return "bg-yellow-500 hover:bg-yellow-600 text-white";
+        return "bg-yellow-500 text-white";
       default:
         return "bg-gray-200 text-gray-800";
     }
@@ -106,20 +106,20 @@ const handleDownloadClick = (booking) => {
           {bookingData.map((booking) => (
             <li key={booking._id} className="mb-4">
               <div
-                className={`p-6 rounded-lg shadow-md transition-transform transform hover:scale-105 ${getStatusClassName(
+                className={`p-6 rounded-lg shadow-md ${getStatusClassName(
                   booking.Status
                 )}`}
                 // onClick={() => handleDivClick(booking.Status, booking)}
               >
                 <h5 className="mb-2 text-lg font-semibold">
-                  📍 {booking.Hall_Name} | 📅 {formatISODate(booking.Date)}
+                   {booking.Hall_Name} | 📅 {formatISODate(booking.Date)}
                 </h5>
                 <div className="flex justify-between items-center">
                   <div className="text-sm">
-                    <p>👤 Requester: <span className="font-semibold">{booking.Booking_Person_Name}</span></p>
-                    <p>🆔 User: <span className="font-semibold">{booking.User_name}</span></p>
-                    <p>🏛️ Department/Club: <span className="font-semibold">{booking.Affiliated}</span></p>
-                    <p>✍️ Reason: {booking.Reason}</p>
+                    <p> Requester: <span className="font-semibold">{booking.Booking_Person_Name}</span></p>
+                    <p> User: <span className="font-semibold">{booking.User_name}</span></p>
+                    <p> Department/Club: <span className="font-semibold">{booking.Affiliated}</span></p>
+                    <p> Reason: {booking.Reason}</p>
                   </div>
                   <div className="text-sm text-right">
                     <p className="text-gray-300">📌 Submitted On:</p>
