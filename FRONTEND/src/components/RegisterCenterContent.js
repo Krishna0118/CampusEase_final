@@ -138,7 +138,6 @@ function RegisterCenterContent() {
 
     if (Password === confirmPassword) {
       const data = {
-        // User_Name,
         Contact_Number,
         Applicant_Name,
         Password,
@@ -148,7 +147,7 @@ function RegisterCenterContent() {
 
       console.log("Data being sent to backend:", data);
       try {
-        // console.log("hello");
+        console.log("hello");
         
         const response = await fetch(
           "http://localhost:3001/api/auth/register",
@@ -160,10 +159,12 @@ function RegisterCenterContent() {
             body: JSON.stringify(data),
           }
         );
-  
+        
+        
         const result = await response.json();
         console.log("Response:", result);
-  
+        console.log("hhhhhhhhhhhhh");
+
         if (response.status === 201) {
           localStorage.setItem("authToken", JSON.stringify(result));
           console.log("Token stored...");
