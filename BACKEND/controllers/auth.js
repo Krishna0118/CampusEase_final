@@ -8,7 +8,7 @@ export const registerUser = asyncHandler(async (req, res) => {
   console.log("🔹 Register API called");
   console.log("Request Body:", req.body);
 
-  const { Applicant_Name, Contact_Number, Password, Email } = req.body;
+  const { Contact_Number, Applicant_Name, Password, Email } = req.body;
 
   if (!Applicant_Name || !Contact_Number || !Password || !Email) {
     console.log(" Missing required fields");
@@ -50,7 +50,6 @@ export const registerUser = asyncHandler(async (req, res) => {
   console.log("debug3");
 
   const user = await User.create({
-    // User_Name,
     Contact_Number,
     Applicant_Name,
     Email,
@@ -71,7 +70,6 @@ export const registerUser = asyncHandler(async (req, res) => {
 
     res.status(201).json({
       _id: user._id,
-      // User_Name: user.User_Name,
       Contact_Number: user.Contact_Number,
       Applicant_Name: user.Applicant_Name,
       Email: user.Email,
@@ -83,17 +81,17 @@ export const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
-export const checkusername = asyncHandler(async (req, res) => {
-  try {
-    const { name } = req.query;
-    const existingUser = await User.findOne({ User_Name: name });
+// export const checkusername = asyncHandler(async (req, res) => {
+//   try {
+//     const { name } = req.query;
+//     const existingUser = await User.findOne({ User_Name: name });
 
-    res.json({ isUnique: !existingUser });
-  } catch (error) {
-    console.error(" Error checking username:", error);
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
+//     res.json({ isUnique: !existingUser });
+//   } catch (error) {
+//     console.error(" Error checking username:", error);
+//     res.status(500).json({ error: "Internal server error" });
+//   }
+// });
 
 export const authUser = asyncHandler(async (req, res) => {
   // const { identifier, Password } = req.body;

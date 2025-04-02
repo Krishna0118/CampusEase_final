@@ -2,16 +2,6 @@ import mongoose from "mongoose";
 
 const studentSchema = new mongoose.Schema(
   {
-    // Student_ID: {
-    //   type: "Number",
-    //   // required: true,
-    //   // unique: true,
-    // },
-    // User_Name: {
-    //   type: "String",
-    //   required: true,
-    //   unique: true,
-    // },
     Contact_Number: {
       type: "Number",
       required: true,
@@ -19,7 +9,6 @@ const studentSchema = new mongoose.Schema(
       unique: true, // Prevents duplicate numbers
       trim: true
     }, 
-    // Student_Name: {
     Applicant_Name: {
       type: "String",
       required: true,
