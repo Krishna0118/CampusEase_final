@@ -6,24 +6,20 @@ const bookingSchema = new mongoose.Schema(
       type: "Number",
       required: true,
     },
-    
+
     Hall_Name: {
       type: "String",
       required: true,
     },
     Booking_Person_ID: {
       type: "String",
-      required: true,
+      // required: true,
       default: null
     },
     Booking_Person_Name: {    // New field added
       type: "String",
       required: true,
     },
-    // User_name: {    
-    //   type: "String",
-    //   required: true,
-    // },
     Contact_Number: {    
       type: "Number",
       required: true,

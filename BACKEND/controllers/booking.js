@@ -100,22 +100,41 @@ export const getBooking = async (req, res) => {
 
 //GET Users BOOKINGS
 export const getUserBookings = async (req, res) => {
+  // try {
+ 
+  //   const user = req.user;
+  //   // const bookingdate = new Date(req.query.date)
+  //   const userBookings = await booking.find({
+  //     Student_ID: user.Student_ID,
+  //   }); 
+  //   console.log(userBookings);
+ 
+  //   res.status(200).json(userBookings);
+  // } catch (err) {
+  //   res.status(400).json({
+  //     status: "Failed",
+  //     message: err,
+  //   });
+  // }
+
   try {
- 
-    const user = req.user;
-    // const bookingdate = new Date(req.query.date)
-    const userBookings = await booking.find({
-      Student_ID: user.Student_ID,
-    }); 
-    console.log(userBookings);
- 
-    res.status(200).json(userBookings);
-  } catch (err) {
-    res.status(400).json({
-      status: "Failed",
-      message: err,
-    });
-  }
+    
+    // const userId = req.user._id;  // Extract user ID from authenticated request
+    // console.log(userId);
+    
+    const usercontact = req.user.Contact_Number;
+
+    // const bookings = await booking.find({ requesterId: userId }); // Filter by user ID
+    const bookings = await booking.find({ Contact_Number: usercontact }); // Filter by user ID
+    res.status(200).json(bookings);
+} catch (error) {
+    console.error("Error fetching user bookings:", error);
+    res.status(500).json({ msg: "Server error" });
+}
+
+
+
+
 };
 
 //GET Admin BOOKINGS
