@@ -27,16 +27,33 @@ function AdminPendingRequests(props) {
     fetchData();
   }, [userData.token]);
 
-  const formatISODate = (isoDate) =>
-    new Date(isoDate).toLocaleString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "numeric",
-      minute: "numeric",
-      second: "numeric",
-      timeZoneName: "short",
+  // const formatISODate = (isoDate) =>
+  //   new Date(isoDate).toLocaleString("en-US", {
+  //     year: "numeric",
+  //     month: "long",
+  //     day: "numeric",
+  //     hour: "numeric",
+  //     minute: "numeric",
+  //     second: "numeric",
+  //     timeZoneName: "short",
+  //   });
+  const formatISODate = (isoString) => {
+    const date = new Date(isoString);
+    return date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+    }); 
+  };
+  const formatTime = (isoString) => {
+    const date = new Date(isoString);
+    return date.toLocaleTimeString("en-US", {
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
     });
+  };
+
 
   const filteredBookings =
     selectedStatus === "all"
@@ -92,7 +109,8 @@ function AdminPendingRequests(props) {
                 className={`p-6 rounded-lg shadow-md ${getStatusClassName(booking.Status)}`}
               >
                 <h5 className="mb-2 text-lg font-semibold">
-                   {booking.Hall_Name} | 📅 {formatISODate(booking.Date)}
+                   {/* {booking.Hall_Name} | 📅 {formatISODate(booking.Date)} */}
+                   {booking.Hall_Name} | 📅 {formatISODate(booking.Date)} | 🕑 Time: {formatTime(booking.Time_From)} - {formatTime(booking.Time_To)}
                 </h5>
                 <div className="flex justify-between items-center">
                   <div className="text-sm">
