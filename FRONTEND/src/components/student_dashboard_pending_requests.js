@@ -34,16 +34,35 @@ function StudentDashboardPendingRequests() {
     fetchData();
   }, [userData.token]);
 
-  const formatISODate = (isoDate) =>
-    new Date(isoDate).toLocaleString("en-US", {
+  // const formatISODate = (isoDate) =>
+  //   new Date(isoDate).toLocaleString("en-US", {
+  //     year: "numeric",
+  //     month: "long",
+  //     day: "numeric",
+  //     hour: "numeric",
+  //     minute: "numeric",
+  //     second: "numeric",
+  //     timeZoneName: "short",
+  //   });
+//   const formatISODate = (isoString) => {
+//     return new Date(isoString).toISOString().split("T")[0]; // Extracts YYYY-MM-DD
+// };
+const formatISODate = (isoString) => {
+  const date = new Date(isoString);
+  return date.toLocaleDateString("en-US", {
       year: "numeric",
       month: "long",
       day: "numeric",
+  }); 
+};
+const formatTime = (isoString) => {
+  const date = new Date(isoString);
+  return date.toLocaleTimeString("en-US", {
       hour: "numeric",
-      minute: "numeric",
-      second: "numeric",
-      timeZoneName: "short",
-    });
+      minute: "2-digit",
+      hour12: true,
+  });
+};
 
   const getStatusClassName = (status) => {
     switch (status) {
@@ -112,8 +131,9 @@ const handleDownloadClick = (booking) => {
                 // onClick={() => handleDivClick(booking.Status, booking)}
               >
                 <h5 className="mb-2 text-lg font-semibold">
-                   {booking.Hall_Name} | 📅 {formatISODate(booking.Date)}
+                   {booking.Hall_Name} | 📅 {formatISODate(booking.Date)} | 🕑 Time: {formatTime(booking.Time_From)} - {formatTime(booking.Time_To)}
                 </h5>
+                {/* <p>Time: {formatTime(booking.Time_From)} - {formatTime(booking.Time_To)}</p> */}
                 <div className="flex justify-between items-center">
                   <div className="text-sm">
                     <p> Requester: <span className="font-semibold">{booking.Booking_Person_Name}</span></p>

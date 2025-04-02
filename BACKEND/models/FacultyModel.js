@@ -7,7 +7,7 @@ const facultySchema = new mongoose.Schema(
       required: true,
     },
     faculty_id: {
-        type: "Number",
+        type: "String",
         required: true,
         unique: true,
       },
