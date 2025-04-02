@@ -7,7 +7,7 @@ import { autoInc } from "../utils/AutoIncrement.js";
 
 export const verifyuser = async (req, res) => {
   try {
-    // console.log("not fommmmmmmmmmm und");
+
       const { id, type } = req.query;
 
       if (!id || !type) {

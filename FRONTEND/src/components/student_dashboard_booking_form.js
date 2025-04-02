@@ -111,7 +111,7 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
     // const pdfFile = document.getElementById("pdfUpload").files[0];
     try {
       const data = {
-        User_name: userData.User_Name,
+        Contact_Number: userData.Contact_Number,
         Hall_Name: selectedHall.Hall_Name,
         Booking_Person_Name: bookingPersonName,
         User_type: userType,
@@ -347,14 +347,14 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
             <tr>
               <td className="w-1/6 sm:w-1/3 p-4">
                 <label className="text-sm sm:text-lg font-bold text-gray-900 flex justify-between">
-                  User Name
+                  Contact Number
                   <label className="mx-3 font-bold">:</label>
                 </label>
               </td>
               <td>
                 <input
-                  type="text"
-                  value={userData.User_Name}
+                  type="tel"
+                  value={userData.Contact_Number}
                   readOnly
                   className="bg-[#f8fafa] border border-gray-300 text-gray-900 text-md rounded-md
                    focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5"

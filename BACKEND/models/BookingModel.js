@@ -20,8 +20,12 @@ const bookingSchema = new mongoose.Schema(
       type: "String",
       required: true,
     },
-    User_name: {    
-      type: "String",
+    // User_name: {    
+    //   type: "String",
+    //   required: true,
+    // },
+    Contact_Number: {    
+      type: "Number",
       required: true,
     },
     User_type: {

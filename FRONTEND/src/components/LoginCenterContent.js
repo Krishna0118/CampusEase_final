@@ -5,15 +5,15 @@ import { useNavigate } from "react-router-dom";
 
 function LoginCenterContent() {
   const navigate = useNavigate();
-  // const [Email, setEmail] = useState();
-  const [identifier, setIdentifier] = useState(""); // Can be email or username
+  const [Email, setEmail] = useState();
+  // const [identifier, setIdentifier] = useState(""); // Can be email or username
   
   const [Password, setPassword] = useState();
   const [errorMessage, setErrorMessage] = useState(false);
   const handleLogin = async (e) => {
     e.preventDefault();
     const data = {
-      identifier,
+      Email,
       Password,
     };
     const userData = await fetch(
@@ -65,7 +65,7 @@ function LoginCenterContent() {
             <form className="space-y-4 md:space-y-6" action="#">
               <div>
                 <label className="block mb-2 text-sm font-medium text-gray-900">
-                Enter Email or Username
+                Enter Email
                 </label>
                 <div className="flex">
                   <div className="bg-sky-500 h-10 w-12 rounded-l-sm flex justify-center items-center">
@@ -77,7 +77,7 @@ function LoginCenterContent() {
                   </div>
                   <input
                     onChange={(e) => {
-                      setIdentifier(e.target.value);
+                      setEmail(e.target.value);
                     }}
                     type="email"
                     name="email"
