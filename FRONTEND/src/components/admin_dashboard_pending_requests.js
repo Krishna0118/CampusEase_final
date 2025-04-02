@@ -97,7 +97,7 @@ function AdminPendingRequests(props) {
                 <div className="flex justify-between items-center">
                   <div className="text-sm">
                     <p> Requester: <span className="font-semibold">{booking.Booking_Person_Name}</span></p>
-                    <p> User: <span className="font-semibold">{booking.User_name}</span></p>
+                    <p> Contact_Number: <span className="font-semibold">{booking.Contact_Number}</span></p>
                     <p> Department/Club: <span className="font-semibold">{booking.Affiliated}</span></p>
                     <p> Reason: {booking.Reason}</p>
                   </div>

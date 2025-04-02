@@ -7,11 +7,18 @@ const studentSchema = new mongoose.Schema(
     //   // required: true,
     //   // unique: true,
     // },
-    User_Name: {
-      type: "String",
+    // User_Name: {
+    //   type: "String",
+    //   required: true,
+    //   unique: true,
+    // },
+    Contact_Number: {
+      type: "Number",
       required: true,
-      unique: true,
-    },
+      match: /^[0-9]{10}$/, // Ensures exactly 10 digits
+      unique: true, // Prevents duplicate numbers
+      trim: true
+    }, 
     // Student_Name: {
     Applicant_Name: {
       type: "String",
@@ -35,3 +42,4 @@ const studentSchema = new mongoose.Schema(
 );
 
 export default mongoose.model("student", studentSchema);
+// export default mongoose.model("user", studentSchema);
