@@ -7,21 +7,23 @@ function CalendarCom() {
   const [events, setEvents] = useState([]);
 
   // Helper function to determine event color
-  const getEventColor = (status) => {
+  const getEventColor = (status, isPaid) => {
+    if (status === "approved") {
+      return isPaid ? "#22c55e" : "#facc15"; // Green if paid, yellow if just approved
+    }
     switch (status) {
-      case "approved":
-        return "green";
-      case "pending":
-        return "orange";
+      case "rejected":
+        return "#ef4444"; // red
       default:
-        return "blue";
+        return "#9ca3af"; // grey
     }
   };
 
   useEffect(() => {
     const storedData = localStorage.getItem("authToken");
     const parsedData = storedData ? JSON.parse(storedData) : null;
-    const token = parsedData?.token;  // Extract the actual token
+    const token = parsedData?.token;
+
     if (!token) {
       console.error("No token found in localStorage");
       return;
@@ -30,22 +32,18 @@ function CalendarCom() {
     axios
       .get("http://localhost:3001/api/booking/allBookings", {
         headers: {
-          Authorization: `Bearer ${token}`, 
+          Authorization: `Bearer ${token}`,
         },
       })
       .then((response) => {
-        console.log("API Response:", response.data);
-        if (!response?.data) {
-          console.error("Invalid response format");
-          return;
-        }
+        const bookings = response.data || [];
 
         setEvents(
-          response.data.map((booking) => ({
+          bookings.map((booking) => ({
             start: new Date(booking.Time_From).toISOString(),
             end: new Date(booking.Time_To).toISOString(),
-            color: getEventColor(booking.Status),
             title: booking.Hall_Name,
+            color: getEventColor(booking.Status, booking.PaymentStatus), // <- updated logic
           }))
         );
       })
