@@ -182,6 +182,8 @@ export const authUser = asyncHandler(async (req, res) => {
       Contact_Number: user.Contact_Number,
       Applicant_Name: user.Applicant_Name,
       Email: user.Email,
+      userType: user.userType,
+      userId: user.userId,
       token: generateToken(user._id),
     });
   } else {

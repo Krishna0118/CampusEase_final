@@ -38,29 +38,44 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
   
   const handleVerification = async () => {
     
-    if(userType==="visitor"){
+    // if(userType==="visitor"){
+    //   setIsVerified(true);
+    //   return;
+    // }
+    if (userType === "visitor") {
       setIsVerified(true);
+      // setVerificationMsg("Visitor verified (no ID needed)");
       return;
     }
-    if (!userType || !id) {
-        alert("Please select a user type and enter the ID.");
+    // if (!userType || !id) {
+    //     alert("Please select a user type and enter the ID.");
         
-        return;
+    //     return;
+    // }
+    if (!userType || !id || !bookingPersonName) {
+      alert("Please select user type and enter both ID and name.");
+      return;
     }
-  
     setVerifying(true); // Start verification process
 
     try {
         // console.log("jjjjjjjj");
-        const response = await axios.get(`http://localhost:3001/api/booking/verifyuser`, {
-            params: { id: id, type: userType }
-        });
-        // console.log("jjjjjjjj");
+        // const response = await axios.get(`http://localhost:3001/api/booking/verifyuser`, {
+        //     params: { id: id, type: userType }
+        // });
+        // // console.log("jjjjjjjj");
         
-        if (response.data.verified) {
-            setIsVerified(true);
-        } else {
-            alert("Verification failed. Please check your details.");
+        // if (response.data.verified) {
+        //     setIsVerified(true);
+        // } else {
+        //     alert("Verification failed. Please check your details.");
+        // }
+
+        if(bookingPersonName==userData.Applicant_Name && id==userData.userId && userType==userData.userType){
+          setIsVerified(true);
+        }
+        else{
+          alert("Verification failed. Please check your Name, User Type and ID");
         }
     } catch (error) {
         console.error("Error verifying user:", error);
@@ -228,7 +243,10 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
     // const totalHours = Math.ceil(hours);
   
     // return totalHours * pricePerHour;
-    return hours * pricePerHour;
+    let price= hours * pricePerHour;
+    if(userType=='student') price = price*0.3; // discount of 70% to students
+    else if(userType=='faculty') price=  price *0.6; //discount of 40%
+    return price;
   };
   useEffect(() => {
     const totalPrice = calculateTotalPrice();
@@ -391,6 +409,7 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
                 <select
                   value={userType}
                   onChange={(e) => {
+                    setIsVerified(false);
                     const selectedValue = e.target.value;
                     setUserType(selectedValue);
                     
