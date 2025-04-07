@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { usePDF } from "react-to-pdf";
 import { FiDownloadCloud } from "react-icons/fi";
+import logo from "../assets/SGSITS_main_logo.png";
 
 function StudentDashboardPendingRequests() {
   const [bookingData, setBookingData] = useState([]);
@@ -16,17 +17,20 @@ function StudentDashboardPendingRequests() {
     if (storedPaymentStatus) {
       setPaymentStatus(JSON.parse(storedPaymentStatus));
     }
-  
+
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:3001/api/booking/userBookings", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${userData.token}`,
-          },
-        });
-  
+        const response = await fetch(
+          "http://localhost:3001/api/booking/userBookings",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${userData.token}`,
+            },
+          }
+        );
+
         const hallData = await response.json();
         setBookingData(hallData);
         setFilteredBookings(hallData); // Set initially to All
@@ -34,16 +38,17 @@ function StudentDashboardPendingRequests() {
         console.error("Error fetching booking data:", error);
       }
     };
-  
+
     fetchData();
   }, [userData.token]);
-  
 
   useEffect(() => {
     if (filter === "All") {
       setFilteredBookings(bookingData);
     } else {
-      setFilteredBookings(bookingData.filter((b) => b.Status === filter.toLowerCase()));
+      setFilteredBookings(
+        bookingData.filter((b) => b.Status === filter.toLowerCase())
+      );
     }
   }, [filter, bookingData]);
 
@@ -67,9 +72,7 @@ function StudentDashboardPendingRequests() {
 
   const getStatusClassName = (status, isPaid) => {
     if (status === "approved") {
-      return isPaid
-        ? "bg-green-500 text-white"
-        : "bg-yellow-400 text-white";
+      return isPaid ? "bg-green-500 text-white" : "bg-yellow-400 text-white";
     }
     switch (status) {
       case "rejected":
@@ -88,18 +91,24 @@ function StudentDashboardPendingRequests() {
   };
 
   useEffect(() => {
-    if (bookingPDFData && targetRef.current) {
+    let isGenerating = false;
+  
+    if (bookingPDFData && targetRef.current && !isGenerating) {
       const generatePDF = async () => {
+        isGenerating = true;
         targetRef.current.style.display = "block";
         await new Promise((resolve) => setTimeout(resolve, 500));
-        toPDF();
+        await toPDF();
         setTimeout(() => {
           targetRef.current.style.display = "none";
+          isGenerating = false;
+          setBookingPDFData(null); // Reset after generating
         }, 1000);
       };
       generatePDF();
     }
   }, [bookingPDFData, toPDF, targetRef]);
+  
 
   const handleProceedToPayment = (bookingID) => {
     const updatedStatus = {
@@ -110,7 +119,6 @@ function StudentDashboardPendingRequests() {
     localStorage.setItem("paymentStatus", JSON.stringify(updatedStatus));
     console.log(`Payment done for booking ID: ${bookingID}`);
   };
-  
 
   const handleDownloadClick = (booking) => {
     handleDivClick(booking.Status, booking);
@@ -147,19 +155,29 @@ function StudentDashboardPendingRequests() {
                 )}`}
               >
                 <h5 className="mb-2 text-lg font-semibold">
-                  {booking.Hall_Name} | 📅 {formatISODate(booking.Date)} | 🕑 Time:{" "}
-                  {formatTime(booking.Time_From)} - {formatTime(booking.Time_To)}
+                  {booking.Hall_Name} | 📅 {formatISODate(booking.Date)} | 🕑
+                  Time: {formatTime(booking.Time_From)} -{" "}
+                  {formatTime(booking.Time_To)}
                 </h5>
                 <div className="flex justify-between items-center">
                   <div className="text-sm">
                     <p>
-                      Requester: <span className="font-semibold">{booking.Booking_Person_Name}</span>
+                      Requester:{" "}
+                      <span className="font-semibold">
+                        {booking.Booking_Person_Name}
+                      </span>
                     </p>
                     <p>
-                      Contact Number: <span className="font-semibold">{booking.Contact_Number}</span>
+                      Contact Number:{" "}
+                      <span className="font-semibold">
+                        {booking.Contact_Number}
+                      </span>
                     </p>
                     <p>
-                      Department/Club: <span className="font-semibold">{booking.Affiliated}</span>
+                      Department/Club:{" "}
+                      <span className="font-semibold">
+                        {booking.Affiliated}
+                      </span>
                     </p>
                     <p>Reason: {booking.Reason}</p>
                   </div>
@@ -169,18 +187,21 @@ function StudentDashboardPendingRequests() {
                   </div>
                 </div>
 
-                {booking.Status === "approved" && !paymentStatus[booking._id] && (
-                  <button
-                    onClick={() => handleProceedToPayment(booking._id)}
-                    className="mt-3 px-4 py-2 bg-amber-600 text-white font-semibold rounded-lg hover:bg-amber-700 transition"
-                  >
-                    Proceed to Payment
-                  </button>
-                )}
+                {booking.Status === "approved" &&
+                  !paymentStatus[booking._id] && (
+                    <button
+                      onClick={() => handleProceedToPayment(booking._id)}
+                      className="mt-3 px-4 py-2 bg-amber-600 text-white font-semibold rounded-lg hover:bg-amber-700 transition"
+                    >
+                      Proceed to Payment
+                    </button>
+                  )}
 
                 {paymentStatus[booking._id] && (
                   <div className="flex items-center mt-3 space-x-4">
-                    <span className="text-white font-semibold">✅ Payment Successful!</span>
+                    <span className="text-white font-semibold">
+                      ✅ Payment Successful!
+                    </span>
                     <button
                       onClick={() => handleDownloadClick(booking)}
                       className="p-3 bg-emerald-700 rounded-full hover:bg-emerald-800 transition"
@@ -196,33 +217,91 @@ function StudentDashboardPendingRequests() {
       </div>
 
       {/* Hidden PDF Content */}
-      <div ref={pdfContainerRef}>
+      <div ref={pdfContainerRef} style={{ position: "absolute", left: "-9999px", top: "-9999px" }}>
         {bookingPDFData && (
-          <div ref={targetRef} className="hidden p-10 text-lg">
-            <h1 className="text-4xl font-bold mb-4">{bookingPDFData.Department}</h1>
-            <p className="mb-2">📅 Date: {formatISODate(bookingPDFData.createdAt)}</p>
+          <div
+            ref={targetRef}
+            className="hidden p-10 text-[16px] leading-relaxed text-black font-[serif]"
+          >
+            {/* College Letterhead */}
+            <div className="text-center mb-4">
+            <img src={logo} alt="College Logo" className="mx-auto mb-2 w-20 h-20" />
+            {" "}
+              {/* Put your logo in public/logo.png */}
+              <h1 className="text-3xl font-bold">
+                Shri Govindram Seksaria Institute of Technology and Science
+              </h1>
+              <p className="text-sm italic">
+                23, Park Road, Indore, Madhya Pradesh - 452003
+              </p>
+              <p className="text-sm italic">
+                Phone: +91-731-2541567 | Website: www.sgsits.ac.in
+              </p>
+            </div>
 
-            <h2 className="text-3xl font-bold mt-6">✅ Approval Confirmation</h2>
-            <p>Dear Student of {bookingPDFData.Affiliated},</p>
-            <p className="mt-4">
-              🎉 Your request for booking <strong>{bookingPDFData.Hall_Name}</strong> has been{" "}
-              <strong>approved</strong>.
+            <hr className="my-4 border-t-2 border-black" />
+
+            {/* Date */}
+            <div className="text-right mb-4">
+              <p>
+                <strong>Date:</strong> {formatISODate(bookingPDFData.createdAt)}
+              </p>
+            </div>
+
+            {/* Subject */}
+            <h2 className="text-xl font-bold underline mb-4">
+              Subject: Booking Approval Confirmation
+            </h2>
+
+            {/* Salutation */}
+            <p>To,</p>
+            <p>{bookingPDFData.Booking_Person_Name},</p>
+            <p>{bookingPDFData.Department},</p>
+            <p>{bookingPDFData.Affiliated}.</p>
+
+            {/* Body */}
+            <p className="mt-6">
+              This is to inform you that your request for booking{" "}
+              <strong>{bookingPDFData.Hall_Name}</strong> has been{" "}
+              <strong>approved</strong> by the competent authority.
             </p>
 
-            <h3 className="text-2xl font-bold mt-6">📋 Booking Details</h3>
-            <p>📅 <strong>Date:</strong> {formatISODate(bookingPDFData.Date)}</p>
-            <p>⏰ <strong>Time:</strong> {bookingPDFData.Time_From} - {bookingPDFData.Time_To}</p>
-            <p>🏛️ <strong>Venue:</strong> {bookingPDFData.Hall_Name}</p>
-
-            <h3 className="text-2xl font-bold mt-6">📜 Terms and Conditions</h3>
-            <ul className="mt-4">
-              <li>✔️ The booking is confirmed for the specified date and time.</li>
-              <li>✔️ Any changes must be communicated in writing.</li>
-              <li>✔️ The event organizer must follow venue policies.</li>
+            {/* Booking Details */}
+            <h3 className="text-lg font-semibold mt-6 underline">
+              Booking Details:
+            </h3>
+            <ul className="mt-2 list-disc list-inside">
+              <li>
+                <strong>Date:</strong> {formatISODate(bookingPDFData.Date)}
+              </li>
+              <li>
+                <strong>Time:</strong> {bookingPDFData.Time_From} -{" "}
+                {bookingPDFData.Time_To}
+              </li>
+              <li>
+                <strong>Venue:</strong> {bookingPDFData.Hall_Name}
+              </li>
             </ul>
 
-            <p className="mt-6">Best regards,</p>
-            <p className="text-xl font-semibold">🏢 Hall Incharge</p>
+            {/* Terms */}
+            <h3 className="text-lg font-semibold mt-6 underline">
+              Terms and Conditions:
+            </h3>
+            <ul className="mt-2 list-disc list-inside">
+              <li>The booking is strictly for the approved schedule.</li>
+              <li>Any changes must be formally requested.</li>
+              <li>All venue rules and code of conduct must be followed.</li>
+            </ul>
+
+            {/* Closing */}
+            <p className="mt-6">Thanking you,</p>
+            <p>Yours faithfully,</p>
+
+            {/* Signature */}
+            <div className="mt-10">
+              <p className="font-bold">Hall Incharge</p>
+              <p>SGSITS, Indore</p>
+            </div>
           </div>
         )}
       </div>
