@@ -100,6 +100,8 @@ function StudentDashboardPendingRequests() {
       generatePDF();
     }
   }, [bookingPDFData, toPDF, targetRef]);
+  console.log(bookingPDFData);
+
 
   // Removed targetRef and toPDF from dependencies to avoid unnecessary re-renders
 
@@ -238,7 +240,7 @@ function StudentDashboardPendingRequests() {
 
             {/* Salutation */}
             <p>To,</p>
-            <p>The Student,</p>
+            <p>{bookingPDFData.Booking_Person_Name},</p>
             <p>{bookingPDFData.Department},</p>
             <p>{bookingPDFData.Affiliated}.</p>
 
@@ -246,7 +248,7 @@ function StudentDashboardPendingRequests() {
             <p className="mt-6">
               This is to inform you that your request for booking{" "}
               <strong>{bookingPDFData.Hall_Name}</strong> has been{" "}
-              <strong>approved</strong> by the competent authority.
+              <strong>approved</strong> by the CampusEase authority.
             </p>
 
             {/* Booking Details */}
