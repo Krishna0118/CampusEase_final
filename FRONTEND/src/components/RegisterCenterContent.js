@@ -18,7 +18,7 @@ function RegisterCenterContent() {
   const [passwordError, setPasswordError] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
 
-  // const [User_Name, setUser_Name] = useState("");
+
 
   const [Contact_Number, setContactNumber] = useState();
   const [numberError, setNumberError] = useState(false);
