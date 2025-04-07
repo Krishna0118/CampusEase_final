@@ -65,8 +65,6 @@ function AdminPendingRequests(props) {
       case "rejected":
         return "bg-red-500 hover:bg-red-600 text-white";
       case "approved":
-        return "bg-green-500 hover:bg-green-600 text-white cursor-pointer";
-      case "pending":
         return "bg-yellow-500 hover:bg-yellow-600 text-white";
       default:
         return "bg-gray-200 text-gray-800";
