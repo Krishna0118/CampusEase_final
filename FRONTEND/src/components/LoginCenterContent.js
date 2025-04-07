@@ -58,7 +58,7 @@ function LoginCenterContent() {
                   Invalid Credentials !!!
                 </div>
                 <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
-                  <p>Email/ User Name or Password is incorrect.</p>
+                  <p>Email or Password is incorrect.</p>
                 </div>
               </div>
             )}
@@ -82,7 +82,7 @@ function LoginCenterContent() {
                     type="email"
                     name="email"
                     className="bg-neutral-100 text-blue sm:text-sm rounded-sm block w-full h-10 p-2.5"
-                    placeholder="student@gmail.com"
+                    placeholder="applicant@gmail.com"
                     required
                   />
                 </div>
