@@ -21,7 +21,7 @@ function CalendarCom() {
 
   useEffect(() => {
     const storedData = localStorage.getItem("authToken");
-  
+
     let parsedData = null;
     try {
       parsedData = storedData ? JSON.parse(storedData) : null;
@@ -29,13 +29,14 @@ function CalendarCom() {
       console.error("Invalid JSON in localStorage", err);
       return;
     }
-  
+
     const token = parsedData?.token;
-  
+
     if (!token) {
       console.error("Token not found");
       return;
     }
+
     axios
       .get("http://localhost:3001/api/booking/allBookings", {
         headers: {
@@ -44,18 +45,19 @@ function CalendarCom() {
       })
       .then((response) => {
         console.log("API Response from Calendar:", response.data);
-  
+
         if (!response.data || !Array.isArray(response.data)) {
           console.error("Invalid data format received from API");
           return;
         }
-  
+
+        const bookings = response.data;
         setEvents(
           bookings.map((booking) => ({
             start: new Date(booking.Time_From).toISOString(),
             end: new Date(booking.Time_To).toISOString(),
             title: booking.Hall_Name,
-            color: getEventColor(booking.Status, booking.PaymentStatus), // <- updated logic
+            color: getEventColor(booking.Status, booking.PaymentStatus),
           }))
         );
       })
