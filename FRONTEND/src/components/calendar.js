@@ -7,14 +7,15 @@ function CalendarCom() {
   const [events, setEvents] = useState([]);
 
   // Helper function to determine event color
-  const getEventColor = (status) => {
+  const getEventColor = (status, isPaid) => {
+    if (status === "approved") {
+      return isPaid ? "#22c55e" : "#facc15"; // Green if paid, yellow if just approved
+    }
     switch (status) {
-      case "approved":
-        return "green";
-      case "pending":
-        return "orange";
+      case "rejected":
+        return "#ef4444"; // red
       default:
-        return "blue";
+        return "#9ca3af"; // grey
     }
   };
 
@@ -50,11 +51,11 @@ function CalendarCom() {
         }
   
         setEvents(
-          response.data.map((booking) => ({
+          bookings.map((booking) => ({
             start: new Date(booking.Time_From).toISOString(),
             end: new Date(booking.Time_To).toISOString(),
-            color: getEventColor(booking.Status),
             title: booking.Hall_Name,
+            color: getEventColor(booking.Status, booking.PaymentStatus), // <- updated logic
           }))
         );
       })
