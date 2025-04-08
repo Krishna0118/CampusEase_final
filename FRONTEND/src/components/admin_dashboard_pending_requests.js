@@ -66,6 +66,8 @@ function AdminPendingRequests(props) {
         return "bg-red-500 hover:bg-red-600 text-white";
       case "approved":
         return "bg-yellow-500 hover:bg-yellow-600 text-white";
+      case "paymentDone":
+        return "bg-green-500 hover:bg-green-600 text-white";
       default:
         return "bg-gray-200 text-gray-800";
     }

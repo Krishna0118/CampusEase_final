@@ -380,6 +380,8 @@ function StudentDashboardPendingRequests() {
         return "bg-red-500 text-white";
       case "pending":
         return "bg-gray-300 text-gray-800";
+      case "paymentDone":
+        return "bg-green-500 text-white";
       default:
         return "bg-gray-100 text-gray-800";
     }
@@ -411,18 +413,55 @@ function StudentDashboardPendingRequests() {
   }, [bookingPDFData, toPDF, targetRef]);
   
 
-  const handleProceedToPayment = (bookingID) => {
-    const updatedStatus = {
-      ...paymentStatus,
-      [bookingID]: true,
-    };
-    setPaymentStatus(updatedStatus);
-    localStorage.setItem("paymentStatus", JSON.stringify(updatedStatus));
-    console.log(`Payment done for booking ID: ${bookingID}`);
+  // const handleProceedToPayment = (bookingID) => {
+  //   const updatedStatus = {
+  //     ...paymentStatus,
+  //     [bookingID]: true,
+  //   };
+  //   setPaymentStatus(updatedStatus);
+  //   localStorage.setItem("paymentStatus", JSON.stringify(updatedStatus));
+  //   console.log(`Payment done for booking ID: ${bookingID}`);
+  // };
+
+  const handleProceedToPayment = async (bookingID) => {
+    try {
+      const response = await fetch("http://localhost:3001/api/booking/updateBooking", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userData.token}`,
+        },
+        body: JSON.stringify({ _id: bookingID, Status: "paymentDone" }),
+      });
+  
+      if (response.ok) {
+        // Update local state and localStorage for payment
+        const updatedStatus = {
+          ...paymentStatus,
+          [bookingID]: true,
+        };
+        setPaymentStatus(updatedStatus);
+        localStorage.setItem("paymentStatus", JSON.stringify(updatedStatus));
+  
+        // Update bookingData state to reflect new status
+        setBookingData((prev) =>
+          prev.map((booking) =>
+            booking._id === bookingID ? { ...booking, Status: "paymentDone" } : booking
+          )
+        );
+      } else {
+        console.error("Failed to update booking status to paymentDone");
+      }
+    } catch (error) {
+      console.error("Error updating payment status:", error);
+    }
   };
+  
 
   const handleDownloadClick = (booking) => {
     handleDivClick(booking.Status, booking);
+    console.log(booking.Status);
+    
   };
 
   const filterTabs = ["All", "Approved", "Pending", "Rejected"];
