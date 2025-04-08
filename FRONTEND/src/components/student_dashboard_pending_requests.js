@@ -538,17 +538,19 @@ function StudentDashboardPendingRequests() {
                   )}
 
                 {paymentStatus[booking._id] && (
-                  <div className="flex items-center mt-3 space-x-4">
-                    <span className="text-white font-semibold">
-                      ✅ Payment Successful!
-                    </span>
-                    <button
-                      onClick={() => handleDownloadClick(booking)}
-                      className="p-3 bg-emerald-700 rounded-full hover:bg-emerald-800 transition"
-                    >
-                      <FiDownloadCloud size={22} className="text-white" />
-                    </button>
-                  </div>
+                <div className="inline-flex items-center mt-3 rounded-lg bg-emerald-700 px-4 py-2">
+                <span className="text-white font-semibold mr-3">
+                  ✅ Payment Successful!
+                </span>
+                <button
+                  onClick={() => handleDownloadClick(booking)}
+                  className="p-2 bg-white rounded-full hover:bg-gray-200 transition"
+                >
+                  <FiDownloadCloud size={18} className="text-emerald-700" />
+                </button>
+              </div>
+              
+                
                 )}
               </div>
             </li>
