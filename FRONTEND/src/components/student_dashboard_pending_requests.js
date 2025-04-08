@@ -635,6 +635,15 @@ function StudentDashboardPendingRequests() {
               <li>All venue rules and code of conduct must be followed.</li>
             </ul>
 
+            <h3 className="text-lg font-semibold mt-6 underline">
+              Service Coordinators:
+            </h3>
+            <p>Contact to these coordinators for hall management</p>
+            <ul className="">
+              <li><strong>Coordinator 1: "Name of Coordinator" | Ph no.: - 1234567890 </strong></li>
+              <li><strong>Coordinator 2: "Name of Coordinator" | Ph no.: - 1234567890 </strong></li>
+            </ul>
+
             {/* Closing */}
             <p className="mt-6">Thanking you,</p>
             <p>Yours faithfully,</p>
