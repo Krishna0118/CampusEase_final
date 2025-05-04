@@ -61,7 +61,7 @@ function StudentHallBookingDetailsPage({ selectedHall }) {
             </h1>
 
             {/* Hall Images */}
-            <div className="grid grid-cols-2 gap-4 mb-6">
+            {/* <div className="grid grid-cols-2 gap-4 mb-6">
               <img
                 src={selectedHall.Image1}
                 className="w-full h-72 object-cover rounded-lg shadow-md hover:scale-105 transition duration-300"
@@ -72,7 +72,20 @@ function StudentHallBookingDetailsPage({ selectedHall }) {
                 className="w-full h-72 object-cover rounded-lg shadow-md hover:scale-105 transition duration-300"
                 alt="Hall Image 2"
               />
-            </div>
+            </div> */}
+            <div className="flex overflow-x-auto gap-4 mb-6 scroll-smooth">
+  <img
+    src={selectedHall.Image1}
+    className="flex-shrink-0 w-full sm:w-[500px] h-72 object-cover rounded-lg shadow-md"
+    alt="Hall Image 1"
+  />
+  <img
+    src={selectedHall.Image2}
+    className="flex-shrink-0 w-full sm:w-[500px] h-72 object-cover rounded-lg shadow-md"
+    alt="Hall Image 2"
+  />
+</div>
+
 
             {/* Hall Details */}
             <div className="bg-gray-50 p-6 rounded-lg shadow-md">

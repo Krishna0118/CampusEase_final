@@ -77,4 +77,63 @@ export const getAllHalls = async (req, res) => {
 }
 
 
+// controllers/hallController.js
+
+
+export const updateHall = async (req, res) => {
+    try {
+        const { id } = req.params; // Hall ID from URL
+        const { Hall_Name, Description, Capacity, Price, Image1, Image2 } = req.body;
+
+        const updatedHall = await halls.findByIdAndUpdate(
+            id,
+            {
+                Hall_Name,
+                Description,
+                Price,
+                Capacity,
+                Image1,
+                Image2
+            },
+            { new: true } // Return updated document
+        );
+
+        if (!updatedHall) {
+            return res.status(404).json({
+                status: "Failed",
+                message: "Hall not found"
+            });
+        }
+
+        res.status(200).json({
+            status: "Success",
+            data: updatedHall
+        });
+    } catch (err) {
+        res.status(400).json({
+            status: "Failed",
+            message: err.message || "Error updating hall"
+        });
+    }
+};
+
+
+export const addAHall = async (req, res) => {
+    
+  try {
+    const hall = new halls(req.body);
+    await hall.save();
+    res.status(201).json({ message: "Hall created successfully", hall });
+  } catch (error) {
+    console.error("Error adding hall:", error);
+    res.status(500).json({ message: "Failed to add hall" });
+  }
+};
+
+
+
+
+
+
+
 
