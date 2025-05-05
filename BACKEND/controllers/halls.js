@@ -131,6 +131,28 @@ export const addAHall = async (req, res) => {
 };
 
 
+export const deleteHall = async (req, res) => {
+    console.log("hello");
+    
+    try {
+        console.log("h1");
+        
+      const result = await halls.findByIdAndDelete(req.params.id);
+      console.log("h2");
+      if (!result) {
+        console.log("h3");
+        return res.status(404).json({ message: 'Hall not found' });
+      }
+      console.log("h4");
+      res.json({ message: 'Hall deleted successfully' });
+    } catch (error) {
+        console.log("h5");
+      console.error('Error deleting hall:', error);
+      res.status(500).json({ message: 'Server error' });
+    }
+  };
+
+
 
 
 

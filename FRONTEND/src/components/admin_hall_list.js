@@ -1,9 +1,8 @@
 import axios from "axios";
 import React, { useState, useEffect, useRef } from "react";
-// import StudentHallBookingBookingForm from "./student_dashboard_booking_form";
-// import StudentHallBookingDetailsPage from "./student_dashboard_hall_details";
 import AdminShowHallDetail from "./admin_show_hall_detail";
 import StudentHallBookingNavbar from "./student_dashboard_navbar";
+import { FaTrash } from 'react-icons/fa';
 
 function AdminHallList(props) {
   const [halls, setHalls] = useState([]);
@@ -18,14 +17,41 @@ function AdminHallList(props) {
       .get("http://localhost:3001/api/halls/getAllHalls")
       .then((response) => setHalls(response.data))
       .catch((error) => console.error("Error fetching hall data:", error));
-  });
+  }, [halls]);
 
   const handleBreadcrumbClick = (updatedList) => {
     setList(updatedList);
   };
 
-  const [formData, setFormData] = useState({
-    Hall_ID:"",
+  const handleDeleteHall = async (hallId) => {
+    console.log(hallId); 
+    // console.log("hello");
+    
+    
+    const confirm = window.confirm("Are you sure you want to delete this hall?");
+    if (!confirm) return;
+  
+    try {
+      
+      await axios.delete(`http://localhost:3001/api/halls/deleteHall/${hallId}`);
+      console.log("hello");
+      alert("Hall deleted successfully");
+      // optionally, refresh the halls list
+      // fetchHalls(); // if you have a fetchHalls() function
+      if (selectedHall && selectedHall._id === hallId) {
+        setSelectedHall(null);
+        setShowDetails(false);
+      }
+      
+      
+    } catch (error) {
+      console.error("Delete error:", error);
+      alert("Failed to delete hall");
+    }
+  };
+ 
+  const [formData, setFormData] = useState({ 
+    Hall_ID: "",
     Hall_Name: "",
     Description: "",
     Capacity: "",
@@ -67,10 +93,6 @@ function AdminHallList(props) {
       console.error("Error adding hall:", error);
     }
   };
-
-  
-
-
 
   const loadDetailsPage = (hall) => {
     if (!hall) return; //  Prevents null errors
@@ -118,9 +140,17 @@ function AdminHallList(props) {
               <div className="flex justify-between">
                 <button
                   onClick={() => loadDetailsPage(hall)}
-                  className="w-1/2 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-bl-lg"
+                  className="w-1/2 py-2 text-sm font-medium text-white bg-blue-500 hover:bg-blue-600 transition-colors duration-200 rounded-bl-lg"
+                  
                 >
                   View Details
+                </button>
+                <button
+                 onClick={() => handleDeleteHall(hall._id)}
+                  className="w-1/2 py-2 flex items-center justify-center gap-2 text-sm font-medium text-gray-700 bg-gray-200 hover:bg-red-100 hover:text-red-600 transition-colors duration-200 rounded-br-lg"
+                >
+                  <FaTrash />
+                  Delete Hall
                 </button>
               </div>
             </div>
@@ -161,10 +191,12 @@ function AdminHallList(props) {
               ✕
             </button>
 
-            <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center">Add New Hall</h2>
+            <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center">
+              Add New Hall
+            </h2>
 
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-            <input
+              <input
                 type="text"
                 name="Hall_ID"
                 placeholder="Hall ID"
@@ -246,7 +278,6 @@ function AdminHallList(props) {
           </div>
         </div>
       )}
-
 
       {/* <br /> */}
 
