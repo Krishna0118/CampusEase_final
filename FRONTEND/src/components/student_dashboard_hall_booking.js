@@ -41,7 +41,7 @@ function StudentDashboardHallBookingHallList() {
     setShowDetails(false);
     setShowBookingForm(true);
     setSelectedHall(hall);
-    setList(["Hall Booking", hall.Hall_Name, "Book hall"]); //  Replaces instead of appending
+    setList(["Resource Booking", hall.Hall_Name, "Book hall"]); //  Replaces instead of appending
     setTimeout(() => detailsRef.current?.scrollIntoView({ behavior: "smooth" }), 200);
   };
 
@@ -52,7 +52,7 @@ function StudentDashboardHallBookingHallList() {
       <StudentHallBookingNavbar listAdd={list} childToParent={handleBreadcrumbClick} />
 
       <div className="container mx-auto p-5">
-        <h2 className="text-3xl font-bold text-gray-800 mb-6">Hall Details</h2>
+        <h2 className="text-3xl font-bold text-gray-800 mb-6">Facilities</h2>
 
         {/* Filter Dropdown */}
         <div className="mb-6">
