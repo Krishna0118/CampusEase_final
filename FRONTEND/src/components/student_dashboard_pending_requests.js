@@ -322,7 +322,8 @@ function StudentDashboardPendingRequests() {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "http://localhost:3001/api/booking/userBookings",
+          // "http://localhost:3001/api/booking/userBookings",
+          "https://campusease-final.onrender.com/api/booking/userBookings",
           {
             method: "GET",
             headers: {
@@ -425,7 +426,8 @@ function StudentDashboardPendingRequests() {
 
   const handleProceedToPayment = async (bookingID) => {
     try {
-      const response = await fetch("http://localhost:3001/api/booking/updateBooking", {
+      // const response = await fetch("http://localhost:3001/api/booking/updateBooking", {
+      const response = await fetch("https://campusease-final.onrender.com/api/booking/updateBooking", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

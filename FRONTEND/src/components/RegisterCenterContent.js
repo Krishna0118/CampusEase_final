@@ -166,7 +166,8 @@ const handleVerifyID = async () => {
   setVerificationMsg('');
 
   try {
-    const response = await axios.get(`http://localhost:3001/api/auth/verifyuser`, {
+    // const response = await axios.get(`http://localhost:3001/api/auth/verifyuser`, {
+    const response = await axios.get(`https://campusease-final.onrender.com/api/auth/verifyuser`, {
       params: { id: idVerification, type: userType, name: Applicant_Name },
       validateStatus: function (status) {
         // Accept all responses so we can handle manually
@@ -238,7 +239,8 @@ if (!form.checkValidity()) {
         console.log("hello");
         
         const response = await fetch(
-          "http://localhost:3001/api/auth/register",
+          "https://campusease-final.onrender.com/api/auth/register",
+          // "http://localhost:3001/api/auth/register",
           {
             method: "POST",
             headers: {

@@ -17,8 +17,10 @@ function StudentDashboardHallBookingHallList() {
   const detailsRef = useRef(null);
 
   useEffect(() => {
+    // axios
+    //   .get("http://localhost:3001/api/halls/getAllHalls")
     axios
-      .get("http://localhost:3001/api/halls/getAllHalls")
+      .get("https://campusease-final.onrender.com/api/halls/getAllHalls")
       .then((response) => setHalls(response.data))
       .catch((error) => console.error("Error fetching hall data:", error));
   }, [selectedCapacity]); //  Refetch when capacity changes

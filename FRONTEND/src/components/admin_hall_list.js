@@ -14,7 +14,8 @@ function AdminHallList(props) {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3001/api/halls/getAllHalls")
+      // .get("http://localhost:3001/api/halls/getAllHalls")
+      .get("https://campusease-final.onrender.com/api/halls/getAllHalls")
       .then((response) => setHalls(response.data))
       .catch((error) => console.error("Error fetching hall data:", error));
   }, [halls]);
@@ -33,7 +34,9 @@ function AdminHallList(props) {
   
     try {
       
-      await axios.delete(`http://localhost:3001/api/halls/deleteHall/${hallId}`);
+      // await axios.delete(`http://localhost:3001/api/halls/deleteHall/${hallId}`);
+      
+      await axios.delete(`https://campusease-final.onrender.com/api/halls/deleteHall/${hallId}`);
       console.log("hello");
       alert("Hall deleted successfully");
       // optionally, refresh the halls list
@@ -74,7 +77,8 @@ function AdminHallList(props) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:3001/api/halls/addAHall", {
+      // const response = await fetch("http://localhost:3001/api/halls/addAHall", {
+      const response = await fetch("https://campusease-final.onrender.com/api/halls/addAHall", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

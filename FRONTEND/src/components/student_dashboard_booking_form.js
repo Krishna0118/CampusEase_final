@@ -100,8 +100,10 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
 
   useEffect(() => {
     
+    // axios
+    // .get(`http://localhost:3001/api/halls?Hall_ID=${selectedHall.Hall_ID}`)
     axios
-    .get(`http://localhost:3001/api/halls?Hall_ID=${selectedHall.Hall_ID}`)
+    .get(`https://campusease-final.onrender.com/api/halls?Hall_ID=${selectedHall.Hall_ID}`)
       .then((response) => {
         setHalls(response.data);
         console.log(response.data);
@@ -148,7 +150,8 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
     // }
 
       const hallBooked = await fetch(
-        "http://localhost:3001/api/booking/createBooking",
+        "https://campusease-final.onrender.com/api/booking/createBooking",
+        // "http://localhost:3001/api/booking/createBooking",
         {
           method: "POST",
           headers: {
@@ -196,8 +199,11 @@ function StudentDashboardHallBookingBookingForm({ selectedHall }) {
   useEffect(() => {
     if (selectedDate) {
       console.log("Fetching available time slots...");
+      // fetch(
+      //   `http://localhost:3001/api/booking/availableslots?hallname=${selectedHall.Hall_Name}&date=${selectedDate}`
+      // )
       fetch(
-        `http://localhost:3001/api/booking/availableslots?hallname=${selectedHall.Hall_Name}&date=${selectedDate}`
+        `https://campusease-final.onrender.com/api/booking/availableslots?hallname=${selectedHall.Hall_Name}&date=${selectedDate}`
       )
         .then((response) => response.json())
         .then((data) => {

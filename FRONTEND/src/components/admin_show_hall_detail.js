@@ -26,7 +26,8 @@ function AdminShowHallDetail({ selectedHall }) {
 
   const handleSave = async () => {
     try {
-      await axios.put(`http://localhost:3001/api/halls/updateHall/${hallData._id}`, hallData); // adjust endpoint
+      // await axios.put(`http://localhost:3001/api/halls/updateHall/${hallData._id}`, hallData); // adjust endpoint
+      await axios.put(`https://campusease-final.onrender.com/api/halls/updateHall/${hallData._id}`, hallData); // adjust endpoint
       setIsEditing(false);
       alert("Hall updated successfully");
     } catch (error) {

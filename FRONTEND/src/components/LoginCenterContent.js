@@ -17,7 +17,8 @@ function LoginCenterContent() {
       Password,
     };
     const userData = await fetch(
-      "http://localhost:3001/api/auth/login",
+      // "http://localhost:3001/api/auth/login",
+      "https://campusease-final.onrender.com/api/auth/login",
       {
         method: "POST",
         headers: {

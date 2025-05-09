@@ -126,7 +126,8 @@ function CalendarCom() {
     }
 
     axios
-      .get("http://localhost:3001/api/booking/allBookings", {
+      // .get("http://localhost:3001/api/booking/allBookings", {
+      .get("https://campusease-final.onrender.com/api/booking/allBookings", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
