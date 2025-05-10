@@ -73,6 +73,7 @@ function AdminDashboardSidebar(props) {
           </div>
         </a>
 
+
         <a
           className="block text-gray-600 py-2.5 px-4 my-2 rounded-md transition-all hover:bg-blue-100 hover:text-blue-600"
           style={props.data === "hall_listing" ? activeStyle : {}}
