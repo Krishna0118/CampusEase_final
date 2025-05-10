@@ -69,7 +69,7 @@ function AdminDashboardSidebar(props) {
               className="h-5 w-5 mr-2"
               alt="hall-icon"
             />
-            <div>Hall Availability</div>
+            <div>Resource Calendar</div>
           </div>
         </a>
 
@@ -84,7 +84,7 @@ function AdminDashboardSidebar(props) {
               className="h-5 w-5 mr-2"
               alt="hall-icon"
             />
-            <div>Hall listing</div>
+            <div>Facilities</div>
           </div>
         </a>
 

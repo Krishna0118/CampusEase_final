@@ -9,7 +9,7 @@ function AdminHallList(props) {
   const [selectedHall, setSelectedHall] = useState(null);
   const [showDetails, setShowDetails] = useState(false);
   const detailsRef = useRef(null);
-  const [list, setList] = useState(["Hall Booking"]);
+  const [list, setList] = useState(["Resources Booking"]);
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
@@ -105,7 +105,7 @@ function AdminHallList(props) {
     setShowDetails(true);
     setSelectedHall(hall);
     // console.log(selectedHall);
-    setList(["Hall Booking", hall.Hall_Name]);
+    setList(["Resources Booking", hall.Hall_Name]);
     setTimeout(
       () => detailsRef.current?.scrollIntoView({ behavior: "smooth" }),
       200
@@ -120,7 +120,7 @@ function AdminHallList(props) {
         listAdd={list}
         childToParent={handleBreadcrumbClick}
       />
-      <h2 className="text-3xl font-bold text-gray-800 mb-6">Hall Details</h2>
+      <h2 className="text-3xl font-bold text-gray-800 mb-6">Facilities</h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {halls.map((hall) => (

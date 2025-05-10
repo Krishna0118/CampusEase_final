@@ -92,7 +92,7 @@ function AdminShowHallDetail({ selectedHall }) {
         {/* Hall Details */}
         <div className="bg-gray-50 p-6 rounded-lg shadow-md">
           <h2 className="text-2xl font-semibold text-gray-800 mb-3">
-            About this Hall
+            About this
           </h2>
 
           <div className="mb-4">
